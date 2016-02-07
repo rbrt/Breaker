@@ -18,13 +18,19 @@ public class PlayerController : MonoBehaviour {
 		 shielding = false,
 		 onGround = false;
 
-	Vector3 forceVector;
+	Vector3 forceVector,
+			jumpVector;
 
-	float moveSpeed = 2.5f,
-		  gravity = 3;
+	float moveSpeed = 12f,
+		  gravity = 15f,
+		  jumpSpeed = .75f,
+		  jumpDecay = 2.5f;
+
+	SafeCoroutine jumpingCoroutine;
 
 	void Awake () {
 		forceVector = Vector3.zero;
+		jumpVector = Vector3.zero;
 		instance = this;
 	}
 
@@ -62,26 +68,49 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	void MovePlayer(){
+		forceVector = Vector3.zero;
+
 		if (movingRight){
-			forceVector = Vector3.right * moveSpeed * 2 * Time.smoothDeltaTime;
+			forceVector = Vector3.right * moveSpeed * Time.smoothDeltaTime;
 		}
 		else if (movingLeft){
-			forceVector = Vector3.right * moveSpeed * .5f * Time.smoothDeltaTime;
+			forceVector = Vector3.right * moveSpeed * -1 * Time.smoothDeltaTime;
 		}
 		else{
-			forceVector = Vector3.right * moveSpeed * Time.smoothDeltaTime;
+			//forceVector = Vector3.right * moveSpeed * Time.smoothDeltaTime;
 		}
 
 		if (!onGround){
 			forceVector += Vector3.down * gravity * Time.smoothDeltaTime;
 		}
 
+		if (onGround && jumping && (jumpingCoroutine == null || !jumpingCoroutine.IsRunning)){
+			jumpingCoroutine = this.StartSafeCoroutine(Jump());
+			onGround = false;
+		}
+
+		forceVector += jumpVector;
 
 		transform.position = Vector3.MoveTowards(transform.position, transform.position + forceVector, .5f);
-
 	}
 
 	public void HitGround(){
 		onGround = true;
+		jumping = false;
+		if (jumpingCoroutine != null && jumpingCoroutine.IsRunning){
+			jumpingCoroutine.Stop();
+			jumpVector = Vector3.zero;
+		}
+	}
+
+	IEnumerator Jump(){
+		jumpVector = Vector3.up * jumpSpeed;
+
+		while (jumpVector.y > 0){
+			yield return null;
+			jumpVector -= Vector3.up * jumpDecay * Time.smoothDeltaTime;
+		}
+
+		jumpVector = Vector3.zero;
 	}
 }
