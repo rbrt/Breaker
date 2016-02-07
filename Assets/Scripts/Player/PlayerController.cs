@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Linq;
 
 public class PlayerController : MonoBehaviour {
 
@@ -25,6 +26,8 @@ public class PlayerController : MonoBehaviour {
 		  gravity = 15f,
 		  jumpSpeed = .75f,
 		  jumpDecay = 2.5f;
+
+	Collider lastHit;
 
 	SafeCoroutine jumpingCoroutine;
 
@@ -77,7 +80,7 @@ public class PlayerController : MonoBehaviour {
 			forceVector = Vector3.right * moveSpeed * -1 * Time.smoothDeltaTime;
 		}
 		else{
-			//forceVector = Vector3.right * moveSpeed * Time.smoothDeltaTime;
+			forceVector = Vector3.right * (CameraController.CameraSpeed * .7f) * Time.smoothDeltaTime;
 		}
 
 		if (!onGround){
@@ -112,5 +115,27 @@ public class PlayerController : MonoBehaviour {
 		}
 
 		jumpVector = Vector3.zero;
+	}
+
+	void OnCollisionEnter(Collision other){
+		if (other.gameObject.GetComponent<Ground>() != null && lastHit != other.collider){
+			if (other.contacts[0].point.y < (other.transform.position.y + transform.localScale.y / 2)){
+				return;
+			}
+			lastHit = other.collider;
+			HitGround();
+
+			var temp = transform.position;
+			temp.y = other.transform.localScale.y / 2 + other.transform.position.y + transform.localScale.y / 2;
+			Debug.Log("Set to " + temp);
+			transform.position = temp;
+		}
+	}
+
+	void OnCollisionExit(Collision other){
+		if (other.gameObject.GetComponent<Ground>() != null){
+			onGround = false;
+			lastHit = null;
+		}
 	}
 }

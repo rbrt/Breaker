@@ -6,8 +6,15 @@ public class CameraController : MonoBehaviour {
 	PlayerController player;
 	Camera camera;
 
-	float horizontalThreshold = 15f,
-		  cameraSpeed = 3f;
+	float horizontalThreshold = 15f;
+
+	static float cameraSpeed = 3f;
+
+	public static float CameraSpeed{
+		get {
+			return cameraSpeed;
+		}
+	}
 
 	void Start () {
 		camera = GetComponent<Camera>();
