@@ -6,9 +6,17 @@ public class PlayerController : MonoBehaviour {
 
 	static PlayerController instance;
 
+	[SerializeField] protected Shield shield;
+
 	public static PlayerController Instance {
 		get {
 			return instance;
+		}
+	}
+
+	public bool Shielding {
+		get {
+			return shielding;
 		}
 	}
 
@@ -17,7 +25,8 @@ public class PlayerController : MonoBehaviour {
 		 movingRight = false,
 		 dashing = false,
 		 shielding = false,
-		 onGround = false;
+		 onGround = false,
+		 lastShield = false;
 
 	Vector3 forceVector,
 			jumpVector;
@@ -40,6 +49,7 @@ public class PlayerController : MonoBehaviour {
 	void Update () {
 		HandleInput();
 		MovePlayer();
+		HandleShields();
 	}
 
 	void HandleInput(){
@@ -93,8 +103,18 @@ public class PlayerController : MonoBehaviour {
 		}
 
 		forceVector += jumpVector;
-
 		transform.position = Vector3.MoveTowards(transform.position, transform.position + forceVector, .5f);
+	}
+
+	void HandleShields(){
+		if (shielding){
+			if (!lastShield){
+				shield.RaiseShield();
+			}
+		}
+		else{
+			shield.LowerShield();
+		}
 	}
 
 	public void HitGround(){
@@ -118,17 +138,27 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	void OnCollisionEnter(Collision other){
-		if (other.gameObject.GetComponent<Ground>() != null && lastHit != other.collider){
+		var ground = other.gameObject.GetComponent<Ground>();
+		if (ground != null && lastHit != other.collider){
 			if (other.contacts[0].point.y < (other.transform.position.y + transform.localScale.y / 2)){
-				return;
-			}
-			lastHit = other.collider;
-			HitGround();
 
-			var temp = transform.position;
-			temp.y = other.transform.localScale.y / 2 + other.transform.position.y + transform.localScale.y / 2;
-			Debug.Log("Set to " + temp);
-			transform.position = temp;
+			}
+			else{
+				lastHit = other.collider;
+				HitGround();
+
+				var temp = transform.position;
+				temp.y = other.transform.localScale.y / 2 + other.transform.position.y + transform.localScale.y / 2;
+				transform.position = temp;
+			}
+		}
+
+		var shot = other.gameObject.GetComponent<Shot>();
+		if (shot != null){
+			if (!shielding){
+				Debug.Log("Hit!");
+			}
+
 		}
 	}
 
