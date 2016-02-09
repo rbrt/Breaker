@@ -18,7 +18,9 @@ public class PlatformSpawner : MonoBehaviour {
 	List<Platform> platformElements;
 
 	float minWidth = 3,
-		  maxWidth = 7;
+		  maxWidth = 7,
+		  minGapDistance = 2,
+		  maxGapDistance = 5;
 
 	void Awake(){
 		instance = this;
@@ -42,7 +44,14 @@ public class PlatformSpawner : MonoBehaviour {
 		position.x += lastBlock.transform.localScale.x / 2;
 		position.x += newScale.x / 2;
 
-		//position.x += Random.Range(minPitDistance, maxPitDistance);
+		position.x += Random.Range(minGapDistance, maxGapDistance);
+		position.y += Random.Range(-2, 2);
+		while (position.y < 1){
+			position.y += .5f;
+		}
+		while (position.y > 6){
+			position.y -= .5f;
+		}
 
 		platformElements.Add(SpawnPlatform(newScale.x, newScale.y, position));
 	}

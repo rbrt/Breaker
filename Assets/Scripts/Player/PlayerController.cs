@@ -38,7 +38,8 @@ public class PlayerController : MonoBehaviour {
 
 	Collider lastHit;
 
-	SafeCoroutine jumpingCoroutine;
+	SafeCoroutine jumpingCoroutine,
+				  fallTestCoroutine;
 
 	void Awake () {
 		forceVector = Vector3.zero;
@@ -141,7 +142,13 @@ public class PlayerController : MonoBehaviour {
 		var ground = other.gameObject.GetComponent<Ground>();
 		var platform = other.gameObject.GetComponent<Platform>();
 
+		Debug.Log(other.gameObject.name, other.gameObject);
+
 		if (lastHit != other.collider){
+			if (fallTestCoroutine != null && fallTestCoroutine.IsRunning){
+				fallTestCoroutine.Stop();
+			}
+
 			if (ground != null){
 				if (other.contacts[0].normal == Vector3.up){
 					lastHit = other.collider;
@@ -163,9 +170,6 @@ public class PlayerController : MonoBehaviour {
 				}
 			}
 		}
-		else{
-			Debug.Log(other.gameObject + " FUCK");
-		}
 
 		var shot = other.gameObject.GetComponent<Shot>();
 		if (shot != null){
@@ -178,14 +182,19 @@ public class PlayerController : MonoBehaviour {
 
 	void OnCollisionExit(Collision other){
 		if (other.collider == lastHit){
-			if (other.gameObject.GetComponent<Ground>() != null){
-				onGround = false;
-				lastHit = null;
-			}
-			else if (other.gameObject.GetComponent<Platform>() != null){
-				onGround = false;
-				lastHit = null;
-			}
+			lastHit = null;
+			fallTestCoroutine = this.StartSafeCoroutine(WaitBeforeFalling(other));
 		}
+	}
+
+	IEnumerator WaitBeforeFalling(Collision other){
+
+		yield return null;
+		yield return null;
+		yield return null;
+
+		Debug.Log("YO " + (lastHit == null));
+
+		onGround = false;
 	}
 }
