@@ -142,8 +142,6 @@ public class PlayerController : MonoBehaviour {
 		var ground = other.gameObject.GetComponent<Ground>();
 		var platform = other.gameObject.GetComponent<Platform>();
 
-		Debug.Log(other.gameObject.name, other.gameObject);
-
 		if (lastHit != other.collider){
 			if (fallTestCoroutine != null && fallTestCoroutine.IsRunning){
 				fallTestCoroutine.Stop();
@@ -190,10 +188,6 @@ public class PlayerController : MonoBehaviour {
 	IEnumerator WaitBeforeFalling(Collision other){
 
 		yield return null;
-		yield return null;
-		yield return null;
-
-		Debug.Log("YO " + (lastHit == null));
 
 		onGround = false;
 	}
