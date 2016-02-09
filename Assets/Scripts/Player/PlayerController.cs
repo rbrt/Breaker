@@ -170,11 +170,8 @@ public class PlayerController : MonoBehaviour {
 		}
 
 		var shot = other.gameObject.GetComponent<Shot>();
-		if (shot != null){
-			if (!shielding){
-				// hit
-			}
-
+		if (shot != null && !shielding){
+			shot.HitPlayer();
 		}
 	}
 
@@ -186,9 +183,7 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	IEnumerator WaitBeforeFalling(Collision other){
-
 		yield return null;
-
 		onGround = false;
 	}
 }

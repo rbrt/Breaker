@@ -9,6 +9,18 @@ public class Enemy : MonoBehaviour {
 		this.StartSafeCoroutine(ShootAtPlayer());
 	}
 
+	void OnCollisionEnter(Collision other){
+		var shot = other.gameObject.GetComponent<Shot>();
+		if (shot != null && shot.Deflected){
+			shot.HitEnemy();
+			HitByShot();
+		}
+	}
+
+	void HitByShot(){
+		Debug.Log("Hit enemy");
+	}
+
 	IEnumerator ShootAtPlayer(){
 		while (true){
 			yield return new WaitForSeconds(1);

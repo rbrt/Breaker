@@ -13,6 +13,12 @@ public class PlatformSpawner : MonoBehaviour {
 		}
 	}
 
+	const float groundHeight = -1.5f;
+	float minHeight = groundHeight + 2;
+	float maxHeight = 5;
+	float minDifficulty = 3;
+	float maxDifficulty = 10;
+
 	[SerializeField] protected GameObject platformPrefab;
 
 	List<Platform> platformElements;
@@ -45,12 +51,20 @@ public class PlatformSpawner : MonoBehaviour {
 		position.x += newScale.x / 2;
 
 		position.x += Random.Range(minGapDistance, maxGapDistance);
-		position.y += Random.Range(-2, 2);
-		while (position.y < 1){
-			position.y += .5f;
+		position.y += Random.Range(-4, 4);
+
+		float difficulty = Random.Range(minDifficulty, maxDifficulty);
+		Vector3 direction = (position - lastBlock.transform.position).normalized;
+
+		position = lastBlock.transform.position + direction * difficulty;
+		position.x += newScale.x / 2;
+		position.z = 0;
+
+		while (position.y < minHeight){
+			position.y += .1f;
 		}
-		while (position.y > 6){
-			position.y -= .5f;
+		while (position.y > maxHeight){
+			position.y -= .1f;
 		}
 
 		platformElements.Add(SpawnPlatform(newScale.x, newScale.y, position));
