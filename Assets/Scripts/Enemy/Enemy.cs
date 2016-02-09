@@ -3,13 +3,18 @@ using System.Collections;
 
 public class Enemy : MonoBehaviour {
 
-	// Use this for initialization
+	[SerializeField] protected Shot shotPrefab;
+
 	void Start () {
-	
+		this.StartSafeCoroutine(ShootAtPlayer());
 	}
-	
-	// Update is called once per frame
-	void Update () {
-	
+
+	IEnumerator ShootAtPlayer(){
+		while (true){
+			yield return new WaitForSeconds(1);
+			var shot = GameObject.Instantiate(shotPrefab.gameObject);
+			shot.transform.position = transform.position;
+		}
 	}
+
 }

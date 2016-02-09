@@ -139,33 +139,53 @@ public class PlayerController : MonoBehaviour {
 
 	void OnCollisionEnter(Collision other){
 		var ground = other.gameObject.GetComponent<Ground>();
-		if (ground != null && lastHit != other.collider){
-			if (other.contacts[0].point.y < (other.transform.position.y + transform.localScale.y / 2)){
+		var platform = other.gameObject.GetComponent<Platform>();
 
-			}
-			else{
-				lastHit = other.collider;
-				HitGround();
+		if (lastHit != other.collider){
+			if (ground != null){
+				if (other.contacts[0].normal == Vector3.up){
+					lastHit = other.collider;
+					HitGround();
 
-				var temp = transform.position;
-				temp.y = other.transform.localScale.y / 2 + other.transform.position.y + transform.localScale.y / 2;
-				transform.position = temp;
+					var temp = transform.position;
+					temp.y = other.transform.localScale.y / 2 + other.transform.position.y + transform.localScale.y / 2;
+					transform.position = temp;
+				}
 			}
+			else if (platform != null){
+				if (other.contacts[0].normal == Vector3.up){
+					lastHit = other.collider;
+					HitGround();
+
+					var temp = transform.position;
+					temp.y = other.transform.localScale.y / 2 + other.transform.position.y + transform.localScale.y / 2;
+					transform.position = temp;
+				}
+			}
+		}
+		else{
+			Debug.Log(other.gameObject + " FUCK");
 		}
 
 		var shot = other.gameObject.GetComponent<Shot>();
 		if (shot != null){
 			if (!shielding){
-				Debug.Log("Hit!");
+				// hit
 			}
 
 		}
 	}
 
 	void OnCollisionExit(Collision other){
-		if (other.gameObject.GetComponent<Ground>() != null){
-			onGround = false;
-			lastHit = null;
+		if (other.collider == lastHit){
+			if (other.gameObject.GetComponent<Ground>() != null){
+				onGround = false;
+				lastHit = null;
+			}
+			else if (other.gameObject.GetComponent<Platform>() != null){
+				onGround = false;
+				lastHit = null;
+			}
 		}
 	}
 }

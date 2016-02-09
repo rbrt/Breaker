@@ -3,16 +3,34 @@ using System.Collections;
 
 public class CameraController : MonoBehaviour {
 
-	PlayerController player;
-	Camera camera;
+	static CameraController instance;
 
-	float horizontalThreshold = 15f;
+	public static CameraController Instance{
+		get {
+			return instance;
+		}
+	}
 
 	static float cameraSpeed = 3f;
 
 	public static float CameraSpeed{
 		get {
 			return cameraSpeed;
+		}
+	}
+
+	public static Vector3 ScreenPoint(Vector3 target){
+		return instance.camera.WorldToScreenPoint(target);
+	}
+
+	PlayerController player;
+	Camera camera;
+
+	float horizontalThreshold = 15f;
+
+	void Awake(){
+		if (instance == null){
+			instance = this;
 		}
 	}
 
@@ -25,6 +43,7 @@ public class CameraController : MonoBehaviour {
 		Vector3 playerPos = camera.WorldToScreenPoint(player.transform.position);
 
 		if (playerPos.x - horizontalThreshold < 0){
+
 		}
 		else if (playerPos.x + horizontalThreshold > camera.pixelWidth){
 
