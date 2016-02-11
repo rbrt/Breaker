@@ -38,12 +38,15 @@ public class PlayerController : MonoBehaviour {
 
 	Collider lastHit;
 
+	PlayerAttributes playerAttributes;
+
 	SafeCoroutine jumpingCoroutine,
 				  fallTestCoroutine;
 
 	void Awake () {
 		forceVector = Vector3.zero;
 		jumpVector = Vector3.zero;
+		playerAttributes = GetComponent<PlayerAttributes>();
 		instance = this;
 	}
 
@@ -171,7 +174,10 @@ public class PlayerController : MonoBehaviour {
 
 		var shot = other.gameObject.GetComponent<Shot>();
 		if (shot != null && !shielding){
-			shot.HitPlayer();
+			if (!shot.Destroyed){
+				shot.HitPlayer();
+				playerAttributes.AffectHealth(-1);	
+			}
 		}
 	}
 

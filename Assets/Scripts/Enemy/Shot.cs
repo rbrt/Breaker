@@ -20,8 +20,15 @@ public class Shot : MonoBehaviour {
 		}
 	}
 
+	public bool Destroyed {
+		get {
+			return destroyed;
+		}
+	}
+
 	void Awake(){
 		particles = GetComponent<ParticleSystem>();
+		ownCollider = GetComponent<Collider>();
 	}
 
 	void Start(){
@@ -50,6 +57,7 @@ public class Shot : MonoBehaviour {
 	public void HitPlayer(){
 		if (!deflected){
 			destroyed = true;
+			ownCollider.enabled = false;
 			this.StartSafeCoroutine(DestroyShot());
 		}
 	}
