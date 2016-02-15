@@ -38,7 +38,7 @@ public class Shot : MonoBehaviour {
 
 	void Update () {
 		if (!destroyed){
-			var targetPos = transform.position + targetDirection;
+			var targetPos = transform.position + targetDirection * shotSpeed;
 			transform.position = Vector3.MoveTowards(transform.position, targetPos, .2f);
 		}
 	}
@@ -51,7 +51,7 @@ public class Shot : MonoBehaviour {
 		deflected = true;
 		lastHit = last;
 		direction.z = 0;
-		targetDirection = direction;
+		targetDirection = direction.normalized;
 	}
 
 	public void HitPlayer(){

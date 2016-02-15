@@ -20,9 +20,7 @@ public class GroundSpawner : MonoBehaviour {
 	float maxPitDistance = 5,
 		  minPitDistance = 2,
 		  minWidth = 5,
-		  maxWidth = 40,
-		  groundHeight = 0,
-		  pitChance = 30;
+		  maxWidth = 40;
 
 	void Awake(){
 		instance = this;

@@ -23,7 +23,7 @@ public class PlayerController : MonoBehaviour {
 	bool jumping = false,
 		 movingLeft = false,
 		 movingRight = false,
-		 dashing = false,
+		 //dashing = false,
 		 shielding = false,
 		 onGround = false,
 		 lastShield = false;
@@ -176,7 +176,7 @@ public class PlayerController : MonoBehaviour {
 		if (shot != null && !shielding){
 			if (!shot.Destroyed){
 				shot.HitPlayer();
-				playerAttributes.AffectHealth(-1);	
+				playerAttributes.AffectHealth(-1);
 			}
 		}
 	}

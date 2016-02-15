@@ -3,7 +3,7 @@ using System.Collections;
 
 public class PlayerAttributes : MonoBehaviour {
 
-	const float maxHealth = 5;
+	const float maxHealth = 10;
 	const float maxShield = 10;
 
 	float currentHealth,
@@ -16,6 +16,7 @@ public class PlayerAttributes : MonoBehaviour {
 
 	public void AffectHealth(float amount){
 		currentHealth = Mathf.Clamp(currentHealth + amount, 0, maxHealth);
+
 		PlayerAttributeDisplay.Instance.SetHealthPercentage(currentHealth / maxHealth);
 	}
 

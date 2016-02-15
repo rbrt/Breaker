@@ -20,11 +20,11 @@ public class CameraController : MonoBehaviour {
 	}
 
 	public static Vector3 ScreenPoint(Vector3 target){
-		return instance.camera.WorldToScreenPoint(target);
+		return instance.targetCamera.WorldToScreenPoint(target);
 	}
 
 	PlayerController player;
-	Camera camera;
+	Camera targetCamera;
 
 	float horizontalThreshold = 15f;
 
@@ -35,17 +35,17 @@ public class CameraController : MonoBehaviour {
 	}
 
 	void Start () {
-		camera = GetComponent<Camera>();
+		targetCamera = GetComponent<Camera>();
 		player = PlayerController.Instance;
 	}
 
 	void Update () {
-		Vector3 playerPos = camera.WorldToScreenPoint(player.transform.position);
+		Vector3 playerPos = targetCamera.WorldToScreenPoint(player.transform.position);
 
 		if (playerPos.x - horizontalThreshold < 0){
 
 		}
-		else if (playerPos.x + horizontalThreshold > camera.pixelWidth){
+		else if (playerPos.x + horizontalThreshold > targetCamera.pixelWidth){
 
 		}
 
