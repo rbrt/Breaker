@@ -61,6 +61,10 @@ public class GroundSpawner : MonoBehaviour {
 		return block.GetComponent<Ground>();
 	}
 
+	public List<Transform> GetGroundTransforms(){
+		return groundElements.Select(x => x.transform).ToList();
+	}
+
 	public void ClearGround(Ground ground){
 		groundElements.Remove(ground);
 		Destroy(ground.gameObject);

@@ -23,6 +23,12 @@ public class CameraController : MonoBehaviour {
 		return instance.targetCamera.WorldToScreenPoint(target);
 	}
 
+	public static Vector3 OffsetPastRightScreenEdge(float offset){
+		return instance.targetCamera.ScreenToWorldPoint(new Vector3(instance.targetCamera.pixelWidth + offset,
+																	0,
+																	10));
+	}
+
 	PlayerController player;
 	Camera targetCamera;
 

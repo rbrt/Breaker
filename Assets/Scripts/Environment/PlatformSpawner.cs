@@ -14,6 +14,8 @@ public class PlatformSpawner : MonoBehaviour {
 	}
 
 	const float groundHeight = -1.5f;
+	const int platformCount = 10;
+
 	float minHeight = groundHeight + 2;
 	float maxHeight = 5;
 	float minDifficulty = 3;
@@ -34,10 +36,14 @@ public class PlatformSpawner : MonoBehaviour {
 
 		Vector3 startPos = new Vector3(0, .5f, 0);
 		platformElements.Add(SpawnPlatform(minWidth, .2f, startPos));
+
+		while (platformElements.Count < platformCount){
+			SpawnNextBlock();
+		}
 	}
 
 	void Update () {
-		if (platformElements.Count < 5){
+		if (platformElements.Count < platformCount){
 			SpawnNextBlock();
 		}
 	}
@@ -77,11 +83,16 @@ public class PlatformSpawner : MonoBehaviour {
 		block.transform.localScale = scale;
 
 		block.transform.SetParent(this.transform);
-
+		platformElements.Add(block.GetComponent<Platform>());
 		return block.GetComponent<Platform>();
 	}
 
+	public List<Transform> GetPlatformTransforms(){
+		return platformElements.Select(x => x.transform).ToList();
+	}
+
 	public void ClearPlatform(Platform platform){
+		Debug.Log("Gettin called anyway");
 		platformElements.Remove(platform);
 		Destroy(platform.gameObject);
 	}
