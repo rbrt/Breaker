@@ -37,9 +37,7 @@ public class TerrainManager : MonoBehaviour {
 	public Transform GetTransformNearestToPosition(Vector3 position){
 		List<Transform> transforms = groundSpawner.GetGroundTransforms();
 		transforms.AddRange(platformSpawner.GetPlatformTransforms());
-
-		Debug.Log("using this one", transforms.OrderBy(x => Vector3.Distance(x.position, position)).FirstOrDefault().gameObject);
-
+		
 		return transforms.OrderBy(x => Vector3.Distance(x.position, position)).FirstOrDefault();
 	}
 }

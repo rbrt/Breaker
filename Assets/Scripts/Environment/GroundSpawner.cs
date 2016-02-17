@@ -62,7 +62,7 @@ public class GroundSpawner : MonoBehaviour {
 	}
 
 	public List<Transform> GetGroundTransforms(){
-		return groundElements.Select(x => x.transform).ToList();
+		return groundElements.Where(x => x != null).Select(x => x.transform).ToList();
 	}
 
 	public void ClearGround(Ground ground){

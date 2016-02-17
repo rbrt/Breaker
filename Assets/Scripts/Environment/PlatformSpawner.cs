@@ -83,16 +83,14 @@ public class PlatformSpawner : MonoBehaviour {
 		block.transform.localScale = scale;
 
 		block.transform.SetParent(this.transform);
-		platformElements.Add(block.GetComponent<Platform>());
 		return block.GetComponent<Platform>();
 	}
 
 	public List<Transform> GetPlatformTransforms(){
-		return platformElements.Select(x => x.transform).ToList();
+		return platformElements.Where(x => x != null).Select(x => x.transform).ToList();
 	}
 
 	public void ClearPlatform(Platform platform){
-		Debug.Log("Gettin called anyway");
 		platformElements.Remove(platform);
 		Destroy(platform.gameObject);
 	}

@@ -3,10 +3,20 @@ using System.Collections;
 
 public class Enemy : MonoBehaviour {
 
+	Transform playerTransform;
+
 	[SerializeField] protected Shot shotPrefab;
 
 	void Start () {
+		playerTransform = PlayerController.Instance.transform;
 		this.StartSafeCoroutine(ShootAtPlayer());
+	}
+
+	void Update(){
+		var point = CameraController.ScreenPoint(transform.position + Vector3.right * (transform.localScale.x / 2));
+		if (point.x + (transform.localScale.x / 2) < -10){
+			EnemySpawner.Instance.ClearEnemy(this);
+		}
 	}
 
 	void OnCollisionEnter(Collision other){
@@ -18,14 +28,22 @@ public class Enemy : MonoBehaviour {
 	}
 
 	void HitByShot(){
-		Debug.Log("Hit enemy");
+		Die();
+	}
+
+	void Die(){
+		EnemySpawner.Instance.ClearEnemy(this);
 	}
 
 	IEnumerator ShootAtPlayer(){
 		while (true){
 			yield return new WaitForSeconds(1);
 			var shot = GameObject.Instantiate(shotPrefab.gameObject);
-			shot.transform.position = transform.position;
+			Vector3 pos = transform.position + (playerTransform.position - transform.position).normalized;
+			pos.z = 0;
+
+			shot.transform.position = pos;
+
 		}
 	}
 

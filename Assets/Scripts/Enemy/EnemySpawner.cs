@@ -1,23 +1,36 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 using System.Collections;
 using System.Linq;
 
 public class EnemySpawner : MonoBehaviour {
 
+	static EnemySpawner instance;
+
+	public static EnemySpawner Instance {
+		get {
+			return instance;
+		}
+	}
+
 	[SerializeField] protected GameObject enemyPrefab;
+
+	List<Enemy> activeEnemies;
 
 	const int targetActiveEnemies = 1;
 	const float offscreenBuffer = 20;
 
-	int activeEnemies = 0;
+	void Awake(){
+		instance = this;
+	}
 
 	void Start () {
-
+		activeEnemies = new List<Enemy>();
 	}
 
 	void Update () {
-		if (activeEnemies == 0){
-			while (activeEnemies < targetActiveEnemies){
+		if (activeEnemies.Count == 0){
+			while (activeEnemies.Count < targetActiveEnemies){
 				var offscreenPoint = CameraController.OffsetPastRightScreenEdge(offscreenBuffer);
 				offscreenPoint.z = 0;
 				offscreenPoint.y = 1;
@@ -26,7 +39,8 @@ public class EnemySpawner : MonoBehaviour {
 				newEnemy.transform.position = offscreenPoint;
 				newEnemy.transform.localScale = Vector3.one;
 				newEnemy.transform.rotation = Quaternion.identity;
-				activeEnemies++;
+
+				activeEnemies.Add(newEnemy.GetComponent<Enemy>());
 
 				PinEnemyToBestTransform(ref newEnemy, offscreenPoint);
 			}
@@ -44,5 +58,10 @@ public class EnemySpawner : MonoBehaviour {
 		pos.y = target.position.y + target.localScale.y / 2 + enemy.transform.position.y / 2;
 
 		enemy.transform.position = pos;
+	}
+
+	public void ClearEnemy(Enemy toClean){
+		activeEnemies.Remove(toClean);
+		Destroy(toClean.gameObject);
 	}
 }
