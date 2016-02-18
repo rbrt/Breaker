@@ -27,8 +27,12 @@ public class GroundSpawner : MonoBehaviour {
 
 		groundElements = new List<Ground>();
 
-		Vector3 startPos = new Vector3(0, (-10 / 2) - 1.5f, 0);
-		groundElements.Add(SpawnGroundBlock(30, 10, startPos));
+		Vector3 startPos = new Vector3(0, (-5 / 2) - 1.5f, 0);
+		groundElements.Add(SpawnGroundBlock(30, 5, startPos));
+
+		while (groundElements.Count < 5){
+			SpawnNextBlock();
+		}
 	}
 
 	void Update(){

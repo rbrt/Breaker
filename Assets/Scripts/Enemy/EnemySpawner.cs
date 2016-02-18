@@ -17,8 +17,10 @@ public class EnemySpawner : MonoBehaviour {
 
 	List<Enemy> activeEnemies;
 
-	const int targetActiveEnemies = 1;
+	const int targetActiveEnemies = 3;
 	const float offscreenBuffer = 20;
+	const float spawnRangeMin = 0;
+	const float spawnRangeMax = 20;
 
 	void Awake(){
 		instance = this;
@@ -31,9 +33,7 @@ public class EnemySpawner : MonoBehaviour {
 	void Update () {
 		if (activeEnemies.Count == 0){
 			while (activeEnemies.Count < targetActiveEnemies){
-				var offscreenPoint = CameraController.OffsetPastRightScreenEdge(offscreenBuffer);
-				offscreenPoint.z = 0;
-				offscreenPoint.y = 1;
+				var offscreenPoint = GetOffscreenPoint();
 
 				var newEnemy = GameObject.Instantiate(enemyPrefab);
 				newEnemy.transform.position = offscreenPoint;
@@ -47,6 +47,35 @@ public class EnemySpawner : MonoBehaviour {
 		}
 	}
 
+	Vector3 GetOffscreenPoint(){
+		var offscreenPoint = CameraController.OffsetPastRightScreenEdge(offscreenBuffer + Random.Range(spawnRangeMin, spawnRangeMax));
+		offscreenPoint.z = 0;
+		offscreenPoint.y = Mathf.Clamp(Random.Range(-10, 10), Bounds.yMin, Bounds.yMax);
+		var possiblePoint = TerrainManager.Instance.GetTransformNearestToPosition(offscreenPoint);
+
+		int selectionOffset = 0;
+
+		while (activeEnemies.Any(x => Vector3.Distance(x.transform.position, possiblePoint.position) < 2)){
+			offscreenPoint = CameraController.OffsetPastRightScreenEdge(offscreenBuffer + Random.Range(spawnRangeMin, spawnRangeMax));
+
+			if (selectionOffset == 0){
+				possiblePoint = TerrainManager.Instance.GetTransformNearestToPosition(offscreenPoint);
+			}
+			else{
+				possiblePoint = TerrainManager.Instance.GetTransformNearestToPosition(offscreenPoint, ignoreFirst: selectionOffset);
+			}
+
+			selectionOffset++;
+
+			if (selectionOffset > 20){
+				Debug.LogWarning("aborted");
+				break;
+			}
+		}
+
+		return possiblePoint.position;
+	}
+
 	void PinEnemyToBestTransform(ref GameObject enemy, Vector3 point){
 		Transform target = TerrainManager.Instance.GetTransformNearestToPosition(point);
 		var pos = target.transform.position;
@@ -55,7 +84,7 @@ public class EnemySpawner : MonoBehaviour {
 
 		pos.x += Random.Range(-xMod, xMod);
 		pos.z = 0;
-		pos.y = target.position.y + target.localScale.y / 2 + enemy.transform.position.y / 2;
+		pos.y = target.position.y + target.localScale.y / 2 + enemy.transform.localScale.y / 2;
 
 		enemy.transform.position = pos;
 	}

@@ -34,10 +34,15 @@ public class TerrainManager : MonoBehaviour {
 		}
 	}
 
-	public Transform GetTransformNearestToPosition(Vector3 position){
+	public Transform GetTransformNearestToPosition(Vector3 position, int ignoreFirst = 0){
 		List<Transform> transforms = groundSpawner.GetGroundTransforms();
 		transforms.AddRange(platformSpawner.GetPlatformTransforms());
-		
+		transforms = transforms.OrderBy(x => Vector3.Distance(x.position, position)).ToList();
+
+		for (int i = 0; i < ignoreFirst && transforms.Count > 0; i++){
+			transforms.RemoveAt(0);
+		}
+
 		return transforms.OrderBy(x => Vector3.Distance(x.position, position)).FirstOrDefault();
 	}
 }
