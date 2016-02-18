@@ -171,7 +171,9 @@ public class PlayerController : MonoBehaviour {
 				}
 			}
 		}
+	}
 
+	void OnTriggerEnter(Collider other){
 		var shot = other.gameObject.GetComponent<Shot>();
 		if (shot != null && !shielding){
 			if (!shot.Destroyed){

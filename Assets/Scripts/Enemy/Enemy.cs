@@ -19,7 +19,7 @@ public class Enemy : MonoBehaviour {
 		}
 	}
 
-	void OnCollisionEnter(Collision other){
+	void OnTriggerEnter(Collider other){
 		var shot = other.gameObject.GetComponent<Shot>();
 		if (shot != null && shot.Deflected){
 			shot.HitEnemy();

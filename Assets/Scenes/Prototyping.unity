@@ -278,6 +278,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 991116320}
+  - 114: {fileID: 991116322}
   - 114: {fileID: 991116319}
   - 114: {fileID: 991116321}
   m_Layer: 0
@@ -323,6 +324,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   platformPrefab: {fileID: 158726, guid: 547441573b25c4bb9801368c767d7f44, type: 2}
+--- !u!114 &991116322
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 991116318}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f092c8d3d6d34759b2662f2a1e5361d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1033249879
 GameObject:
   m_ObjectHideFlags: 0
@@ -462,7 +474,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
 --- !u!1 &1932221919
 GameObject:
   m_ObjectHideFlags: 0
