@@ -28,6 +28,15 @@ public class Shield : MonoBehaviour {
 		}
 	}
 
+	void OnTriggerStay(Collider other){
+		var enemy = other.gameObject.GetComponent<Enemy>();
+		if (enemy != null){
+			if (lastShield){
+				enemy.ShieldDeath();
+			}
+		}
+	}
+
 	public void RaiseShield(){
 		if (shieldCoroutine != null && shieldCoroutine.IsRunning && !lastShield){
 			shieldCoroutine.Stop();

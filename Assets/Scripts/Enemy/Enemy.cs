@@ -35,11 +35,15 @@ public class Enemy : MonoBehaviour {
 		EnemySpawner.Instance.ClearEnemy(this);
 	}
 
+	public void ShieldDeath(){
+		Die();
+	}
+
 	IEnumerator ShootAtPlayer(){
 		while (true){
 			yield return new WaitForSeconds(1);
 			var shot = GameObject.Instantiate(shotPrefab.gameObject);
-			Vector3 pos = transform.position + (playerTransform.position - transform.position).normalized;
+			Vector3 pos = transform.position + (playerTransform.position - transform.position).normalized * .5f;
 			pos.z = 0;
 
 			shot.transform.position = pos;
