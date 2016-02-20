@@ -31,10 +31,15 @@ public class PlayerController : MonoBehaviour {
 	Vector3 forceVector,
 			jumpVector;
 
-	float moveSpeed = 12f,
+	float moveSpeed = 15f,
+		  currentMoveSpeed = 0,
+		  moveAcceleration = 2f,
+		  moveDeceleration = 1.5f,
 		  gravity = 15f,
-		  jumpSpeed = .75f,
-		  jumpDecay = 2.5f;
+		  jumpSpeed = 40f,
+		  currentJumpSpeed = 0,
+		  jumpAcceleration = 3f,
+		  jumpDecay = 8f;
 
 	Collider lastHit;
 
@@ -88,23 +93,41 @@ public class PlayerController : MonoBehaviour {
 		forceVector = Vector3.zero;
 
 		if (movingRight){
-			forceVector = Vector3.right * moveSpeed * Time.smoothDeltaTime;
+			currentMoveSpeed = Mathf.Min(currentMoveSpeed + moveAcceleration, moveSpeed);
 		}
 		else if (movingLeft){
-			forceVector = Vector3.right * moveSpeed * -1 * Time.smoothDeltaTime;
+			currentMoveSpeed = Mathf.Max(currentMoveSpeed - moveAcceleration, -moveSpeed);
 		}
 		else{
-			forceVector = Vector3.right * (CameraController.CameraSpeed * .7f) * Time.smoothDeltaTime;
+			if (currentMoveSpeed < 0){
+				currentMoveSpeed = Mathf.Min(currentMoveSpeed + moveDeceleration, 0);
+			}
+			else{
+				currentMoveSpeed = Mathf.Max(currentMoveSpeed - moveDeceleration, 0);
+			}
 		}
+
+		forceVector = Vector3.right * currentMoveSpeed * Time.smoothDeltaTime;
 
 		if (!onGround){
 			forceVector += Vector3.down * gravity * Time.smoothDeltaTime;
 		}
 
 		if (onGround && jumping && (jumpingCoroutine == null || !jumpingCoroutine.IsRunning)){
-			jumpingCoroutine = this.StartSafeCoroutine(Jump());
 			onGround = false;
+			jumpingCoroutine = this.StartSafeCoroutine(Jump());
 		}
+
+		if (!jumping){
+			if (jumpingCoroutine != null && jumpingCoroutine.IsRunning){
+				jumpingCoroutine.Stop();
+			}
+			currentJumpSpeed = Mathf.Max(currentJumpSpeed - jumpDecay, 0);
+		}
+
+		jumpVector = Vector3.up * currentJumpSpeed * Time.smoothDeltaTime;
+
+		//Debug.Log(jumpVector + " " + currentJumpSpeed);
 
 		forceVector += jumpVector;
 		transform.position = Vector3.MoveTowards(transform.position, transform.position + forceVector, .5f);
@@ -131,14 +154,16 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	IEnumerator Jump(){
-		jumpVector = Vector3.up * jumpSpeed;
-
-		while (jumpVector.y > 0){
+		currentJumpSpeed = 20;
+		while (currentJumpSpeed < jumpSpeed){
+			currentJumpSpeed = Mathf.Min(currentJumpSpeed + jumpAcceleration, jumpSpeed);
 			yield return null;
-			jumpVector -= Vector3.up * jumpDecay * Time.smoothDeltaTime;
 		}
 
-		jumpVector = Vector3.zero;
+		while (jumpVector.y > 0){
+			currentJumpSpeed = Mathf.Max(currentJumpSpeed - jumpDecay, 0);
+			yield return null;
+		}
 	}
 
 	void OnCollisionEnter(Collision other){
