@@ -53,11 +53,17 @@ public class PlatformSpawner : MonoBehaviour {
 		Vector3 newScale = new Vector3(Random.Range(minWidth, maxWidth), .2f, 1);
 		Vector3 position = lastBlock.transform.position;
 
-		position.x += lastBlock.transform.localScale.x / 2;
-		position.x += newScale.x / 2;
+		ModifyPosition(ref position, ref lastBlock, ref newScale);
 
-		position.x += Random.Range(minGapDistance, maxGapDistance);
-		position.y += Random.Range(-4, 4);
+		int backout = 0;
+		while (TerrainManager.Instance != null && TerrainManager.Instance.PointContainedInExistingTerrain(position)){
+			ModifyPosition(ref position, ref lastBlock, ref newScale);
+			backout++;
+			if (backout > 50){
+				Debug.LogError("Backed out!");
+				break;
+			}
+		}
 
 		float difficulty = Random.Range(minDifficulty, maxDifficulty);
 		Vector3 direction = (position - lastBlock.transform.position).normalized;
@@ -74,6 +80,14 @@ public class PlatformSpawner : MonoBehaviour {
 		}
 
 		platformElements.Add(SpawnPlatform(newScale.x, newScale.y, position));
+	}
+
+	void ModifyPosition(ref Vector3 position, ref Platform lastBlock, ref Vector3 newScale){
+		position.x += lastBlock.transform.localScale.x / 2;
+		position.x += newScale.x / 2;
+
+		position.x += Random.Range(minGapDistance, maxGapDistance);
+		position.y += Random.Range(-4, 4);
 	}
 
 	Platform SpawnPlatform(float width, float height, Vector3 position){

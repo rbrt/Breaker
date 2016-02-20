@@ -45,4 +45,8 @@ public class TerrainManager : MonoBehaviour {
 
 		return transforms.OrderBy(x => Vector3.Distance(x.position, position)).FirstOrDefault();
 	}
+
+	public bool PointContainedInExistingTerrain(Vector3 point){
+		return groundSpawner.GetGroundTransforms().Any(ground => ground.GetComponent<Collider>().bounds.Contains(point));
+	}
 }

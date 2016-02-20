@@ -48,10 +48,9 @@ public class GroundSpawner : MonoBehaviour {
 
 		position.x += lastBlock.transform.localScale.x / 2;
 		position.x += newScale.x / 2;
-
 		position.x += Random.Range(minPitDistance, maxPitDistance);
 
-		groundElements.Add(SpawnGroundBlock(newScale.x, newScale.y, position));
+		groundElements.Add(SpawnGroundBlock(newScale.x, Random.Range(3, 5), position));
 	}
 
 	Ground SpawnGroundBlock(float width, float height, Vector3 position){
