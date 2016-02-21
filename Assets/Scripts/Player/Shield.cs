@@ -3,20 +3,48 @@ using System.Collections;
 
 public class Shield : MonoBehaviour {
 
+	const float maxShield = 100;
+	const float shieldDecay = 2;
+	const float shieldRegen = .1f;
+
 	MeshRenderer shieldRenderer;
 	float maxAlpha = 0;
+
+	float currentShield;
 
 	SafeCoroutine shieldCoroutine;
 
 	bool lastShield = false;
 
 	void Awake(){
+		currentShield = maxShield;
 		shieldRenderer = GetComponent<MeshRenderer>();
 		shieldRenderer.material = new Material(shieldRenderer.material);
 		var color = shieldRenderer.material.GetColor("_Color");
 		maxAlpha = color.a;
 		color.a = 0;
 		shieldRenderer.material.SetColor("_Color", color);
+	}
+
+	void Update(){
+		if (lastShield){
+			currentShield -= shieldDecay;
+		}
+		else if (currentShield < maxShield){
+			currentShield += shieldRegen;
+		}
+
+		if (currentShield <= 0){
+			PlayerController.Instance.DisableShields();
+			if (lastShield){
+				LowerShield();
+			}
+		}
+		else if (currentShield > maxShield){
+			currentShield = maxShield;
+		}
+
+		PlayerAttributeDisplay.Instance.SetShieldPercentage(currentShield / maxShield);
 	}
 
 	void OnTriggerEnter(Collider other){
@@ -38,6 +66,10 @@ public class Shield : MonoBehaviour {
 	}
 
 	public void RaiseShield(){
+		if (currentShield <= 0){
+			return;
+		}
+
 		if (shieldCoroutine != null && shieldCoroutine.IsRunning && !lastShield){
 			shieldCoroutine.Stop();
 		}

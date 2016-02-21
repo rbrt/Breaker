@@ -144,6 +144,11 @@ public class PlayerController : MonoBehaviour {
 		}
 	}
 
+	public void DisableShields(){
+		shielding = false;
+		lastShield = false;
+	}
+
 	public void HitGround(){
 		onGround = true;
 		jumping = false;

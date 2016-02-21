@@ -20,14 +20,15 @@ public class PlayerAttributeDisplay : MonoBehaviour {
 	float currentShield = 1;
 	float currentHealth = 1;
 
-	float shieldDecrement = .1f;
-	float healthDecrement = .1f;
+	float shieldDecrement = .05f;
+	float healthDecrement = .05f;
 
 	SafeCoroutine shieldCoroutine;
 	SafeCoroutine healthCoroutine;
 
 	public void SetShieldPercentage(float percentage){
 		targetShield = percentage;
+
 		if (shieldCoroutine == null || !shieldCoroutine.IsRunning){
 			shieldCoroutine = this.StartSafeCoroutine(AffectShield());
 		}
@@ -55,11 +56,15 @@ public class PlayerAttributeDisplay : MonoBehaviour {
 			if (targetShield < currentShield){
 				currentShield -= shieldDecrement;
 			}
-			else{
+			else if (currentShield > targetShield){
 				currentShield += shieldDecrement;
 			}
 
+			if (Mathf.Abs(currentShield - targetShield) < .05f){
+				currentShield = targetShield;
+			}
 			shieldImage.fillAmount = currentShield;
+
 			yield return null;
 		}
 		currentShield = targetShield;
@@ -71,7 +76,7 @@ public class PlayerAttributeDisplay : MonoBehaviour {
 			if (targetHealth < currentHealth){
 				currentHealth -= healthDecrement;
 			}
-			else{
+			else if (targetHealth > currentHealth){
 				currentHealth += healthDecrement;
 			}
 			healthImage.fillAmount = currentHealth;
