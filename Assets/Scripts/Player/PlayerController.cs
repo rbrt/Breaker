@@ -127,8 +127,6 @@ public class PlayerController : MonoBehaviour {
 
 		jumpVector = Vector3.up * currentJumpSpeed * Time.smoothDeltaTime;
 
-		//Debug.Log(jumpVector + " " + currentJumpSpeed);
-
 		forceVector += jumpVector;
 		transform.position = Vector3.MoveTowards(transform.position, transform.position + forceVector, .5f);
 	}
@@ -137,6 +135,7 @@ public class PlayerController : MonoBehaviour {
 		if (shielding){
 			if (!lastShield){
 				shield.RaiseShield();
+				lastShield = true;
 			}
 		}
 		else{

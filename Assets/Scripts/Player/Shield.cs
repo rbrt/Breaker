@@ -4,9 +4,9 @@ using System.Collections;
 public class Shield : MonoBehaviour {
 
 	const float maxShield = 100;
-	const float shieldDecay = 1.25f;
+	const float shieldDecay = 1f;
 	const float shieldRegen = .05f;
-	const float shieldWaitTime = 1;
+	const float shieldWaitTime = .5f;
 
 	MeshRenderer shieldRenderer;
 
