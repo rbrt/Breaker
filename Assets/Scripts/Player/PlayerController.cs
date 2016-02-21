@@ -10,6 +10,8 @@ public class PlayerController : MonoBehaviour {
 	[SerializeField] protected Shield shield;
 	[SerializeField] protected ParticleSystem deathParticles;
 
+	const float yDeathValue = -6;
+
 	public static PlayerController Instance {
 		get {
 			return instance;
@@ -71,6 +73,10 @@ public class PlayerController : MonoBehaviour {
 
 		MovePlayer();
 		HandleShields();
+
+		if (transform.position.y < yDeathValue){
+			Die();
+		}
 	}
 
 	void HandleInput(){
