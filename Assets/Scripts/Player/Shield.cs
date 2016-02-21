@@ -4,13 +4,15 @@ using System.Collections;
 public class Shield : MonoBehaviour {
 
 	const float maxShield = 100;
-	const float shieldDecay = 2;
-	const float shieldRegen = .1f;
+	const float shieldDecay = 1.25f;
+	const float shieldRegen = .05f;
+	const float shieldWaitTime = 1;
 
 	MeshRenderer shieldRenderer;
-	float maxAlpha = 0;
 
-	float currentShield;
+	float maxAlpha = 0;
+	float currentShield = 0;
+	float lastShieldTime = 0;
 
 	SafeCoroutine shieldCoroutine;
 
@@ -18,6 +20,7 @@ public class Shield : MonoBehaviour {
 
 	void Awake(){
 		currentShield = maxShield;
+		lastShieldTime = Time.time;
 		shieldRenderer = GetComponent<MeshRenderer>();
 		shieldRenderer.material = new Material(shieldRenderer.material);
 		var color = shieldRenderer.material.GetColor("_Color");
@@ -30,7 +33,7 @@ public class Shield : MonoBehaviour {
 		if (lastShield){
 			currentShield -= shieldDecay;
 		}
-		else if (currentShield < maxShield){
+		else if (currentShield < maxShield && (Time.time - lastShieldTime > shieldWaitTime)){
 			currentShield += shieldRegen;
 		}
 
@@ -87,6 +90,7 @@ public class Shield : MonoBehaviour {
 			shieldCoroutine = this.StartSafeCoroutine(LowerShieldAnimated());
 		}
 		lastShield = false;
+		lastShieldTime = Time.time;
 	}
 
 	IEnumerator RaiseShieldAnimated(){

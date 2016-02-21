@@ -140,7 +140,10 @@ public class PlayerController : MonoBehaviour {
 			}
 		}
 		else{
-			shield.LowerShield();
+			if (lastShield){
+				shield.LowerShield();
+				DisableShields();
+			}
 		}
 	}
 

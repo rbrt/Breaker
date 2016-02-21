@@ -6,6 +6,7 @@ public class Enemy : MonoBehaviour {
 	Transform playerTransform;
 
 	[SerializeField] protected Shot shotPrefab;
+	[SerializeField] protected int scorePoints = 10;
 
 	void Start () {
 		playerTransform = PlayerController.Instance.transform;
@@ -32,6 +33,7 @@ public class Enemy : MonoBehaviour {
 	}
 
 	void Die(){
+		ScoreDisplay.Instance.AddScore(scorePoints);
 		EnemySpawner.Instance.ClearEnemy(this);
 	}
 
