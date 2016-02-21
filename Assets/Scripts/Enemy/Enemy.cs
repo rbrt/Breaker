@@ -7,6 +7,13 @@ public class Enemy : MonoBehaviour {
 
 	[SerializeField] protected Shot shotPrefab;
 	[SerializeField] protected int scorePoints = 10;
+	[SerializeField] protected int contactDamage = -1;
+
+	public int ContactDamage {
+		get {
+			return contactDamage;
+		}
+	}
 
 	void Start () {
 		playerTransform = PlayerController.Instance.transform;

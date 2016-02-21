@@ -22,15 +22,18 @@ public class ScoreDisplay : MonoBehaviour {
 	}
 
 	[SerializeField] protected Text scoreText;
+	[SerializeField] protected Text multiplierText;
 
 	int currentScore = 0;
 	int actualScore = 0;
 
 	string scoreString = "000000000";
+	string multiplierString = "0x";
 
 	void Awake(){
 		instance = this;
 		scoreText.text = scoreString;
+		multiplierText.text = multiplierString;
 	}
 
 	void Update () {

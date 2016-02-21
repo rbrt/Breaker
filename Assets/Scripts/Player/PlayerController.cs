@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using System.Collections;
 using System.Linq;
 
@@ -26,7 +27,8 @@ public class PlayerController : MonoBehaviour {
 		 //dashing = false,
 		 shielding = false,
 		 onGround = false,
-		 lastShield = false;
+		 lastShield = false,
+		 dead = false;
 
 	Vector3 forceVector,
 			jumpVector;
@@ -56,7 +58,10 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	void Update () {
-		HandleInput();
+		if (!dead){
+			HandleInput();
+		}
+
 		MovePlayer();
 		HandleShields();
 	}
@@ -146,6 +151,17 @@ public class PlayerController : MonoBehaviour {
 		}
 	}
 
+	void DisableMovement(){
+		movingLeft = false;
+		movingRight = false;
+		jumping = false;
+		shielding = false;
+		if (jumpingCoroutine != null && jumpingCoroutine.IsRunning){
+			jumpingCoroutine.Stop();
+			jumpVector = Vector3.zero;
+		}
+	}
+
 	public void DisableShields(){
 		shielding = false;
 		lastShield = false;
@@ -157,6 +173,16 @@ public class PlayerController : MonoBehaviour {
 		if (jumpingCoroutine != null && jumpingCoroutine.IsRunning){
 			jumpingCoroutine.Stop();
 			jumpVector = Vector3.zero;
+		}
+	}
+
+	public void Die(){
+		if (!dead){
+			dead = true;
+			DisableShields();
+			DisableMovement();
+
+			this.StartSafeCoroutine(WaitThenQuitToTitle());	
 		}
 	}
 
@@ -203,6 +229,11 @@ public class PlayerController : MonoBehaviour {
 				}
 			}
 		}
+
+		var enemy = other.gameObject.GetComponent<Enemy>();
+		if (enemy != null){
+			playerAttributes.AffectHealth(enemy.ContactDamage);
+		}
 	}
 
 	void OnTriggerEnter(Collider other){
@@ -225,5 +256,10 @@ public class PlayerController : MonoBehaviour {
 	IEnumerator WaitBeforeFalling(Collision other){
 		yield return null;
 		onGround = false;
+	}
+
+	IEnumerator WaitThenQuitToTitle(){
+		yield return new WaitForSeconds(2);
+		SceneManager.LoadScene("Title", LoadSceneMode.Single);
 	}
 }
