@@ -33,10 +33,12 @@ public class CameraController : MonoBehaviour {
 	Camera targetCamera;
 
 	float horizontalThreshold = 15f;
+	bool cameraActive = false;
 
 	void Awake(){
 		if (instance == null){
 			instance = this;
+			cameraActive = true;
 		}
 	}
 
@@ -46,6 +48,10 @@ public class CameraController : MonoBehaviour {
 	}
 
 	void Update () {
+		if (!cameraActive){
+			return;
+		}
+
 		Vector3 playerPos = targetCamera.WorldToScreenPoint(player.transform.position);
 
 		if (playerPos.x - horizontalThreshold < 0){
@@ -60,5 +66,9 @@ public class CameraController : MonoBehaviour {
 								transform.position + Vector3.right * cameraSpeed * Time.smoothDeltaTime,
 								5f
 							 );
+	}
+
+	public void StopScrollingCamera(){
+		cameraActive = false;
 	}
 }

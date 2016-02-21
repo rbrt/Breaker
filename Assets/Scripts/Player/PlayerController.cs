@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour {
 	static PlayerController instance;
 
 	[SerializeField] protected Shield shield;
+	[SerializeField] protected ParticleSystem deathParticles;
 
 	public static PlayerController Instance {
 		get {
@@ -18,6 +19,12 @@ public class PlayerController : MonoBehaviour {
 	public bool Shielding {
 		get {
 			return shielding;
+		}
+	}
+
+	public bool Dead {
+		get {
+			return dead;
 		}
 	}
 
@@ -182,7 +189,9 @@ public class PlayerController : MonoBehaviour {
 			DisableShields();
 			DisableMovement();
 
-			this.StartSafeCoroutine(WaitThenQuitToTitle());	
+			CameraController.Instance.StopScrollingCamera();
+
+			this.StartSafeCoroutine(WaitOnPlayerDeathThenQuitToTitle());
 		}
 	}
 
@@ -258,8 +267,18 @@ public class PlayerController : MonoBehaviour {
 		onGround = false;
 	}
 
-	IEnumerator WaitThenQuitToTitle(){
-		yield return new WaitForSeconds(2);
+	IEnumerator WaitOnPlayerDeathThenQuitToTitle(){
+		yield return this.StartSafeCoroutine(PlayerDeath());
+
+		yield return new WaitForSeconds(1);
 		SceneManager.LoadScene("Title", LoadSceneMode.Single);
+	}
+
+	IEnumerator PlayerDeath(){
+		deathParticles.gameObject.SetActive(true);
+		GetComponent<MeshRenderer>().enabled = false;
+		while (deathParticles.IsAlive()){
+			yield return null;
+		}
 	}
 }
