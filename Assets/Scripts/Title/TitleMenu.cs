@@ -23,7 +23,9 @@ public class TitleMenu : MonoBehaviour {
 	}
 
 	void Update () {
-
+		if (Input.GetKeyDown(KeyCode.Return)){
+			StartNewGame();
+		}
 	}
 
 	public void StartNewGame(){
