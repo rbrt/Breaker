@@ -70,6 +70,8 @@ ModelImporter:
     4300000: PlayerCharacter
     7400000: Default Take
     7400002: Walk
+    7400004: Run
+    7400006: Idle
     9500000: //RootNode
     13700000: PlayerCharacter
   materials:
@@ -92,7 +94,183 @@ ModelImporter:
     animationScaleError: 0.5
     animationWrapMode: 0
     extraExposedTransformPaths: []
-    clipAnimations: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Run
+      takeName: Run
+      firstFrame: 0
+      lastFrame: 60
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Armature
+        weight: 1
+      - path: Armature/Leg_ik_l
+        weight: 1
+      - path: Armature/Leg_ik_l/leg_ik_pole_l
+        weight: 1
+      - path: Armature/Leg_ik_r
+        weight: 1
+      - path: Armature/Leg_ik_r/leg_ik_pole_r
+        weight: 1
+      - path: Armature/Master
+        weight: 1
+      - path: Armature/Master/Root
+        weight: 1
+      - path: Armature/Master/Root/Pelvis
+        weight: 1
+      - path: Armature/Master/Root/Pelvis/Hip_l
+        weight: 1
+      - path: Armature/Master/Root/Pelvis/Hip_l/UpperLeg_l
+        weight: 1
+      - path: Armature/Master/Root/Pelvis/Hip_l/UpperLeg_l/LowerLeg_l
+        weight: 1
+      - path: Armature/Master/Root/Pelvis/Hip_l/UpperLeg_l/LowerLeg_l/Foot_l
+        weight: 1
+      - path: Armature/Master/Root/Pelvis/Hip_l/UpperLeg_l/LowerLeg_l/Foot_l/Toe_l
+        weight: 1
+      - path: Armature/Master/Root/Pelvis/Hip_r
+        weight: 1
+      - path: Armature/Master/Root/Pelvis/Hip_r/UpperLeg_r
+        weight: 1
+      - path: Armature/Master/Root/Pelvis/Hip_r/UpperLeg_r/LowerLeg_r
+        weight: 1
+      - path: Armature/Master/Root/Pelvis/Hip_r/UpperLeg_r/LowerLeg_r/Foot_r
+        weight: 1
+      - path: Armature/Master/Root/Pelvis/Hip_r/UpperLeg_r/LowerLeg_r/Foot_r/Toe_r
+        weight: 1
+      - path: Armature/Master/Root/Stomach
+        weight: 1
+      - path: Armature/Master/Root/Stomach/Chest
+        weight: 1
+      - path: Armature/Master/Root/Stomach/Chest/Collarbone_l
+        weight: 1
+      - path: Armature/Master/Root/Stomach/Chest/Collarbone_l/UpperArm_l
+        weight: 1
+      - path: Armature/Master/Root/Stomach/Chest/Collarbone_l/UpperArm_l/LowerArm_l
+        weight: 1
+      - path: Armature/Master/Root/Stomach/Chest/Collarbone_r
+        weight: 1
+      - path: Armature/Master/Root/Stomach/Chest/Collarbone_r/UpperArm_r
+        weight: 1
+      - path: Armature/Master/Root/Stomach/Chest/Collarbone_r/UpperArm_r/LowerArm_r
+        weight: 1
+      - path: Armature/Master/Root/Stomach/Chest/Neck
+        weight: 1
+      - path: Armature/Master/Root/Stomach/Chest/Neck/Head
+        weight: 1
+      - path: PlayerCharacter
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Idle
+      takeName: Idle
+      firstFrame: 0
+      lastFrame: 42
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Armature
+        weight: 1
+      - path: Armature/Leg_ik_l
+        weight: 1
+      - path: Armature/Leg_ik_l/leg_ik_pole_l
+        weight: 1
+      - path: Armature/Leg_ik_r
+        weight: 1
+      - path: Armature/Leg_ik_r/leg_ik_pole_r
+        weight: 1
+      - path: Armature/Master
+        weight: 1
+      - path: Armature/Master/Root
+        weight: 1
+      - path: Armature/Master/Root/Pelvis
+        weight: 1
+      - path: Armature/Master/Root/Pelvis/Hip_l
+        weight: 1
+      - path: Armature/Master/Root/Pelvis/Hip_l/UpperLeg_l
+        weight: 1
+      - path: Armature/Master/Root/Pelvis/Hip_l/UpperLeg_l/LowerLeg_l
+        weight: 1
+      - path: Armature/Master/Root/Pelvis/Hip_l/UpperLeg_l/LowerLeg_l/Foot_l
+        weight: 1
+      - path: Armature/Master/Root/Pelvis/Hip_l/UpperLeg_l/LowerLeg_l/Foot_l/Toe_l
+        weight: 1
+      - path: Armature/Master/Root/Pelvis/Hip_r
+        weight: 1
+      - path: Armature/Master/Root/Pelvis/Hip_r/UpperLeg_r
+        weight: 1
+      - path: Armature/Master/Root/Pelvis/Hip_r/UpperLeg_r/LowerLeg_r
+        weight: 1
+      - path: Armature/Master/Root/Pelvis/Hip_r/UpperLeg_r/LowerLeg_r/Foot_r
+        weight: 1
+      - path: Armature/Master/Root/Pelvis/Hip_r/UpperLeg_r/LowerLeg_r/Foot_r/Toe_r
+        weight: 1
+      - path: Armature/Master/Root/Stomach
+        weight: 1
+      - path: Armature/Master/Root/Stomach/Chest
+        weight: 1
+      - path: Armature/Master/Root/Stomach/Chest/Collarbone_l
+        weight: 1
+      - path: Armature/Master/Root/Stomach/Chest/Collarbone_l/UpperArm_l
+        weight: 1
+      - path: Armature/Master/Root/Stomach/Chest/Collarbone_l/UpperArm_l/LowerArm_l
+        weight: 1
+      - path: Armature/Master/Root/Stomach/Chest/Collarbone_r
+        weight: 1
+      - path: Armature/Master/Root/Stomach/Chest/Collarbone_r/UpperArm_r
+        weight: 1
+      - path: Armature/Master/Root/Stomach/Chest/Collarbone_r/UpperArm_r/LowerArm_r
+        weight: 1
+      - path: Armature/Master/Root/Stomach/Chest/Neck
+        weight: 1
+      - path: Armature/Master/Root/Stomach/Chest/Neck/Head
+        weight: 1
+      - path: PlayerCharacter
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
     isReadable: 1
   meshes:
     lODScreenPercentages: []
