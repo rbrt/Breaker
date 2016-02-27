@@ -12,9 +12,6 @@ using System.IO;
 public class CustomAssetProcessor : AssetPostprocessor {
 
 	void OnPreprocessModel(){
-		var fileNameIndex = assetPath.LastIndexOf('/');
-        var fileName = assetPath.Substring(fileNameIndex + 1);
-
         var importer = assetImporter as ModelImporter;
 
         importer.importMaterials = false;

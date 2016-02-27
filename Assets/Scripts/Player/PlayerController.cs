@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour {
 
 	[SerializeField] protected Shield shield;
 	[SerializeField] protected ParticleSystem deathParticles;
+	[SerializeField] protected PlayerAnimatorController playerAnimatorController;
 
 	const float yDeathValue = -6;
 
@@ -82,28 +83,43 @@ public class PlayerController : MonoBehaviour {
 	void HandleInput(){
 		if (Input.GetKeyDown(KeyCode.W)){
 			jumping = true;
+			playerAnimatorController.StartJump();
 		}
 		if (Input.GetKeyDown(KeyCode.A)){
 			movingLeft = true;
+			playerAnimatorController.StartRun();
+			playerAnimatorController.RotateCharacterToFaceLeft();
 		}
 		if (Input.GetKeyDown(KeyCode.S)){
 			shielding = true;
 		}
 		if (Input.GetKeyDown(KeyCode.D)){
 			movingRight = true;
+			playerAnimatorController.StartRun();
+			playerAnimatorController.RotateCharacterToFaceRight();
 		}
 
 		if (Input.GetKeyUp(KeyCode.W)){
 			jumping = false;
+			if (jumping){
+				playerAnimatorController.StopJump();
+			}
 		}
 		if (Input.GetKeyUp(KeyCode.A)){
 			movingLeft = false;
+			if (!movingRight){
+				playerAnimatorController.StopRun();
+			}
+			playerAnimatorController.RotateCharacterToFaceRight();
 		}
 		if (Input.GetKeyUp(KeyCode.S)){
 			shielding = false;
 		}
 		if (Input.GetKeyUp(KeyCode.D)){
 			movingRight = false;
+			if (!movingLeft){
+				playerAnimatorController.StopRun();
+			}
 		}
 	}
 
@@ -181,6 +197,10 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	public void HitGround(){
+		if (!onGround){
+			playerAnimatorController.HitGround();
+		}
+
 		onGround = true;
 		jumping = false;
 		if (jumpingCoroutine != null && jumpingCoroutine.IsRunning){
@@ -212,6 +232,8 @@ public class PlayerController : MonoBehaviour {
 			currentJumpSpeed = Mathf.Max(currentJumpSpeed - jumpDecay, 0);
 			yield return null;
 		}
+
+		playerAnimatorController.StopJump();
 	}
 
 	void OnCollisionEnter(Collision other){
@@ -282,7 +304,7 @@ public class PlayerController : MonoBehaviour {
 
 	IEnumerator PlayerDeath(){
 		deathParticles.gameObject.SetActive(true);
-		GetComponent<MeshRenderer>().enabled = false;
+		playerAnimatorController.PlayerDeath();
 		while (deathParticles.IsAlive()){
 			yield return null;
 		}
