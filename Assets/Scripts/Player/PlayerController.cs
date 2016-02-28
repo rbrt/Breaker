@@ -5,6 +5,8 @@ using System.Linq;
 
 public class PlayerController : MonoBehaviour {
 
+	enum TouchTypes {TouchLeft, TouchUp, TouchRight, TouchDown, None}
+
 	static PlayerController instance;
 
 	[SerializeField] protected Shield shield;
@@ -60,14 +62,34 @@ public class PlayerController : MonoBehaviour {
 	SafeCoroutine jumpingCoroutine,
 				  fallTestCoroutine;
 
+	Touch[] touches;
+	TouchTypes[] touchTypes;
+
+	bool pressedUp = false;
+	bool pressedRight = false;
+	bool pressedLeft = false;
+	bool pressedDown = false;
+	bool releasedUp = false;
+	bool releasedRight = false;
+	bool releasedLeft = false;
+	bool releasedDown = false;
+
 	void Awake () {
 		forceVector = Vector3.zero;
 		jumpVector = Vector3.zero;
 		playerAttributes = GetComponent<PlayerAttributes>();
+		touchTypes = new TouchTypes[5];
+
+		for (int i = 0; i < 5; i++){
+			touchTypes[i] = TouchTypes.None;
+		}
+
 		instance = this;
 	}
 
 	void Update () {
+		touches = Input.touches;
+
 		if (!dead){
 			HandleInput();
 		}
@@ -80,47 +102,245 @@ public class PlayerController : MonoBehaviour {
 		}
 	}
 
+	bool PressedRight(){
+		#if UNITY_EDITOR
+		return Input.GetKeyDown(KeyCode.D);
+		#else
+		bool temp = pressedRight;
+		pressedRight = false;
+		return temp;
+		#endif
+	}
+
+	bool PressedLeft(){
+		#if UNITY_EDITOR
+		return Input.GetKeyDown(KeyCode.A);
+		#else
+		bool temp = pressedLeft;
+		pressedLeft = false;
+		return temp;
+		#endif
+	}
+
+	bool PressedUp(){
+		#if UNITY_EDITOR
+		return Input.GetKeyDown(KeyCode.W);
+		#else
+		bool temp = pressedUp;
+		pressedUp = false;
+		return temp;
+		#endif
+	}
+
+	bool PressedDown(){
+		#if UNITY_EDITOR
+		return Input.GetKeyDown(KeyCode.S);
+		#else
+		bool temp = pressedDown;
+		pressedDown = false;
+		return temp;
+		#endif
+	}
+
+	bool ReleasedRight(){
+		#if UNITY_EDITOR
+		return Input.GetKeyUp(KeyCode.D);
+		#else
+		bool temp = releasedRight;
+		releasedRight = false;
+		return temp;
+		#endif
+	}
+
+	bool ReleasedLeft(){
+		#if UNITY_EDITOR
+		return Input.GetKeyUp(KeyCode.A);
+		#else
+		bool temp = releasedLeft;
+		releasedLeft = false;
+		return temp;
+		#endif
+	}
+
+	bool ReleasedUp(){
+		#if UNITY_EDITOR
+		return Input.GetKeyUp(KeyCode.W);
+		#else
+		bool temp = releasedUp;
+		releasedUp = false;
+		return temp;
+		#endif
+	}
+
+	bool ReleasedDown(){
+		#if UNITY_EDITOR
+		return Input.GetKeyUp(KeyCode.S);
+		#else
+		bool temp = releasedDown;
+		releasedDown = false;
+		return temp;
+		#endif
+	}
+
 	void HandleInput(){
-		if (Input.GetKeyDown(KeyCode.W)){
+		if (PressedUp()){
 			jumping = true;
 			playerAnimatorController.StartJump();
 		}
-		if (Input.GetKeyDown(KeyCode.A)){
+		if (PressedLeft()){
 			movingLeft = true;
 			playerAnimatorController.StartRun();
 			playerAnimatorController.RotateCharacterToFaceLeft();
 		}
-		if (Input.GetKeyDown(KeyCode.S)){
+		if (PressedDown()){
 			shielding = true;
 		}
-		if (Input.GetKeyDown(KeyCode.D)){
+		if (PressedRight()){
 			movingRight = true;
 			playerAnimatorController.StartRun();
 			playerAnimatorController.RotateCharacterToFaceRight();
 		}
 
-		if (Input.GetKeyUp(KeyCode.W)){
+		if (ReleasedUp()){
 			jumping = false;
 			if (jumping){
 				playerAnimatorController.StopJump();
 			}
 		}
-		if (Input.GetKeyUp(KeyCode.A)){
+		if (ReleasedLeft()){
 			movingLeft = false;
 			if (!movingRight){
 				playerAnimatorController.StopRun();
 			}
 			playerAnimatorController.RotateCharacterToFaceRight();
 		}
-		if (Input.GetKeyUp(KeyCode.S)){
+		if (ReleasedDown()){
 			shielding = false;
 		}
-		if (Input.GetKeyUp(KeyCode.D)){
+		if (ReleasedRight()){
 			movingRight = false;
 			if (!movingLeft){
 				playerAnimatorController.StopRun();
 			}
 		}
+	}
+
+	public void InputPressedLeft(){
+		pressedLeft = true;
+	}
+
+	public void InputReleasedLeft(){
+		releasedLeft = true;
+	}
+
+	public void InputPressedRight(){
+		pressedRight = true;
+	}
+
+	public void InputReleasedRight(){
+		releasedRight = true;
+	}
+
+	public void InputPressedUp(){
+		pressedUp = true;
+	}
+
+	public void InputReleasedUp(){
+		releasedUp = true;
+	}
+
+	public void InputPressedDown(){
+		pressedDown = true;
+	}
+
+	public void InputReleasedDown(){
+		releasedDown = true;
+	}
+
+	void HandleTouches(){
+		//
+		//
+		// for (int i = 0; i < touches.Length; i++){
+		// 	if (touches[i].phase == TouchPhase.Began){
+		// 		if (touches[i].position.y > Screen.height * .5f){
+		// 			pressedUp = true;
+		// 			touchTypes[i] = TouchTypes.TouchUp;
+		// 		}
+		// 		else{
+		// 			if (touches[i].position.x < Screen.width * .25f){
+		// 				pressedLeft = true;
+		// 				touchTypes[i] = TouchTypes.TouchLeft;
+		// 			}
+		// 			else if (touches[i].position.x > Screen.width * .75f){
+		// 				pressedRight = true;
+		// 				touchTypes[i] = TouchTypes.TouchRight;
+		// 			}
+		// 			else if (touches[i].position.y < Screen.height * .5f){
+		// 				pressedDown = true;
+		// 				touchTypes[i] = TouchTypes.TouchDown;
+		// 			}
+		// 		}
+		// 	}
+		// 	else if (touches[i].phase == TouchPhase.Canceled ||
+		// 			 touches[i].phase == TouchPhase.Ended)
+		// 	{
+		// 		if (touchTypes[i] == TouchTypes.TouchUp){
+		// 			releasedUp = true;
+		// 		}
+		// 		else if (touchTypes[i] == TouchTypes.TouchLeft){
+		// 			releasedLeft = true;
+		// 		}
+		// 		else if (touchTypes[i] == TouchTypes.TouchRight){
+		// 			releasedRight = true;
+		// 		}
+		// 		else if (touchTypes[i] == TouchTypes.TouchDown){
+		// 			releasedDown = true;
+		// 		}
+		//
+		// 		touchTypes[i] = TouchTypes.None;
+		// 	}
+		// }
+		//
+		// if (pressedUp){
+		// 	jumping = true;
+		// 	playerAnimatorController.StartJump();
+		// }
+		// if (pressedLeft){
+		// 	movingLeft = true;
+		// 	playerAnimatorController.StartRun();
+		// 	playerAnimatorController.RotateCharacterToFaceLeft();
+		// }
+		// if (pressedDown){
+		// 	shielding = true;
+		// }
+		// if (pressedRight){
+		// 	movingRight = true;
+		// 	playerAnimatorController.StartRun();
+		// 	playerAnimatorController.RotateCharacterToFaceRight();
+		// }
+		//
+		// if (releasedUp){
+		// 	jumping = false;
+		// 	if (jumping){
+		// 		playerAnimatorController.StopJump();
+		// 	}
+		// }
+		// if (releasedLeft){
+		// 	movingLeft = false;
+		// 	if (!movingRight){
+		// 		playerAnimatorController.StopRun();
+		// 	}
+		// 	playerAnimatorController.RotateCharacterToFaceRight();
+		// }
+		// if (releasedDown){
+		// 	shielding = false;
+		// }
+		// if (releasedRight){
+		// 	movingRight = false;
+		// 	if (!movingLeft){
+		// 		playerAnimatorController.StopRun();
+		// 	}
+		// }
 	}
 
 	void MovePlayer(){
