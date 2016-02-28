@@ -11,18 +11,28 @@ using System.IO;
 
 public class GenerateBackground : MonoBehaviour {
 
+	static GenerateBackground instance;
+
+	public static GenerateBackground Instance {
+		get {
+			return instance;
+		}
+	}
+
 	const int segmentHeight = 4;
 	const int segmentWidth = 2;
 	const int segmentDepth = 2;
 
-	const float buildingHeight = -20f;
+	const float buildingHeight = -10f;
 	const float maxBuildingZ = 10f;
 	const float minBuildingZ = -10f;
+
+	int lastIndex = 0;
 
 	[SerializeField] protected GameObject buildingComponent;
 	[SerializeField] protected Transform buildingRoot;
 
-	List<GameObject> buildings;
+	List<Building> allBuildings;
 
 	Building GenerateBuilding(int height, int width, int depth){
 		GameObject building = new GameObject("Building");
@@ -46,39 +56,18 @@ public class GenerateBackground : MonoBehaviour {
 			}
 		}
 
-		// var collider = building.gameObject.AddComponent<BoxCollider>();
-		//
-		// collider.center = new Vector3(width - 1,
-		// 							  (segmentHeight / 2) * (height - 1),
-		// 							  depth - 1);
-		//
-		// collider.size = new Vector3((segmentWidth / 2f) * width,
-		// 							(segmentHeight / 2f) * height,
-		// 							(segmentDepth / 2f) * depth);
 
 		buildingObject.SetValues(height, width, depth, elements.ToArray());
 		return buildingObject;
 	}
 
-	#if UNITY_EDITOR
-	[ContextMenu("Test Generate Buildings")]
-	public void TestGenerateBuildings(){
-		List<Building> buildings = new List<Building>();
-
-		for (int i = 0; i < 30; i++){
+	void GenerateBuildings(int buildingCount, float zOffset){
+		for (int i = 0; i < buildingCount; i++){
 			var newBuilding = GenerateBuilding(Random.Range(3, 10), Random.Range(3, 7), Random.Range(2, 4));
+			allBuildings.Add(newBuilding);
 
-			if (buildings.Count > 0){
-				var lastBuilding = buildings.Last();
-				var newPosition = lastBuilding.transform.localPosition;
-
-				newPosition.x += lastBuilding.width * segmentWidth + (Random.Range(.5f,3));
-				newPosition.z += Random.Range(-4,4);
-				newPosition.z = Mathf.Clamp(newPosition.z,
-											minBuildingZ,
-											maxBuildingZ);
-
-				newBuilding.transform.localPosition = newPosition;
+			if (allBuildings.Count > 1){
+				PlaceRelativeToLastBuilding(allBuildings, ref newBuilding, zOffset);
 			}
 			else{
 				Vector3 pos = Vector3.up * buildingHeight;
@@ -90,8 +79,58 @@ public class GenerateBackground : MonoBehaviour {
 
 				newBuilding.transform.localPosition = pos;
 			}
+		}
 
-			buildings.Add(newBuilding);
+		allBuildings.OrderBy(building => building.transform.position.x);
+	}
+
+	void PlaceRelativeToLastBuilding(List<Building> buildings, ref Building newBuilding, float zOffset){
+		var lastBuilding = buildings[lastIndex];
+		var newPosition = lastBuilding.transform.localPosition;
+
+		newPosition.x += lastBuilding.width * segmentWidth + (Random.Range(.5f,3));
+		newPosition.z += Random.Range(-4,4);
+		newPosition.z = Mathf.Clamp(newPosition.z,
+									minBuildingZ,
+									maxBuildingZ);
+
+		newPosition.z += zOffset;
+
+		newBuilding.transform.localPosition = newPosition;
+
+		lastIndex = (lastIndex + 1) % allBuildings.Count;
+	}
+
+	void SeedBuildings(){
+		for (int i = 0; i < 2; i++){
+			GenerateBuildings(15, i * 3);
+		}
+	}
+
+	void Awake(){
+		if (instance == null){
+			instance = this;
+			allBuildings = new List<Building>();
+
+			lastIndex = 0;
+
+			SeedBuildings();
+		}
+		else {
+			Destroy(this.gameObject);
+			Debug.Log("Destroyed duplicate instance of GenerateBackground.");
+		}
+	}
+
+	public void RecycleBuilding(ref Building targetBuilding){
+		PlaceRelativeToLastBuilding(allBuildings, ref targetBuilding, 0);
+	}
+
+	#if UNITY_EDITOR
+	[ContextMenu("Test Generate Buildings")]
+	public void TestGenerateBuildings(){
+		for (int i = 0; i < 2; i++){
+			GenerateBuildings(15, i * 3);
 		}
 	}
 

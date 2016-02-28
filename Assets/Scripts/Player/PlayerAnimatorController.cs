@@ -40,6 +40,7 @@ public class PlayerAnimatorController : MonoBehaviour {
 
 	public void HitGround(){
 		playerAnimator.SetTrigger(hitGroundTrigger);
+		playerAnimator.SetBool(jumpBool, false);
 	}
 
 	public void TakeDamage(){
