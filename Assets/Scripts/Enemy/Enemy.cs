@@ -56,8 +56,9 @@ public class Enemy : MonoBehaviour {
 				Vector3 pos = transform.position + (playerTransform.position - transform.position).normalized * .5f;
 				pos.z = 0;
 
-				shot.transform.position = pos;	
+				shot.transform.position = pos;
 			}
+			yield return null;
 		}
 	}
 

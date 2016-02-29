@@ -42,6 +42,10 @@ public class PlayerAttributeDisplay : MonoBehaviour {
 		}
 	}
 
+	public void FillShield(){
+		currentShield = 1;
+	}
+
 	void Awake(){
 		if (instance == null){
 			instance = this;

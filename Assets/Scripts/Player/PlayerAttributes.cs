@@ -26,5 +26,6 @@ public class PlayerAttributes : MonoBehaviour {
 
 	public void FillHealth(){
 		currentHealth = maxHealth;
+		PlayerAttributeDisplay.Instance.SetHealthPercentage(currentHealth / maxHealth);
 	}
 }

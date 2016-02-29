@@ -40,7 +40,7 @@ public class Shield : MonoBehaviour {
 	}
 
 	void Update(){
-		if (lastShield){
+		if (lastShield && !DebugMenu.InfiniteShield){
 			currentShield -= shieldDecay;
 		}
 		else if (currentShield < maxShield && (Time.time - lastShieldTime > shieldWaitTime)){
@@ -104,7 +104,9 @@ public class Shield : MonoBehaviour {
 	}
 
 	public void FillShield(){
+		PlayerAttributeDisplay.Instance.FillShield();
 		currentShield = maxShield;
+		lastShield = false;
 		PlayerAttributeDisplay.Instance.SetShieldPercentage(currentShield / maxShield);
 	}
 
