@@ -62,9 +62,6 @@ public class PlayerController : MonoBehaviour {
 	SafeCoroutine jumpingCoroutine,
 				  fallTestCoroutine;
 
-	Touch[] touches;
-	TouchTypes[] touchTypes;
-
 	bool pressedUp = false;
 	bool pressedRight = false;
 	bool pressedLeft = false;
@@ -78,18 +75,10 @@ public class PlayerController : MonoBehaviour {
 		forceVector = Vector3.zero;
 		jumpVector = Vector3.zero;
 		playerAttributes = GetComponent<PlayerAttributes>();
-		touchTypes = new TouchTypes[5];
-
-		for (int i = 0; i < 5; i++){
-			touchTypes[i] = TouchTypes.None;
-		}
-
 		instance = this;
 	}
 
 	void Update () {
-		touches = Input.touches;
-
 		if (!dead){
 			HandleInput();
 		}
@@ -103,85 +92,92 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	bool PressedRight(){
-		#if UNITY_EDITOR
-		return Input.GetKeyDown(KeyCode.D);
-		#else
 		bool temp = pressedRight;
 		pressedRight = false;
+
+		#if UNITY_EDITOR
+		return Input.GetKeyDown(KeyCode.D) || temp;
+		#else
 		return temp;
 		#endif
 	}
 
 	bool PressedLeft(){
-		#if UNITY_EDITOR
-		return Input.GetKeyDown(KeyCode.A);
-		#else
 		bool temp = pressedLeft;
 		pressedLeft = false;
+
+		#if UNITY_EDITOR
+		return Input.GetKeyDown(KeyCode.A) || temp;
+		#else
 		return temp;
 		#endif
 	}
 
 	bool PressedUp(){
-		#if UNITY_EDITOR
-		return Input.GetKeyDown(KeyCode.W);
-		#else
 		bool temp = pressedUp;
 		pressedUp = false;
+
+		#if UNITY_EDITOR
+		return Input.GetKeyDown(KeyCode.W) || temp;
+		#else
 		return temp;
 		#endif
 	}
 
 	bool PressedDown(){
-		#if UNITY_EDITOR
-		return Input.GetKeyDown(KeyCode.S);
-		#else
 		bool temp = pressedDown;
 		pressedDown = false;
+
+		#if UNITY_EDITOR
+		return Input.GetKeyDown(KeyCode.S) || temp;
+		#else
 		return temp;
 		#endif
 	}
 
 	bool ReleasedRight(){
-		#if UNITY_EDITOR
-		return Input.GetKeyUp(KeyCode.D);
-		#else
 		bool temp = releasedRight;
 		releasedRight = false;
+
+		#if UNITY_EDITOR
+		return Input.GetKeyUp(KeyCode.D) || temp;
+		#else
 		return temp;
 		#endif
 	}
 
 	bool ReleasedLeft(){
-		#if UNITY_EDITOR
-		return Input.GetKeyUp(KeyCode.A);
-		#else
 		bool temp = releasedLeft;
 		releasedLeft = false;
+
+		#if UNITY_EDITOR
+		return Input.GetKeyUp(KeyCode.A) || temp;
+		#else
 		return temp;
 		#endif
 	}
 
 	bool ReleasedUp(){
-		#if UNITY_EDITOR
-		return Input.GetKeyUp(KeyCode.W);
-		#else
 		bool temp = releasedUp;
 		releasedUp = false;
+
+		#if UNITY_EDITOR
+		return Input.GetKeyUp(KeyCode.W) || temp;
+		#else
 		return temp;
 		#endif
 	}
 
 	bool ReleasedDown(){
-		#if UNITY_EDITOR
-		return Input.GetKeyUp(KeyCode.S);
-		#else
 		bool temp = releasedDown;
 		releasedDown = false;
+
+		#if UNITY_EDITOR
+		return Input.GetKeyUp(KeyCode.S) || temp;
+		#else
 		return temp;
 		#endif
 	}
-
 	void HandleInput(){
 		if (PressedUp()){
 			jumping = true;
@@ -255,92 +251,6 @@ public class PlayerController : MonoBehaviour {
 
 	public void InputReleasedDown(){
 		releasedDown = true;
-	}
-
-	void HandleTouches(){
-		//
-		//
-		// for (int i = 0; i < touches.Length; i++){
-		// 	if (touches[i].phase == TouchPhase.Began){
-		// 		if (touches[i].position.y > Screen.height * .5f){
-		// 			pressedUp = true;
-		// 			touchTypes[i] = TouchTypes.TouchUp;
-		// 		}
-		// 		else{
-		// 			if (touches[i].position.x < Screen.width * .25f){
-		// 				pressedLeft = true;
-		// 				touchTypes[i] = TouchTypes.TouchLeft;
-		// 			}
-		// 			else if (touches[i].position.x > Screen.width * .75f){
-		// 				pressedRight = true;
-		// 				touchTypes[i] = TouchTypes.TouchRight;
-		// 			}
-		// 			else if (touches[i].position.y < Screen.height * .5f){
-		// 				pressedDown = true;
-		// 				touchTypes[i] = TouchTypes.TouchDown;
-		// 			}
-		// 		}
-		// 	}
-		// 	else if (touches[i].phase == TouchPhase.Canceled ||
-		// 			 touches[i].phase == TouchPhase.Ended)
-		// 	{
-		// 		if (touchTypes[i] == TouchTypes.TouchUp){
-		// 			releasedUp = true;
-		// 		}
-		// 		else if (touchTypes[i] == TouchTypes.TouchLeft){
-		// 			releasedLeft = true;
-		// 		}
-		// 		else if (touchTypes[i] == TouchTypes.TouchRight){
-		// 			releasedRight = true;
-		// 		}
-		// 		else if (touchTypes[i] == TouchTypes.TouchDown){
-		// 			releasedDown = true;
-		// 		}
-		//
-		// 		touchTypes[i] = TouchTypes.None;
-		// 	}
-		// }
-		//
-		// if (pressedUp){
-		// 	jumping = true;
-		// 	playerAnimatorController.StartJump();
-		// }
-		// if (pressedLeft){
-		// 	movingLeft = true;
-		// 	playerAnimatorController.StartRun();
-		// 	playerAnimatorController.RotateCharacterToFaceLeft();
-		// }
-		// if (pressedDown){
-		// 	shielding = true;
-		// }
-		// if (pressedRight){
-		// 	movingRight = true;
-		// 	playerAnimatorController.StartRun();
-		// 	playerAnimatorController.RotateCharacterToFaceRight();
-		// }
-		//
-		// if (releasedUp){
-		// 	jumping = false;
-		// 	if (jumping){
-		// 		playerAnimatorController.StopJump();
-		// 	}
-		// }
-		// if (releasedLeft){
-		// 	movingLeft = false;
-		// 	if (!movingRight){
-		// 		playerAnimatorController.StopRun();
-		// 	}
-		// 	playerAnimatorController.RotateCharacterToFaceRight();
-		// }
-		// if (releasedDown){
-		// 	shielding = false;
-		// }
-		// if (releasedRight){
-		// 	movingRight = false;
-		// 	if (!movingLeft){
-		// 		playerAnimatorController.StopRun();
-		// 	}
-		// }
 	}
 
 	void MovePlayer(){
@@ -528,5 +438,16 @@ public class PlayerController : MonoBehaviour {
 		while (deathParticles.IsAlive()){
 			yield return null;
 		}
+	}
+
+	void KeepCompilerWarningsAway(){
+		Debug.Log(releasedUp +
+				  "" + releasedDown +
+				  "" + releasedLeft +
+				  "" + releasedRight +
+				  "" + pressedUp +
+				  "" + pressedDown +
+				  "" + pressedLeft +
+				  "" + pressedRight);
 	}
 }
