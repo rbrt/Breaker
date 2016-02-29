@@ -31,6 +31,10 @@ public class EnemySpawner : MonoBehaviour {
 	}
 
 	void Update () {
+		if (DebugMenu.NoEnemies){
+			return;
+		}
+
 		if (activeEnemies.Count == 0){
 			while (activeEnemies.Count < targetActiveEnemies){
 				var offscreenPoint = GetOffscreenPoint();
@@ -92,5 +96,11 @@ public class EnemySpawner : MonoBehaviour {
 	public void ClearEnemy(Enemy toClean){
 		activeEnemies.Remove(toClean);
 		Destroy(toClean.gameObject);
+	}
+
+	public void ClearAllEnemies(){
+		for (int i = 0; i < activeEnemies.Count; i++){
+			activeEnemies[i].ShieldDeath();
+		}
 	}
 }

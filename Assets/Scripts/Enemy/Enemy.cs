@@ -50,13 +50,14 @@ public class Enemy : MonoBehaviour {
 
 	IEnumerator ShootAtPlayer(){
 		while (true && !PlayerController.Instance.Dead){
-			yield return new WaitForSeconds(1);
-			var shot = GameObject.Instantiate(shotPrefab.gameObject);
-			Vector3 pos = transform.position + (playerTransform.position - transform.position).normalized * .5f;
-			pos.z = 0;
+			if (!DebugMenu.EnemiesDontAttack){
+				yield return new WaitForSeconds(1);
+				var shot = GameObject.Instantiate(shotPrefab.gameObject);
+				Vector3 pos = transform.position + (playerTransform.position - transform.position).normalized * .5f;
+				pos.z = 0;
 
-			shot.transform.position = pos;
-
+				shot.transform.position = pos;	
+			}
 		}
 	}
 

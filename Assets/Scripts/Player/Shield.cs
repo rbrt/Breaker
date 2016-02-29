@@ -3,6 +3,14 @@ using System.Collections;
 
 public class Shield : MonoBehaviour {
 
+	static Shield instance;
+
+	public static Shield Instance {
+		get {
+			return instance;
+		}
+	}
+
 	const float maxShield = 100;
 	const float shieldDecay = 1f;
 	const float shieldRegen = .05f;
@@ -19,6 +27,8 @@ public class Shield : MonoBehaviour {
 	bool lastShield = false;
 
 	void Awake(){
+		instance = this;
+
 		currentShield = maxShield;
 		lastShieldTime = Time.time;
 		shieldRenderer = GetComponent<MeshRenderer>();
@@ -91,6 +101,11 @@ public class Shield : MonoBehaviour {
 		}
 		lastShield = false;
 		lastShieldTime = Time.time;
+	}
+
+	public void FillShield(){
+		currentShield = maxShield;
+		PlayerAttributeDisplay.Instance.SetShieldPercentage(currentShield / maxShield);
 	}
 
 	IEnumerator RaiseShieldAnimated(){

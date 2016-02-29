@@ -4,17 +4,18 @@ using System.Collections;
 public class PlayerAttributes : MonoBehaviour {
 
 	const float maxHealth = 10;
-	const float maxShield = 10;
 
-	float currentHealth,
-		  currentShield;
+	float currentHealth;
 
 	void Awake(){
 		currentHealth = maxHealth;
-		currentShield = maxShield;
 	}
 
 	public void AffectHealth(float amount){
+		if (DebugMenu.Invincible){
+			return;
+		}
+
 		currentHealth = Mathf.Clamp(currentHealth + amount, 0, maxHealth);
 		PlayerAttributeDisplay.Instance.SetHealthPercentage(currentHealth / maxHealth);
 
@@ -23,8 +24,7 @@ public class PlayerAttributes : MonoBehaviour {
 		}
 	}
 
-	public void AffectShield(float amount){
-		currentShield = Mathf.Clamp(currentShield + amount, 0, maxShield);
-		PlayerAttributeDisplay.Instance.SetHealthPercentage(currentShield / maxShield);
+	public void FillHealth(){
+		currentHealth = maxHealth;
 	}
 }

@@ -253,6 +253,14 @@ public class PlayerController : MonoBehaviour {
 		releasedDown = true;
 	}
 
+	public void FillHealth(){
+		playerAttributes.FillHealth();
+	}
+
+	public void FillShield(){
+		shield.FillShield();
+	}
+
 	void MovePlayer(){
 		forceVector = Vector3.zero;
 
