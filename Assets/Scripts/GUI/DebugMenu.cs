@@ -110,4 +110,11 @@ public class DebugMenu : MonoBehaviour {
 		}
 	}
 
+	void Awake(){
+		invincibleButton.color = invincible ? activeColor : inactiveColor;
+		infiniteShieldButton.color = infiniteShield ? activeColor : inactiveColor;
+		enemiesDontAttackButton.color = enemiesDontAttack ? activeColor : inactiveColor;
+		noEnemiesButton.color = noEnemies ? activeColor : inactiveColor;
+	}
+
 }
