@@ -40,13 +40,21 @@ public class GenerateBackground : MonoBehaviour {
 		building.transform.localPosition = Vector3.zero;
 
 		var buildingObject = building.AddComponent<Building>();
+		//var elements = CreateBasicBuilding(height, width, depth, ref buildingObject);
+		var elements = CreateBasicTaperedBuilding(height, width, depth, ref buildingObject);
+
+		buildingObject.SetValues(height, width, depth, elements.ToArray());
+		return buildingObject;
+	}
+
+	List<GameObject> CreateBasicBuilding(int height, int width, int depth, ref Building parentBuilding){
 		List<GameObject> elements = new List<GameObject>();
 
 		for (int i = 0; i < height; i++){
 			for (int j = 0; j < width; j++){
 				for (int k = 0; k < depth; k++){
 					GameObject segment = Instantiate(buildingComponent);
-					segment.transform.SetParent(building.transform);
+					segment.transform.SetParent(parentBuilding.transform);
 					segment.transform.localPosition = (Vector3.up * i * segmentHeight) +
 													  (Vector3.right * j * segmentWidth) +
 													  (Vector3.forward * k * segmentDepth);
@@ -56,9 +64,33 @@ public class GenerateBackground : MonoBehaviour {
 			}
 		}
 
+		return elements;
+	}
 
-		buildingObject.SetValues(height, width, depth, elements.ToArray());
-		return buildingObject;
+	List<GameObject> CreateBasicTaperedBuilding(int height, int width, int depth, ref Building parentBuilding){
+		List<GameObject> elements = new List<GameObject>();
+
+		height += 2;
+
+		for (int i = 0; i < height; i++){
+			int offset = 0;
+			if (i > height - 2){
+				offset = i % (height - 2);
+			}
+			for (int j = offset; j < width - offset; j++){
+				for (int k = 0; k < depth; k++){
+					GameObject segment = Instantiate(buildingComponent);
+					segment.transform.SetParent(parentBuilding.transform);
+					segment.transform.localPosition = (Vector3.up * i * segmentHeight) +
+													  (Vector3.right * j * segmentWidth) +
+													  (Vector3.forward * k * segmentDepth);
+
+					elements.Add(segment);
+				}
+			}
+		}
+
+		return elements;
 	}
 
 	void GenerateBuildings(int buildingCount, float zOffset){
@@ -129,6 +161,9 @@ public class GenerateBackground : MonoBehaviour {
 	#if UNITY_EDITOR
 	[ContextMenu("Test Generate Buildings")]
 	public void TestGenerateBuildings(){
+		allBuildings = new List<Building>();
+		lastIndex = 0;
+
 		for (int i = 0; i < 2; i++){
 			GenerateBuildings(15, i * 3);
 		}

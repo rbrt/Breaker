@@ -25,4 +25,12 @@ public class SettingsMenu : MonoBehaviour {
 		menuActive = !menuActive;
 		menuAnimator.SetBool(menuAnimatorString, menuActive);
 	}
+
+	public void PauseGame(){
+		Time.timeScale = 0;
+	}
+
+	public void UnpauseGame(){
+		Time.timeScale = 1;
+	}
 }

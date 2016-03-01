@@ -38,7 +38,7 @@ public class Shot : MonoBehaviour {
 
 	void Update () {
 		if (!destroyed){
-			var targetPos = transform.position + targetDirection * shotSpeed;
+			var targetPos = transform.position + targetDirection * shotSpeed * Time.deltaTime;
 			transform.position = Vector3.MoveTowards(transform.position, targetPos, .2f);
 		}
 	}
