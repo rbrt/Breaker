@@ -22,7 +22,6 @@ public class FastSceneSwitch : EditorWindow {
 	static Color cachedColor;
 	static float delay;
 	static bool justOpened;
-	static bool close;
 
 	[MenuItem ("File/Scene Switcher Window %t")]
 	public static void SceneSwitcherWindow(){
@@ -34,7 +33,6 @@ public class FastSceneSwitch : EditorWindow {
 		filteredScenes = sceneNames;
 		delay = (float)EditorApplication.timeSinceStartup + .1f;
 		justOpened = true;
-		close = true;
 		window.Show();
 		FocusWindowIfItsOpen(typeof(FastSceneSwitch));
 	}
