@@ -30,6 +30,8 @@ public class GenerateBackground : MonoBehaviour {
 	int lastIndex = 0;
 
 	[SerializeField] protected GameObject buildingComponent;
+	[SerializeField] protected GameObject buildingTopCornerComponent;
+	[SerializeField] protected GameObject buildingTopComponent;
 	[SerializeField] protected Transform buildingRoot;
 
 	List<Building> allBuildings;
@@ -40,8 +42,15 @@ public class GenerateBackground : MonoBehaviour {
 		building.transform.localPosition = Vector3.zero;
 
 		var buildingObject = building.AddComponent<Building>();
-		//var elements = CreateBasicBuilding(height, width, depth, ref buildingObject);
-		var elements = CreateBasicTaperedBuilding(height, width, depth, ref buildingObject);
+
+		var elements = new List<GameObject>();
+
+		if (Random.Range(0,100) > 75){
+			elements = CreateBasicTaperedBuilding(height, width, depth, ref buildingObject);	
+		}
+		else{
+			elements = CreateBasicBuilding(height, width, depth, ref buildingObject);
+		}
 
 		buildingObject.SetValues(height, width, depth, elements.ToArray());
 		return buildingObject;
@@ -73,13 +82,51 @@ public class GenerateBackground : MonoBehaviour {
 		height += 2;
 
 		for (int i = 0; i < height; i++){
-			int offset = 0;
-			if (i > height - 2){
-				offset = i % (height - 2);
-			}
-			for (int j = offset; j < width - offset; j++){
+			for (int j = 0; j < width; j++){
 				for (int k = 0; k < depth; k++){
-					GameObject segment = Instantiate(buildingComponent);
+					GameObject segment = null;
+
+					// Top of building
+					if (i == height - 1){
+						// left side of building
+						if (j == 0){
+							// front
+							if (k == 0){
+								segment = Instantiate(buildingTopCornerComponent);
+								segment.transform.Rotate(new Vector3(0,0,180));
+							}
+							else{
+								segment = Instantiate(buildingTopComponent);
+							}
+						}
+						// right side of building
+						else if (j == width - 1){
+							// front
+							if (k == 0){
+								segment = Instantiate(buildingTopCornerComponent);
+								segment.transform.Rotate(new Vector3(0,0,90));
+							}
+							else{
+								segment = Instantiate(buildingTopComponent);
+								segment.transform.Rotate(new Vector3(0,0,180));
+							}
+						}
+						// center segment
+						else{
+							// front
+							if (k == 0){
+								segment = Instantiate(buildingTopComponent);
+								segment.transform.Rotate(new Vector3(0,0,-90));
+							}
+							else{
+								segment = Instantiate(buildingComponent);
+							}
+						}
+					}
+					else {
+						segment = Instantiate(buildingComponent);
+					}
+
 					segment.transform.SetParent(parentBuilding.transform);
 					segment.transform.localPosition = (Vector3.up * i * segmentHeight) +
 													  (Vector3.right * j * segmentWidth) +

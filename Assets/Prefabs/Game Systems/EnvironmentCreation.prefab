@@ -27,9 +27,11 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 4000013972755676}
   m_Father: {fileID: 0}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &11406880
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -76,3 +78,49 @@ Prefab:
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 132288}
   m_IsPrefabParent: 1
+--- !u!1 &1000010246466370
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 4000013972755676}
+  - 114: {fileID: 114000013669990128}
+  m_Layer: 0
+  m_Name: Building Generator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4000013972755676
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000010246466370}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -62, y: -5, z: 40}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 449244}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114000013669990128
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000010246466370}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fabcac00ac86146c2afbf251a167e748, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buildingComponent: {fileID: 152638, guid: 37bbcf86709424368a427d7388f4c379, type: 2}
+  buildingTopCornerComponent: {fileID: 1000010815001622, guid: 252a60ea2d85d4ecca7f81b53761afb2,
+    type: 2}
+  buildingTopComponent: {fileID: 1000010790297216, guid: 1402b1e88ad0846109656ce62545cb45,
+    type: 2}
+  buildingRoot: {fileID: 4000013972755676}

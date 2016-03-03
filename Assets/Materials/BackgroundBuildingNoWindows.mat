@@ -6,8 +6,8 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: BackgroundBuildingMaterial
-  m_Shader: {fileID: 4800000, guid: 7d31ea3b761e44894b437e097da80373, type: 3}
+  m_Name: BackgroundBuildingNoWindows
+  m_Shader: {fileID: 4800000, guid: 18eec4bf874eb47e3a02515471f4bf02, type: 3}
   m_ShaderKeywords: V_WIRE_ANTIALIASING_ON V_WIRE_FRESNEL_ON V_WIRE_IBL_OFF V_WIRE_LIGHT_OFF
   m_LightmapFlags: 5
   m_CustomRenderQueue: 2000
@@ -158,6 +158,18 @@ Material:
     - first:
         name: _Color
       second: {r: 0.53535354, g: 0.53535354, b: 0.53535354, a: 1}
+    - first:
+        name: _Color1
+      second: {r: 1, g: 1, b: 1, a: 1}
+    - first:
+        name: _Color2
+      second: {r: 1, g: 1, b: 1, a: 1}
+    - first:
+        name: _Color3
+      second: {r: 1, g: 1, b: 1, a: 1}
+    - first:
+        name: _Color4
+      second: {r: 1, g: 1, b: 1, a: 1}
     - first:
         name: _EmissionColor
       second: {r: 0, g: 0, b: 0, a: 1}
