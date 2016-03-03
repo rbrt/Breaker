@@ -40,7 +40,8 @@ public class PlayerController : MonoBehaviour {
 		 shielding = false,
 		 onGround = false,
 		 lastShield = false,
-		 dead = false;
+		 dead = false,
+		 damaged = false;
 
 	Vector3 forceVector,
 			jumpVector;
@@ -53,7 +54,8 @@ public class PlayerController : MonoBehaviour {
 		  jumpSpeed = 40f,
 		  currentJumpSpeed = 0,
 		  jumpAcceleration = 3f,
-		  jumpDecay = 8f;
+		  jumpDecay = 8f,
+		  damageLength = 1f;
 
 	Collider lastHit;
 
@@ -178,6 +180,7 @@ public class PlayerController : MonoBehaviour {
 		return temp;
 		#endif
 	}
+	
 	void HandleInput(){
 		if (PressedUp()){
 			jumping = true;
@@ -407,7 +410,7 @@ public class PlayerController : MonoBehaviour {
 
 		var enemy = other.gameObject.GetComponent<Enemy>();
 		if (enemy != null){
-			playerAttributes.AffectHealth(enemy.ContactDamage);
+			TakeDamage(enemy.ContactDamage);
 		}
 	}
 
@@ -416,7 +419,7 @@ public class PlayerController : MonoBehaviour {
 		if (shot != null && !shielding){
 			if (!shot.Destroyed){
 				shot.HitPlayer();
-				playerAttributes.AffectHealth(-1);
+				TakeDamage(-1);
 			}
 		}
 	}
@@ -425,6 +428,14 @@ public class PlayerController : MonoBehaviour {
 		if (other.collider == lastHit){
 			lastHit = null;
 			fallTestCoroutine = this.StartSafeCoroutine(WaitBeforeFalling(other));
+		}
+	}
+
+	void TakeDamage(int damage){
+		if (!damaged){
+			playerAttributes.AffectHealth(damage);
+			playerAnimatorController.TakeDamage();
+			this.StartSafeCoroutine(WaitForDamage());
 		}
 	}
 
@@ -446,6 +457,12 @@ public class PlayerController : MonoBehaviour {
 		while (deathParticles.IsAlive()){
 			yield return null;
 		}
+	}
+
+	IEnumerator WaitForDamage(){
+		damaged = true;
+		yield return new WaitForSeconds(damageLength);
+		damaged = false;
 	}
 
 	void KeepCompilerWarningsAway(){
