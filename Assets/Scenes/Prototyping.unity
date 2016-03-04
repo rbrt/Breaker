@@ -536,13 +536,23 @@ MonoBehaviour:
   redChannel:
     serializedVersion: 2
     m_Curve:
-    - time: -0.09166667
-      value: -0.39999998
+    - time: -0.023177072
+      value: -0.32678926
       inSlope: 0
       outSlope: 0
       tangentMode: 0
+    - time: 0.29240254
+      value: -0.23247688
+      inSlope: 0.81151724
+      outSlope: 0.81151724
+      tangentMode: 0
+    - time: 0.5087591
+      value: 0.12467715
+      inSlope: 3.7915008
+      outSlope: 3.7915008
+      tangentMode: 0
     - time: 1.0041667
-      value: 1.05625
+      value: 0.9015234
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -552,35 +562,45 @@ MonoBehaviour:
   greenChannel:
     serializedVersion: 2
     m_Curve:
-    - time: 0
-      value: 0
+    - time: 0.004166667
+      value: 0.08749999
       inSlope: 0
       outSlope: 0
       tangentMode: 0
     - time: 1
-      value: 1
+      value: 0.81875
       inSlope: 0
       outSlope: 0
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
   blueChannel:
     serializedVersion: 2
     m_Curve:
-    - time: 0
-      value: 0
+    - time: -0.0041666664
+      value: -0.0062499996
       inSlope: 0
       outSlope: 0
       tangentMode: 0
+    - time: 0.6023091
+      value: 0.61049837
+      inSlope: 0.4598921
+      outSlope: 0.4598921
+      tangentMode: 0
+    - time: 0.75716275
+      value: 0.7634246
+      inSlope: 0.049595844
+      outSlope: 0.049595844
+      tangentMode: 0
     - time: 1
-      value: 1
+      value: 0.9
       inSlope: 0
       outSlope: 0
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
   useDepthCorrection: 0
   zCurve:
     serializedVersion: 2
