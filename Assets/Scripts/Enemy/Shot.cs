@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Shot : MonoBehaviour {
 
-	float shotSpeed = 20;
+	float shotSpeed = 100;
 	Transform target;
 	Vector3 targetDirection;
 	Collider lastHit;
@@ -39,7 +39,7 @@ public class Shot : MonoBehaviour {
 	void Update () {
 		if (!destroyed){
 			var targetPos = transform.position + targetDirection * shotSpeed * Time.deltaTime;
-			transform.position = Vector3.MoveTowards(transform.position, targetPos, .2f);
+			transform.position = Vector3.MoveTowards(transform.position, targetPos, .5f);
 		}
 	}
 
@@ -49,6 +49,7 @@ public class Shot : MonoBehaviour {
 		}
 
 		deflected = true;
+		particles.startColor = Color.yellow;
 		lastHit = last;
 		direction.z = 0;
 		targetDirection = direction.normalized;

@@ -10,6 +10,8 @@ public class Enemy : MonoBehaviour {
 	[SerializeField] protected int contactDamage = -1;
 	[SerializeField] protected int shieldReward = 5;
 
+	float shotRate = 50f;
+
 	bool dying = false;
 
 	public int ContactDamage {
@@ -58,7 +60,7 @@ public class Enemy : MonoBehaviour {
 	IEnumerator ShootAtPlayer(){
 		while (true && !PlayerController.Instance.Dead){
 			if (!DebugMenu.EnemiesDontAttack){
-				yield return new WaitForSeconds(1);
+				yield return new WaitForSeconds(shotRate * Time.deltaTime);
 				var shot = GameObject.Instantiate(shotPrefab.gameObject);
 				Vector3 pos = transform.position + (playerTransform.position - transform.position).normalized * .5f;
 				pos.z = 0;
