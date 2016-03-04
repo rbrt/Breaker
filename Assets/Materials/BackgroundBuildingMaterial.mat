@@ -169,4 +169,4 @@ Material:
       second: {r: 0, g: 0, b: 0, a: 1}
     - first:
         name: _WindowColor
-      second: {r: 0.6379585, g: 0.75757575, b: 0.75757575, a: 1}
+      second: {r: 0.6300225, g: 0.85850513, b: 0.85406715, a: 1}
