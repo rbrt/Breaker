@@ -218,6 +218,9 @@ PlayerSettings:
   - m_BuildTarget: iOSSupport
     m_APIs: 08000000
     m_Automatic: 0
+  - m_BuildTarget: MacStandaloneSupport
+    m_APIs: 000000001100000010000000
+    m_Automatic: 0
   webPlayerTemplate: APPLICATION:Default
   m_TemplateCustomTags: {}
   wiiUTitleID: 0005000011000000
@@ -449,10 +452,19 @@ PlayerSettings:
   iOS::EnableIncrementalBuildSupportForIl2cpp: 1
   iOS::ScriptingBackend: 1
   boolPropertyNames:
+  - Standalone::VR::enable
   - XboxOne::enus
+  - iOS::VR::enable
+  Standalone::VR::enable: 0
   XboxOne::enus: 1
+  iOS::VR::enable: 0
   stringPropertyNames: []
-  vectorPropertyNames: []
+  vectorPropertyNames:
+  - Standalone::VR::enabledDevices
+  - iOS::VR::enabledDevices
+  Standalone::VR::enabledDevices:
+  - Oculus
+  iOS::VR::enabledDevices: []
   cloudProjectId: 
   projectName: 
   organizationId: 

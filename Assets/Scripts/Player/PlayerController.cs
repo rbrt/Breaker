@@ -48,8 +48,8 @@ public class PlayerController : MonoBehaviour {
 
 	float moveSpeed = 15f,
 		  currentMoveSpeed = 0,
-		  moveAcceleration = 2f,
-		  moveDeceleration = 1.5f,
+		  moveAcceleration = 25f,
+		  moveDeceleration = 30f,
 		  gravity = 15f,
 		  jumpSpeed = 40f,
 		  currentJumpSpeed = 0,
@@ -180,7 +180,7 @@ public class PlayerController : MonoBehaviour {
 		return temp;
 		#endif
 	}
-	
+
 	void HandleInput(){
 		if (PressedUp()){
 			jumping = true;
@@ -268,17 +268,17 @@ public class PlayerController : MonoBehaviour {
 		forceVector = Vector3.zero;
 
 		if (movingRight){
-			currentMoveSpeed = Mathf.Min(currentMoveSpeed + moveAcceleration, moveSpeed);
+			currentMoveSpeed = Mathf.Min(currentMoveSpeed + moveAcceleration * Time.smoothDeltaTime, moveSpeed);
 		}
 		else if (movingLeft){
-			currentMoveSpeed = Mathf.Max(currentMoveSpeed - moveAcceleration, -moveSpeed);
+			currentMoveSpeed = Mathf.Max(currentMoveSpeed - moveAcceleration * Time.smoothDeltaTime, -moveSpeed);
 		}
 		else{
 			if (currentMoveSpeed < 0){
-				currentMoveSpeed = Mathf.Min(currentMoveSpeed + moveDeceleration, 0);
+				currentMoveSpeed = Mathf.Min(currentMoveSpeed + moveDeceleration * Time.smoothDeltaTime, 0);
 			}
 			else{
-				currentMoveSpeed = Mathf.Max(currentMoveSpeed - moveDeceleration, 0);
+				currentMoveSpeed = Mathf.Max(currentMoveSpeed - moveDeceleration * Time.smoothDeltaTime, 0);
 			}
 		}
 
