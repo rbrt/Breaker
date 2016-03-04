@@ -48,8 +48,8 @@ public class PlayerController : MonoBehaviour {
 
 	float moveSpeed = 15f,
 		  currentMoveSpeed = 0,
-		  moveAcceleration = 25f,
-		  moveDeceleration = 30f,
+		  moveAcceleration = 50f,
+		  moveDeceleration = 40f,
 		  gravity = 15f,
 		  jumpSpeed = 40f,
 		  currentJumpSpeed = 0,
