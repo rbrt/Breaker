@@ -167,10 +167,6 @@ namespace GameAnalyticsSDK
 			if(!Application.isPlaying)
 				return; // no need to setup anything else if we are in the editor and not playing
 
-			#if UNITY_EDITOR
-			Debug.Log("GameAnalytics running in Unity Editor: event validation disabled.");
-			#endif
-
 			if(SettingsGA.InfoLogBuild)
 			{
 				GA_Setup.SetInfoLog(true);

@@ -8,6 +8,9 @@ public class Enemy : MonoBehaviour {
 	[SerializeField] protected Shot shotPrefab;
 	[SerializeField] protected int scorePoints = 10;
 	[SerializeField] protected int contactDamage = -1;
+	[SerializeField] protected int shieldReward = 5;
+
+	bool dying = false;
 
 	public int ContactDamage {
 		get {
@@ -40,8 +43,12 @@ public class Enemy : MonoBehaviour {
 	}
 
 	void Die(){
-		ScoreDisplay.Instance.AddScore(scorePoints);
-		EnemySpawner.Instance.ClearEnemy(this);
+		if (!dying){
+			dying = true;
+			ScoreDisplay.Instance.AddScore(scorePoints);
+			EnemySpawner.Instance.ClearEnemy(this);
+			Shield.Instance.AddShield(shieldReward);
+		}
 	}
 
 	public void ShieldDeath(){

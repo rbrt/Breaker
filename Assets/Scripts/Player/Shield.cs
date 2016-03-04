@@ -110,6 +110,13 @@ public class Shield : MonoBehaviour {
 		PlayerAttributeDisplay.Instance.SetShieldPercentage(currentShield / maxShield);
 	}
 
+	public void AddShield(float amount){
+		currentShield += amount;
+		if (currentShield > maxShield){
+			currentShield = maxShield;
+		}
+	}
+
 	IEnumerator RaiseShieldAnimated(){
 		Color color = shieldRenderer.material.GetColor("_Color");
 		for (float i = color.a; i < maxAlpha; i += Time.deltaTime){
