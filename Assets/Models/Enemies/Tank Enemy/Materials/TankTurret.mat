@@ -6,8 +6,8 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: Player
-  m_Shader: {fileID: 4800000, guid: 95b42d447690e48ad970badcf3cb4ab6, type: 3}
+  m_Name: TankTurret
+  m_Shader: {fileID: 7, guid: 0000000000000000f000000000000000, type: 0}
   m_ShaderKeywords: 
   m_LightmapFlags: 5
   m_CustomRenderQueue: 2000
@@ -19,7 +19,7 @@ Material:
         first:
           name: _MainTex
         second:
-          m_Texture: {fileID: 2800000, guid: 3053a12037d5745729ba328894e6652b, type: 3}
+          m_Texture: {fileID: 0}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
       data:
@@ -135,20 +135,4 @@ Material:
       data:
         first:
           name: _Color
-        second: {r: 0.9755058, g: 1, b: 0.9845243, a: 1}
-      data:
-        first:
-          name: _Color1
-        second: {r: 0.56049234, g: 0, b: 0.15973233, a: 1}
-      data:
-        first:
-          name: _Color2
-        second: {r: 0.6659235, g: 0.1548181, b: 0.1775475, a: 1}
-      data:
-        first:
-          name: _Color3
-        second: {r: 0.3732977, g: 0.21004027, b: 0.68707085, a: 1}
-      data:
-        first:
-          name: _Color4
-        second: {r: 0.84554064, g: 0.9092966, b: 0.2705519, a: 1}
+        second: {r: 0.14912298, g: 0.20253924, b: 0.28902903, a: 1}
