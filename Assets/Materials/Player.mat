@@ -139,16 +139,16 @@ Material:
       data:
         first:
           name: _Color1
-        second: {r: 0.56049234, g: 0, b: 0.15973233, a: 1}
+        second: {r: 0.15207557, g: 0.23565295, b: 0.39409855, a: 1}
       data:
         first:
           name: _Color2
-        second: {r: 0.6659235, g: 0.1548181, b: 0.1775475, a: 1}
+        second: {r: 0.3237331, g: 0.38265944, b: 0.605752, a: 1}
       data:
         first:
           name: _Color3
-        second: {r: 0.3732977, g: 0.21004027, b: 0.68707085, a: 1}
+        second: {r: 0.261175, g: 0.23999928, b: 0.29591143, a: 1}
       data:
         first:
           name: _Color4
-        second: {r: 0.84554064, g: 0.9092966, b: 0.2705519, a: 1}
+        second: {r: 0.15690887, g: 0.9140435, b: 0.062363926, a: 1}
