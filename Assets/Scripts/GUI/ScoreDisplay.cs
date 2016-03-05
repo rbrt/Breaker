@@ -105,4 +105,8 @@ public class ScoreDisplay : MonoBehaviour {
 		actualScore += points;
 		lastTierScore += points;
 	}
+
+	public void SaveScore(){
+		HighScoresHandler.AddHighScore(currentScore);
+	}
 }

@@ -51,6 +51,7 @@ public class EndOfRoundMenu : MonoBehaviour {
 		if (roundState == Enums.EndOfRoundStates.Death){
 			nextButtonText.text = retryString;
 			menuButtonText.text = menuString;
+			ScoreDisplay.Instance.SaveScore();
 		}
 		else if (roundState == Enums.EndOfRoundStates.Victory){
 			nextButtonText.text = continueString;
