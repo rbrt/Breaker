@@ -520,6 +520,7 @@ GameObject:
   - 224: {fileID: 22456086}
   - 114: {fileID: 11485230}
   - 95: {fileID: 9504780}
+  - 114: {fileID: 11489438}
   m_Layer: 5
   m_Name: End Of Round
   m_TagString: Untagged
@@ -3221,6 +3222,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf40180cf36174e95861dd5151420dc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  menuAnimator: {fileID: 9504780}
+  nextButtonText: {fileID: 11490724}
+  menuButtonText: {fileID: 11496926}
+  shotsDeflectedResultText: {fileID: 11469028}
+  timesHitResultText: {fileID: 11430158}
+  killsResultText: {fileID: 11419140}
 --- !u!114 &11487750
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3254,6 +3261,17 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: 100x
+--- !u!114 &11489438
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 151356}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed065c846759a4cbaa6087b58158d206, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &11490724
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -18,6 +18,8 @@ public class SettingsMenu : MonoBehaviour {
 	[SerializeField] Animator menuAnimator;
 
 	public void QuitToTitle(){
+		menuActive = false;
+		Time.timeScale = 1;
 		SceneManager.LoadScene("Title", LoadSceneMode.Single);
 	}
 

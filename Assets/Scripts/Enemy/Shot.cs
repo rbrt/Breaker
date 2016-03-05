@@ -14,6 +14,8 @@ public class Shot : MonoBehaviour {
 
 	ParticleSystem particles;
 
+	Vector3 targetPos;
+
 	public bool Deflected{
 		get {
 			return deflected;
@@ -38,7 +40,12 @@ public class Shot : MonoBehaviour {
 
 	void Update () {
 		if (!destroyed){
-			var targetPos = transform.position + targetDirection * shotSpeed * Time.deltaTime;
+			if (!deflected){
+				targetPos = transform.position + targetDirection * shotSpeed * Time.deltaTime;
+			}
+			else{
+				targetPos = transform.position + targetDirection * shotSpeed * 2 * Time.deltaTime;
+			}
 			transform.position = Vector3.MoveTowards(transform.position, targetPos, .5f);
 		}
 	}
@@ -47,6 +54,8 @@ public class Shot : MonoBehaviour {
 		if (lastHit != null && lastHit == last){
 			return;
 		}
+
+		PlayerStats.Instance.AddShotsDeflected();
 
 		deflected = true;
 		particles.startColor = Color.yellow;
@@ -57,6 +66,8 @@ public class Shot : MonoBehaviour {
 
 	public void HitPlayer(){
 		if (!deflected){
+			PlayerStats.Instance.AddShotsHit();
+
 			destroyed = true;
 			ownCollider.enabled = false;
 			this.StartSafeCoroutine(DestroyShot());

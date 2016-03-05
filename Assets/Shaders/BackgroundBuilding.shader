@@ -40,7 +40,6 @@
 					}
 				}
 			}
-
 			o.vertex = mul(UNITY_MATRIX_MVP, v.vertex);
       	}
 

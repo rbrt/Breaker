@@ -446,9 +446,7 @@ public class PlayerController : MonoBehaviour {
 
 	IEnumerator WaitOnPlayerDeathThenQuitToTitle(){
 		yield return this.StartSafeCoroutine(PlayerDeath());
-
-		yield return new WaitForSeconds(1);
-		SceneManager.LoadScene("Title", LoadSceneMode.Single);
+		EndOfRoundMenu.Instance.ShowEndOfRoundMenu(Enums.EndOfRoundStates.Death);
 	}
 
 	IEnumerator PlayerDeath(){

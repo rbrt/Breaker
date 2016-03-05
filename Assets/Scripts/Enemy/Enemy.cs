@@ -50,6 +50,7 @@ public class Enemy : MonoBehaviour {
 			ScoreDisplay.Instance.AddScore(scorePoints);
 			EnemySpawner.Instance.ClearEnemy(this);
 			Shield.Instance.AddShield(shieldReward);
+			PlayerStats.Instance.AddKills();
 		}
 	}
 

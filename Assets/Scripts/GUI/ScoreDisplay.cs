@@ -11,7 +11,7 @@ using System.IO;
 
 public class ScoreDisplay : MonoBehaviour {
 
-	const int scoreLength = 9;
+	const int scoreLength = 8;
 
 	static ScoreDisplay instance;
 
@@ -38,7 +38,16 @@ public class ScoreDisplay : MonoBehaviour {
 
 	void Update () {
 		if (currentScore < actualScore){
-			currentScore++;
+			if (actualScore - currentScore > 30){
+				currentScore += 3;
+			}
+			else if (actualScore - currentScore > 100){
+				currentScore += 10;
+			}
+			else{
+				currentScore++;
+			}
+			
 			scoreText.text = ConvertScoreToString(currentScore);
 		}
 	}
