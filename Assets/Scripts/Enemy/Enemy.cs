@@ -12,6 +12,7 @@ public class Enemy : MonoBehaviour {
 
 	[SerializeField] protected Animator turretAnimator;
 	[SerializeField] protected ParticleSystem shotChargeParticles;
+	[SerializeField] protected ParticleSystem energyParticles;
 
 	[SerializeField] protected Transform turretTransform;
 
@@ -22,15 +23,23 @@ public class Enemy : MonoBehaviour {
 
 	bool dying = false;
 
+	DestroyEnemy destroyEnemyEffect;
+
+	SafeCoroutine shootingCoroutine;
+
 	public int ContactDamage {
 		get {
 			return contactDamage;
 		}
 	}
 
+	void Awake(){
+		destroyEnemyEffect = GetComponent<DestroyEnemy>();
+	}
+
 	void Start () {
 		playerTransform = PlayerController.Instance.transform;
-		this.StartSafeCoroutine(ShootAtPlayer());
+		shootingCoroutine = this.StartSafeCoroutine(ShootAtPlayer());
 	}
 
 	void Update(){
@@ -57,11 +66,24 @@ public class Enemy : MonoBehaviour {
 	void Die(){
 		if (!dying){
 			dying = true;
+
+			GetComponent<Collider>().enabled = false;
+
+			if (shootingCoroutine != null && shootingCoroutine.IsRunning){
+				shootingCoroutine.Stop();
+			}
+
+			this.StartSafeCoroutine(PlayDeath());
 			ScoreDisplay.Instance.AddScore(scorePoints);
-			EnemySpawner.Instance.ClearEnemy(this);
 			Shield.Instance.AddShield(shieldReward);
 			PlayerStats.Instance.AddKills();
 		}
+	}
+
+	IEnumerator PlayDeath(){
+		yield return this.StartSafeCoroutine(destroyEnemyEffect.ExplodeAll());
+		EnemySpawner.Instance.ClearEnemy(this);
+		Destroy(energyParticles.gameObject);
 	}
 
 	public void ShieldDeath(){
@@ -70,8 +92,8 @@ public class Enemy : MonoBehaviour {
 
 	IEnumerator ShootAtPlayer(){
 		yield return new WaitForSeconds(Random.Range(0, .9f));
-		
-		while (true && !PlayerController.Instance.Dead){
+
+		while (true && !PlayerController.Instance.Dead && !dying){
 			if (!DebugMenu.EnemiesDontAttack){
 				shotChargeParticles.startSize = idleShotParticleSize;
 
@@ -112,5 +134,4 @@ public class Enemy : MonoBehaviour {
 			yield return null;
 		}
 	}
-
 }
