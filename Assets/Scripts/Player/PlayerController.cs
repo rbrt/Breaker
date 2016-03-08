@@ -80,9 +80,17 @@ public class PlayerController : MonoBehaviour {
 		instance = this;
 	}
 
+	RaycastHit hit;
+
 	void Update () {
 		if (!dead){
 			HandleInput();
+		}
+
+		if (Physics.Raycast(transform.position, -Vector3.up, out hit)){
+			if (hit.distance > 1 && onGround){
+				onGround = false;
+			}
 		}
 
 		MovePlayer();
