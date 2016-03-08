@@ -40,8 +40,11 @@ public class Shield : MonoBehaviour {
 	}
 
 	void Update(){
-		if (lastShield && !DebugMenu.InfiniteShield){
-			currentShield -= shieldDecay;
+		if (lastShield){
+			lastShieldTime = Time.time;
+			if (!DebugMenu.InfiniteShield){
+				currentShield -= shieldDecay;
+			}
 		}
 		else if (currentShield < maxShield && (Time.time - lastShieldTime > shieldWaitTime)){
 			currentShield += shieldRegen;

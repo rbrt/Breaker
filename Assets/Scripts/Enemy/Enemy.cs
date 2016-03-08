@@ -98,7 +98,7 @@ public class Enemy : MonoBehaviour {
 				shotChargeParticles.startSize = idleShotParticleSize;
 
 				yield return null;
-				
+
 				float delay = shotRate * Time.deltaTime;
 				yield return new WaitForSeconds(delay);
 
