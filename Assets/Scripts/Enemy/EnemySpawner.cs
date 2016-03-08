@@ -19,7 +19,7 @@ public class EnemySpawner : MonoBehaviour {
 
 	const int targetActiveEnemies = 3;
 	const float offscreenBuffer = 20;
-	const float spawnRangeMin = 0;
+	const float spawnRangeMin = 10;
 	const float spawnRangeMax = 20;
 
 	void Awake(){
@@ -86,7 +86,7 @@ public class EnemySpawner : MonoBehaviour {
 
 		float xMod = target.localScale.x / 2 * .7f;
 
-		pos.x += Random.Range(-xMod, xMod);
+		pos.x += Random.Range(0, xMod);
 		pos.z = 0;
 		pos.y = target.position.y + target.localScale.y / 2 + enemy.transform.localScale.y / 2;
 

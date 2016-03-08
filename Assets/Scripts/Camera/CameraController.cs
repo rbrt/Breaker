@@ -29,6 +29,11 @@ public class CameraController : MonoBehaviour {
 																	10));
 	}
 
+	public static bool IsOnscreen(Vector3 testPosition){
+		var test = ScreenPoint(testPosition);
+		return test.x > 0 && test.x < instance.targetCamera.pixelWidth;
+	}
+
 	PlayerController player;
 	Camera targetCamera;
 

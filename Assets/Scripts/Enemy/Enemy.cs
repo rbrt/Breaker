@@ -97,7 +97,10 @@ public class Enemy : MonoBehaviour {
 			if (!DebugMenu.EnemiesDontAttack){
 				shotChargeParticles.startSize = idleShotParticleSize;
 
-				yield return new WaitForSeconds(shotRate * Time.deltaTime);
+				yield return null;
+				
+				float delay = shotRate * Time.deltaTime;
+				yield return new WaitForSeconds(delay);
 
 				for (float i = 0; i < 1; i += Time.deltaTime / .2f){
 					shotChargeParticles.startSize = Mathf.Lerp(idleShotParticleSize, attackingShotParticleSize, i);
