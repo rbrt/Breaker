@@ -41,7 +41,8 @@ public class PlayerController : MonoBehaviour {
 		 onGround = false,
 		 lastShield = false,
 		 dead = false,
-		 damaged = false;
+		 damaged = false,
+		 endingLevel = false;
 
 	Vector3 forceVector,
 			jumpVector;
@@ -83,21 +84,23 @@ public class PlayerController : MonoBehaviour {
 	RaycastHit hit;
 
 	void Update () {
-		if (!dead){
-			HandleInput();
-		}
-
-		if (Physics.Raycast(transform.position, -Vector3.up, out hit)){
-			if (hit.distance > 1 && onGround){
-				onGround = false;
+		if (!LevelController.Instance.RoundOver){
+			if (!dead){
+				HandleInput();
 			}
-		}
 
-		MovePlayer();
-		HandleShields();
+			if (Physics.Raycast(transform.position, -Vector3.up, out hit)){
+				if (hit.distance > 1 && onGround){
+					onGround = false;
+				}
+			}
 
-		if (transform.position.y < yDeathValue){
-			Die();
+			MovePlayer();
+			HandleShields();
+
+			if (transform.position.y < yDeathValue){
+				Die();
+			}
 		}
 	}
 
@@ -423,8 +426,13 @@ public class PlayerController : MonoBehaviour {
 
 		var endOfLevel = other.gameObject.GetComponent<EndOfLevel>();
 		if (endOfLevel != null){
-			
+			if (!LevelController.Instance.RoundOver){
+				LevelController.Instance.RoundOver = true;
+				this.StartSafeCoroutine(MovePlayerToPortalAndEndLevel(EndOfLevel.GetPortalTarget()));
+			}
 		}
+
+		Debug.Log(other.gameObject.name);
 	}
 
 	void OnTriggerEnter(Collider other){
@@ -474,6 +482,28 @@ public class PlayerController : MonoBehaviour {
 		damaged = true;
 		yield return new WaitForSeconds(damageLength);
 		damaged = false;
+	}
+
+	IEnumerator MovePlayerToPortalAndEndLevel(Vector3 portalPosition){
+		this.StartSafeCoroutine(ScaleDown());
+		CameraController.Instance.PanToPortal();
+
+		var startPos = transform.position;
+		for (float i = 0; i < 1; i += Time.deltaTime / .6f){
+			transform.position = Vector3.Lerp(startPos, portalPosition, i);
+			yield return null;
+		}
+
+		yield return new WaitForSeconds(.25f);
+
+		EndOfRoundMenu.Instance.ShowEndOfRoundMenu(Enums.EndOfRoundStates.Victory);
+	}
+
+	IEnumerator ScaleDown(){
+		for (float i = 0; i < 1; i += Time.deltaTime / 1f){
+			transform.localScale = Vector3.Lerp(Vector3.one, Vector3.zero, i);
+			yield return null;
+		}
 	}
 
 	void KeepCompilerWarningsAway(){

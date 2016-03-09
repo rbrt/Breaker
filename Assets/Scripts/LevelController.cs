@@ -14,10 +14,20 @@ public class LevelController : MonoBehaviour {
 		}
 	}
 
-	float distanceTravelled;
+	float distanceTravelled = 0;
+	bool roundOver = false;
 
 	public bool AtEndOfLevel(){
 		return distanceTravelled > (levelDistance - 15f);
+	}
+
+	public bool RoundOver{
+		get {
+			return roundOver;
+		}
+		set {
+			roundOver = value;
+		}
 	}
 
 	public float DistanceTravelled{

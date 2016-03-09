@@ -93,7 +93,7 @@ public class Enemy : MonoBehaviour {
 	IEnumerator ShootAtPlayer(){
 		yield return new WaitForSeconds(Random.Range(0, .9f));
 
-		while (true && !PlayerController.Instance.Dead && !dying){
+		while (true && !PlayerController.Instance.Dead && !dying && !LevelController.Instance.RoundOver){
 			if (!DebugMenu.EnemiesDontAttack){
 				shotChargeParticles.startSize = idleShotParticleSize;
 

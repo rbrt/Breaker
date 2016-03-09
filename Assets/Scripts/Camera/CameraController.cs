@@ -39,6 +39,7 @@ public class CameraController : MonoBehaviour {
 
 	float horizontalThreshold = 15f;
 	bool cameraActive = false;
+	bool panning = false;
 
 	void Awake(){
 		if (instance == null){
@@ -53,12 +54,12 @@ public class CameraController : MonoBehaviour {
 	}
 
 	void Update () {
-		if (!cameraActive){
+		if (!cameraActive || LevelController.Instance.RoundOver){
 			return;
 		}
 
 		Vector3 playerPos = targetCamera.WorldToScreenPoint(player.transform.position);
-		
+
 		LevelController.Instance.DistanceTravelled += cameraSpeed * Time.smoothDeltaTime;
 
 		transform.position = Vector3.MoveTowards(
@@ -68,7 +69,26 @@ public class CameraController : MonoBehaviour {
 							 );
 	}
 
+	public void PanToPortal(){
+		if (!panning){
+			this.StartSafeCoroutine(PanToTarget(EndOfLevel.GetPortalTarget()));
+		}
+	}
+
 	public void StopScrollingCamera(){
 		cameraActive = false;
+	}
+
+	IEnumerator PanToTarget(Vector3 position){
+		while (ScreenPoint(position).x > targetCamera.pixelWidth / 2){
+			transform.position = Vector3.MoveTowards(
+									transform.position,
+									transform.position + Vector3.right * cameraSpeed * Time.smoothDeltaTime,
+									5f
+								 );
+			yield return null;
+		}
+
+		panning = false;
 	}
 }
