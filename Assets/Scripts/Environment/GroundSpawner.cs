@@ -7,6 +7,8 @@ public class GroundSpawner : MonoBehaviour {
 
 	static GroundSpawner instance;
 
+	const int groundElementCount = 3;
+
 	public static GroundSpawner Instance{
 		get {
 			return instance;
@@ -30,13 +32,13 @@ public class GroundSpawner : MonoBehaviour {
 		Vector3 startPos = new Vector3(0, (-5 / 2) - 1.5f, 0);
 		groundElements.Add(SpawnGroundBlock(30, 5, startPos));
 
-		while (groundElements.Count < 5){
+		while (groundElements.Count < groundElementCount){
 			SpawnNextBlock();
 		}
 	}
 
 	void Update(){
-		if (groundElements.Count < 5){
+		if (groundElements.Count < groundElementCount && !LevelController.Instance.AtEndOfLevel()){
 			SpawnNextBlock();
 		}
 	}

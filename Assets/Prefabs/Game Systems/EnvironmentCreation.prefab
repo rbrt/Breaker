@@ -28,6 +28,7 @@ GameObject:
   - 114: {fileID: 11479684}
   - 114: {fileID: 11483186}
   - 114: {fileID: 11406880}
+  - 114: {fileID: 11466140}
   m_Layer: 0
   m_Name: EnvironmentCreation
   m_TagString: Untagged
@@ -116,6 +117,18 @@ MonoBehaviour:
     type: 2}
   buildingTopComponent: {fileID: 109434, guid: 1402b1e88ad0846109656ce62545cb45, type: 2}
   buildingRoot: {fileID: 479546}
+--- !u!114 &11466140
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 132288}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71cfce9dc8a014d17abb6ad1577bbfee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  endOfLevelPrefab: {fileID: 194844, guid: ace65a707dd5e4d529d4820f7ca69157, type: 2}
 --- !u!114 &11479684
 MonoBehaviour:
   m_ObjectHideFlags: 1

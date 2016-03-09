@@ -420,6 +420,11 @@ public class PlayerController : MonoBehaviour {
 		if (enemy != null){
 			TakeDamage(enemy.ContactDamage);
 		}
+
+		var endOfLevel = other.gameObject.GetComponent<EndOfLevel>();
+		if (endOfLevel != null){
+			
+		}
 	}
 
 	void OnTriggerEnter(Collider other){

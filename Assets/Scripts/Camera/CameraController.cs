@@ -58,13 +58,8 @@ public class CameraController : MonoBehaviour {
 		}
 
 		Vector3 playerPos = targetCamera.WorldToScreenPoint(player.transform.position);
-
-		if (playerPos.x - horizontalThreshold < 0){
-
-		}
-		else if (playerPos.x + horizontalThreshold > targetCamera.pixelWidth){
-
-		}
+		
+		LevelController.Instance.DistanceTravelled += cameraSpeed * Time.smoothDeltaTime;
 
 		transform.position = Vector3.MoveTowards(
 								transform.position,

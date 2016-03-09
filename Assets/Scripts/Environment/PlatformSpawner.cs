@@ -14,7 +14,7 @@ public class PlatformSpawner : MonoBehaviour {
 	}
 
 	const float groundHeight = -1.5f;
-	const int platformCount = 10;
+	const int platformCount = 4;
 
 	float minHeight = groundHeight + 2;
 	float maxHeight = 5;
@@ -43,7 +43,7 @@ public class PlatformSpawner : MonoBehaviour {
 	}
 
 	void Update () {
-		if (platformElements.Count < platformCount){
+		if (platformElements.Count < platformCount && !LevelController.Instance.AtEndOfLevel()){
 			SpawnNextBlock();
 		}
 	}
