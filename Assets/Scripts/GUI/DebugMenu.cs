@@ -20,6 +20,7 @@ public class DebugMenu : MonoBehaviour {
 	[SerializeField] protected Image noEnemiesButton;
 	[SerializeField] protected Image refillShieldButton;
 	[SerializeField] protected Image refillHealthButton;
+	[SerializeField] protected Image fpsDisplayButton;
 
 	static bool invincible = false;
 	static bool infiniteShield = false;
@@ -107,6 +108,17 @@ public class DebugMenu : MonoBehaviour {
 	public void RefillHealth(){
 		if (PlayerController.Instance != null){
 			PlayerController.Instance.FillHealth();
+		}
+	}
+
+	public void ToggleFPSDisplay(){
+		FPSDisplay.ShowFPS = !FPSDisplay.ShowFPS;
+
+		if (FPSDisplay.ShowFPS){
+			fpsDisplayButton.color = activeColor;
+		}
+		else{
+			fpsDisplayButton.color = inactiveColor;
 		}
 	}
 
