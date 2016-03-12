@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09ad9ddc0e5b942a98ec392b434d39bd, type: 3}
+  m_Name: FabricSettings
+  m_EditorClassIdentifier: 
+  email: robbutler902@gmail.com
+  rawToken: '{"access_token":"4ae9909ae02b2c0d18351abdaf08fefee5f9fd90d6c46448acc0a9a5876386cf","refresh_token":"68df0ecaf5dea88f6c3372b805a1d2a877a3dc177b65cc547b41fed5deb93f32","token_type":"bearer","expires_in":86400}'
+  organization:
+    Name: GreyChannel
+    Id: 56e0d8dc92d1372f9d00003f
+    ApiKey: 2ca4e0d7c996382a391ea30b75a40f94a130651c
+    BuildSecret: a60dcf878e0fc7558245dc1270934ab195b98ebb596adaf08969b26fe60c2d66
+  iconUrl: https://s3.amazonaws.com/assets.crashlytics.com/production/project/5065325/build_version/36809007/icon/20884254/icon.png
+  dashboardUrl: https://www.fabric.io/greychannel/ios/apps/com.greychannel.shieldbreakers
+  flowSequence: 0
+  kit: 
+  installedKits:
+  - Name: Crashlytics
+    Installed: 1
+    Enabled: 1
+    Meta: []
+  - Name: Twitter
+    Installed: 1
+    Enabled: 1
+    Meta:
+    - Key: TwitterKey
+      Value: oA8D6lJALsVzW0M7fFJaXVyXr
+      Platform: android
+    - Key: TwitterSecret
+      Value: Zofhpkf9Lo5G71GLsjRWPbmMZwibfctwrBIc7MGGjYcSRKZw5U
+      Platform: android
+    - Key: TwitterKey
+      Value: YeCKLzwZOA9pbySTu5QMNlXc5
+      Platform: ios
+    - Key: TwitterSecret
+      Value: ttiAPejGXi4wZVpN3rE7D6SOZp5iLUAqwMM48FgKH1TkiMrYQo
+      Platform: ios

@@ -3,6 +3,9 @@
 	Properties
 	{
 		_MainTex ("Texture", 2D) = "white" {}
+		_TestTex1 ("Test1", 2D) = "white" {}
+		_TestTex2 ("Test2", 2D) = "white" {}
+		_Step ("Step", Range(0,1)) = 0
 	}
 	SubShader
 	{
@@ -12,8 +15,6 @@
 		Pass
 		{
 			CGPROGRAM
-// Upgrade NOTE: excluded shader from DX11, Xbox360, OpenGL ES 2.0 because it uses unsized arrays
-#pragma exclude_renderers d3d11 xbox360 gles
 			#pragma vertex vert
 			#pragma fragment frag
 
@@ -30,7 +31,10 @@
 			};
 
 			sampler2D _MainTex;
+			sampler2D _TestTex1;
+			sampler2D _TestTex2;
 			float4 _MainTex_ST;
+			float _Step;
 
 			v2f vert (appdata v)
 			{
@@ -44,22 +48,39 @@
 			{
 				fixed4 col = tex2D(_MainTex, i.uv);
 				float max = 100;
+				float blend = 0;
 				float2 testCoords = i.uv;
 				testCoords.x += sin(col.r + _Time.w) * .1;
 				testCoords.y += cos(col.g + _Time.w) * .1;
 
-				if (fmod(cos(testCoords.y) + sin(testCoords.x), .3) > .15){
-					testCoords.x += (sin(testCoords.y) + 1) / 2 * (_SinTime.w) * (fmod(testCoords.y, .3) / .3);
-				}
+				float points = 50.0;
 
-				for (int index = 0; index < 50; index++){
-					fixed4 sample = tex2D(_MainTex, half2(index * _SinTime.x * .05f / 50.0, index / 50.0));
+				for (int index = 0; index < points; index++){
+					fixed4 sample = tex2D(_MainTex, half2(index * _SinTime.x * .05f / points, index / points));
 					if (distance(testCoords, sample.xy) < max){
 						max = distance(testCoords, sample.xy);
-						col = sample / max * .075;
-						//col = sample;
+						// Get our blend value
+						blend = lerp(sample, max, _Step) / max * (_Step * _Step);
 					}
 				}
+
+				// Coords should deform then return to normal as zero goes to one
+				float2 blendCoords;
+				if (blend < .5){
+					blendCoords = lerp(i.uv, testCoords, blend * 2);
+				}
+				else{
+					blendCoords = lerp(testCoords, i.uv, (blend - .5) * 2);
+				}
+
+				blend = saturate(blend);
+				//blend = floor(blend) / blend;
+				//blend = fmod(blend, 1);
+
+				col = lerp(tex2D(_TestTex1, blendCoords),
+						   tex2D(_TestTex2, blendCoords),
+						   blend);
+
 				return col;
 			}
 			ENDCG

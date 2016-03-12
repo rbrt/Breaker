@@ -116,7 +116,7 @@ PlayerSettings:
     serializedVersion: 2
     m_Bits: 4294967295
   iPhoneSdkVersion: 988
-  iPhoneTargetOSVersion: 22
+  iPhoneTargetOSVersion: 30
   uIPrerenderedIcon: 0
   uIRequiresPersistentWiFi: 0
   uIRequiresFullScreen: 1

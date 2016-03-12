@@ -78,6 +78,20 @@ Material:
           m_Texture: {fileID: 0}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _TestTex1
+        second:
+          m_Texture: {fileID: 2800000, guid: 2422c434e9cc04fe598c0aac29749f9a, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _TestTex2
+        second:
+          m_Texture: {fileID: 2800000, guid: f007df01f5f2c4f14a9dfa86a0c28e7b, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
     m_Floats:
       data:
         first:
@@ -126,6 +140,18 @@ Material:
       data:
         first:
           name: _Metallic
+        second: 0
+      data:
+        first:
+          name: _Step
+        second: 0.4
+      data:
+        first:
+          name: _Param1
+        second: 1
+      data:
+        first:
+          name: _Param2
         second: 0
     m_Colors:
       data:

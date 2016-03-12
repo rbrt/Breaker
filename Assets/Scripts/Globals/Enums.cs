@@ -7,4 +7,11 @@ public class Enums : MonoBehaviour {
 		Death,
 		Victory
 	}
+
+	public enum CameraRoles {
+		Viewport,
+		Gameplay,
+		Menu,
+		GUI
+	}
 }

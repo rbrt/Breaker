@@ -431,8 +431,6 @@ public class PlayerController : MonoBehaviour {
 				this.StartSafeCoroutine(MovePlayerToPortalAndEndLevel(EndOfLevel.GetPortalTarget()));
 			}
 		}
-
-		Debug.Log(other.gameObject.name);
 	}
 
 	void OnTriggerEnter(Collider other){
