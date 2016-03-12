@@ -34,10 +34,8 @@ public class CameraController : MonoBehaviour {
 		return test.x > 0 && test.x < instance.targetCamera.pixelWidth;
 	}
 
-	PlayerController player;
 	Camera targetCamera;
 
-	float horizontalThreshold = 15f;
 	bool cameraActive = false;
 	bool panning = false;
 
@@ -50,15 +48,12 @@ public class CameraController : MonoBehaviour {
 
 	void Start () {
 		targetCamera = GetComponent<Camera>();
-		player = PlayerController.Instance;
 	}
 
 	void Update () {
 		if (!cameraActive || LevelController.Instance.RoundOver){
 			return;
 		}
-
-		Vector3 playerPos = targetCamera.WorldToScreenPoint(player.transform.position);
 
 		LevelController.Instance.DistanceTravelled += cameraSpeed * Time.smoothDeltaTime;
 

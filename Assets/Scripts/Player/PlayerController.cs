@@ -41,8 +41,7 @@ public class PlayerController : MonoBehaviour {
 		 onGround = false,
 		 lastShield = false,
 		 dead = false,
-		 damaged = false,
-		 endingLevel = false;
+		 damaged = false;
 
 	Vector3 forceVector,
 			jumpVector;

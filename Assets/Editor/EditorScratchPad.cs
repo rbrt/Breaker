@@ -25,4 +25,9 @@ public class EditorScratchPad : MonoBehaviour {
     public static void TimeTo1(){
         Time.timeScale = 1f;
     }
+
+    [MenuItem("Custom/Transitions/Transition From Menu To Gameplay")]
+    public static void TestTransitionFromMenuToGameplay(){
+        TransitionRig.Instance.TransitionFromMenuToGameplay();
+    }
 }

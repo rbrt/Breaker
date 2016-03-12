@@ -89,6 +89,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 445030}
+  - 114: {fileID: 11419338}
   m_Layer: 0
   m_Name: Core Systems
   m_TagString: Untagged
@@ -239,6 +240,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fa60baff80e224d47a76b93ac37c4c74, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &11419338
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 139418}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00011208137164a2bb2d48d553d9a788, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &11431940

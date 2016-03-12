@@ -21,14 +21,12 @@ public class TerrainManager : MonoBehaviour {
 
 	GroundSpawner groundSpawner;
 	PlatformSpawner platformSpawner;
-	EndOfLevelSpawner endOfLevelSpawner;
 
 	void Awake(){
 		if (instance == null){
 			instance = this;
 			groundSpawner = GetComponent<GroundSpawner>();
 			platformSpawner = GetComponent<PlatformSpawner>();
-			endOfLevelSpawner = GetComponent<EndOfLevelSpawner>();
 		}
 		else{
 			Debug.LogWarning("Destroyed duplicate instance of TerrainManager");

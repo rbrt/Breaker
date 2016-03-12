@@ -7,7 +7,7 @@ public class GUIController : MonoBehaviour {
 	[SerializeField] protected Canvas guiCanvas;
 
 	void Awake () {
-		this.StartSafeCoroutine(WaitForGameplayCameraAndSetCanvas());
+		//this.StartSafeCoroutine(WaitForGameplayCameraAndSetCanvas());
 	}
 
 	IEnumerator WaitForGameplayCameraAndSetCanvas(){
