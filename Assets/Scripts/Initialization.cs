@@ -9,6 +9,8 @@ public class Initialization : MonoBehaviour {
 
 	void Awake(){
 		Application.targetFrameRate = targetFPS;
-		GameObject.Instantiate(guiPrefab);
+		var gui = GameObject.Instantiate(guiPrefab);
+
+		gui.GetComponent<Canvas>().worldCamera = TransitionRig.Instance.GameplayUICamera;
 	}
 }

@@ -15,15 +15,6 @@ public class GUIController : MonoBehaviour {
 	[SerializeField] protected Canvas guiCanvas;
 
 	void Awake () {
-		this.StartSafeCoroutine(WaitForGameplayCameraAndSetCanvas());
 		instance = this;
-	}
-
-	IEnumerator WaitForGameplayCameraAndSetCanvas(){
-		while (CameraManager.Instance.GUICamera == null){
-			yield return null;
-		}
-
-		guiCanvas.worldCamera = CameraManager.Instance.GUICamera;
 	}
 }

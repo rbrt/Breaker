@@ -29,6 +29,6 @@ public class TitleMenu : MonoBehaviour {
 	}
 
 	public void StartNewGame(){
-		SceneManager.LoadScene(gameSceneName, LoadSceneMode.Additive);
+		TransitionRig.Instance.TransitionFromMenuToGameplay();
 	}
 }
