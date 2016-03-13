@@ -87,13 +87,14 @@ public class TransitionRig : MonoBehaviour {
 
 		yield return this.StartSafeCoroutine(transitionHandler.TransitionToA(time: 1.5f));
 
+		yield return new WaitForEndOfFrame();
 		gameplayUI.enabled = false;
 		gameplayGame.enabled = false;
 		menuUI.enabled = false;
 		viewportCamera.enabled = false;
 
 		Destroy(MenuTransitionSetup.Instance.gameObject);
-		yield return new WaitForEndOfFrame();
+
 		GUIController.Instance.GetComponent<Canvas>().worldCamera = null;
 	}
 
@@ -114,7 +115,8 @@ public class TransitionRig : MonoBehaviour {
 		var gameGUICanvas = GUIController.Instance.GetComponent<Canvas>();
 
 		yield return new WaitForEndOfFrame();
-		gameGUICanvas.worldCamera = gameplayUI;
+		gameGUICanvas.worldCamera = gameplayGame;
+		gameGUICanvas.planeDistance = 1;
 	}
 
 	IEnumerator FollowGameCamera(Camera transitionCamera, Camera gameCamera){
