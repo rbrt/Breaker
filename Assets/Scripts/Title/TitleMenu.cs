@@ -29,6 +29,6 @@ public class TitleMenu : MonoBehaviour {
 	}
 
 	public void StartNewGame(){
-		SceneManager.LoadScene(gameSceneName, LoadSceneMode.Single);
+		SceneManager.LoadScene(gameSceneName, LoadSceneMode.Additive);
 	}
 }

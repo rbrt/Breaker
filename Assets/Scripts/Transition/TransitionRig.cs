@@ -1,4 +1,6 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using System.Collections;
 using System.Linq;
 
@@ -52,6 +54,8 @@ public class TransitionRig : MonoBehaviour {
 	}
 
 	public void TransitionFromMenuToGameplay(){
+		SceneManager.LoadScene("Prototyping", LoadSceneMode.Additive);
+
 		this.StartSafeCoroutine(Handoff());
 	}
 
@@ -66,6 +70,12 @@ public class TransitionRig : MonoBehaviour {
 	}
 
 	IEnumerator Handoff(){
+		while (CameraManager.Instance.GameCamera == null){
+			yield return null;
+		}
+
+		yield return this.StartSafeCoroutine(SetUpGameElements());
+
 		var menuCam = MenuTransitionSetup.Instance.MenuCamera;
 		var menuCanvas = MenuTransitionSetup.Instance.MenuCanvas;
 
@@ -80,5 +90,23 @@ public class TransitionRig : MonoBehaviour {
 		yield return new WaitForEndOfFrame();
 		menuCanvas.worldCamera = menuUI;
 	    viewportCamera.enabled = true;
+	}
+
+	IEnumerator SetUpGameElements(){
+		var rt = new RenderTexture(Screen.width, Screen.height, 16, RenderTextureFormat.ARGB32);
+        rt.Create();
+
+		gameplayUI.targetTexture = rt;
+		gameplayGame.targetTexture = rt;
+		transitionHandler.SetGameplayTexture(rt);
+
+		while (GUIController.Instance == null){
+			yield return null;
+		}
+
+		var gameGUICanvas = GUIController.Instance.GetComponent<Canvas>();
+
+		yield return new WaitForEndOfFrame();
+		gameGUICanvas.worldCamera = gameplayUI;
 	}
 }
