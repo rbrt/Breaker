@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.EventSystems;
 using System.Collections;
 using System.Linq;
 
@@ -96,6 +97,13 @@ public class TransitionRig : MonoBehaviour {
 		Destroy(MenuTransitionSetup.Instance.gameObject);
 
 		GUIController.Instance.GetComponent<Canvas>().worldCamera = null;
+
+		var eventSystem = GUIController.Instance.GetComponentInChildren<EventSystem>();
+		eventSystem.enabled = false;
+
+		yield return null;
+
+		eventSystem.enabled = true;
 	}
 
 	IEnumerator SetUpGameTransitionElements(){
