@@ -14,14 +14,6 @@ public class TitleMenu : MonoBehaviour {
 
 	const string gameSceneName = "Prototyping";
 
-	void Awake(){
-
-	}
-
-	void Start () {
-
-	}
-
 	void Update () {
 		if (Input.GetKeyDown(KeyCode.Return)){
 			StartNewGame();
@@ -29,6 +21,7 @@ public class TitleMenu : MonoBehaviour {
 	}
 
 	public void StartNewGame(){
+		LevelController.Instance.StartLevel();
 		TransitionRig.Instance.TransitionFromMenuToGameplay();
 	}
 }

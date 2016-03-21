@@ -39,6 +39,10 @@ public class LevelController : MonoBehaviour {
 		}
 	}
 
+	public void StartLevel(){
+		roundOver = false;
+	}
+
 	void Awake(){
 		if (instance == null){
 			instance = this;

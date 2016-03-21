@@ -74,10 +74,16 @@ public class PlayerController : MonoBehaviour {
 	bool releasedDown = false;
 
 	void Awake () {
-		forceVector = Vector3.zero;
-		jumpVector = Vector3.zero;
-		playerAttributes = GetComponent<PlayerAttributes>();
-		instance = this;
+		if (instance == null){
+			forceVector = Vector3.zero;
+			jumpVector = Vector3.zero;
+			playerAttributes = GetComponent<PlayerAttributes>();
+			instance = this;
+		}
+		else{
+			Debug.Log("Destroyed duplicate instance of PlayerController");
+			Destroy(this.gameObject);
+		}
 	}
 
 	RaycastHit hit;

@@ -25,6 +25,8 @@ public class TransitionRig : MonoBehaviour {
 
 	HandleTransition transitionHandler;
 
+	bool renderTransition = false;
+
 	public Camera GameplayUICamera {
 		get {
 			return gameplayUI;
@@ -42,6 +44,20 @@ public class TransitionRig : MonoBehaviour {
 		}
 	}
 
+	void Update(){
+		if (renderTransition){
+			menuUI.Render();
+			gameplayUI.Render();
+			gameplayGame.Render();
+		}
+	}
+
+	void DisableChildren(){
+		gameplayTransitionRig.SetActive(false);
+		menuTransitionRig.SetActive(false);
+		viewportCamera.gameObject.SetActive(false);
+	}
+
 	Camera GetChildCameraForRole(GameObject parent, Enums.CameraRoles role){
 		return parent.GetComponentsInChildren<CameraRole>()
 					 .FirstOrDefault(child => child.role == role)
@@ -50,19 +66,19 @@ public class TransitionRig : MonoBehaviour {
 
 	public void TransitionFromMenuToGameplay(){
 		SceneManager.LoadScene("Prototyping", LoadSceneMode.Additive);
-
+		this.StartSafeCoroutine(SetActiveSceneWhenReady());
 		this.StartSafeCoroutine(Handoff());
 	}
 
-	bool renderTransition = false;
-
-	void Update(){
-		if (renderTransition){
-			menuUI.Render();
-			gameplayUI.Render();
-			gameplayGame.Render();
+	IEnumerator SetActiveSceneWhenReady(){
+		var scene = SceneManager.GetSceneByName("Prototyping");
+		while (!scene.isLoaded){
+			scene = SceneManager.GetSceneByName("Prototyping");
+			yield return null;
 		}
+		SceneManager.SetActiveScene(scene);
 	}
+
 
 	IEnumerator Handoff(){
 		while (CameraManager.Instance.GameCamera == null){
@@ -103,7 +119,10 @@ public class TransitionRig : MonoBehaviour {
 
 		yield return null;
 
+		renderTransition = false;
+
 		eventSystem.enabled = true;
+		DisableChildren();
 	}
 
 	IEnumerator SetUpGameTransitionElements(){
