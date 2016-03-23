@@ -46,6 +46,7 @@ public class LevelController : MonoBehaviour {
 	void Awake(){
 		if (instance == null){
 			instance = this;
+			GUIController.Instance.ShowGameplayCanvas();
 		}
 		else{
 			Destroy(this.gameObject);

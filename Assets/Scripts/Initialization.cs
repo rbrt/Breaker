@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Linq;
 
 public class Initialization : MonoBehaviour {
 
@@ -11,6 +12,13 @@ public class Initialization : MonoBehaviour {
 		Application.targetFrameRate = targetFPS;
 		var gui = GameObject.Instantiate(guiPrefab);
 
-		gui.GetComponent<Canvas>().worldCamera = TransitionRig.Instance.GameplayUICamera;
+		if (TransitionRig.Instance != null){
+			gui.GetComponent<Canvas>().worldCamera = TransitionRig.Instance.GameplayUICamera;
+		}
+		else{
+			gui.GetComponent<Canvas>().worldCamera = FindObjectsOfType<CameraRole>()
+													 .FirstOrDefault(role => role.role == Enums.CameraRoles.Gameplay)
+													 .GetComponent<Camera>();
+		}
 	}
 }

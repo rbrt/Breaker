@@ -64,21 +64,25 @@ public class TransitionRig : MonoBehaviour {
 					 .GetComponent<Camera>();
 	}
 
+	public void TransitionFromGameplayToEndOfRound(){
+		// Handle transition here
+		LoadingController.LoadEndOfRoundScene();
+	}
+
+	public void TransitionFromEndOfRoundToGameplay(){
+		// Handle transition here
+		LoadingController.LoadGameplayScene();
+	}
+
 	public void TransitionFromMenuToGameplay(){
-		SceneManager.LoadScene("Prototyping", LoadSceneMode.Additive);
+		LoadingController.LoadGameplayScene(additive: true);
 		this.StartSafeCoroutine(SetActiveSceneWhenReady());
 		this.StartSafeCoroutine(Handoff());
 	}
 
 	IEnumerator SetActiveSceneWhenReady(){
-		var scene = SceneManager.GetSceneByName("Prototyping");
-		while (!scene.isLoaded){
-			scene = SceneManager.GetSceneByName("Prototyping");
-			yield return null;
-		}
-		SceneManager.SetActiveScene(scene);
+		yield return this.StartSafeCoroutine(LoadingController.SetGameplaySceneActiveWhenLoaded());
 	}
-
 
 	IEnumerator Handoff(){
 		while (CameraManager.Instance.GameCamera == null){
@@ -139,7 +143,7 @@ public class TransitionRig : MonoBehaviour {
 			yield return null;
 		}
 
-		var gameGUICanvas = GUIController.Instance.GetComponent<Canvas>();
+		var gameGUICanvas = GUIController.Instance.GUICanvas;
 
 		yield return new WaitForEndOfFrame();
 		gameGUICanvas.worldCamera = gameplayGame;

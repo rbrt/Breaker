@@ -32,15 +32,15 @@ public class EndOfRoundMenu : MonoBehaviour {
 	}
 
 	public void MenuButton(){
-		SceneManager.LoadScene("Title", LoadSceneMode.Single);
+		LoadingController.LoadTitleScene();
 	}
 
 	public void NextButton(){
 		if (currentState == Enums.EndOfRoundStates.Death){
-			SceneManager.LoadScene("Prototyping", LoadSceneMode.Single);
+			LoadingController.LoadGameplayScene();
 		}
 		else if (currentState == Enums.EndOfRoundStates.Victory){
-			SceneManager.LoadScene("Title", LoadSceneMode.Single);
+			LoadingController.LoadTitleScene();
 		}
 	}
 

@@ -7,12 +7,10 @@
 		Tags { "Queue"="Transparent" "IgnoreProjector"="True" "RenderType"="Transparent" }
 		LOD 200
 
-		Blend SrcAlpha OneMinusSrcAlpha
-
 		Cull Off
 
 		CGPROGRAM
-		#pragma surface surf Lambert alpha:fade
+		#pragma surface surf Lambert alpha:blend
 		#pragma vertex vert
 
 		#include "UnityCG.cginc"
@@ -29,6 +27,7 @@
 		void vert (inout appdata_base v, out Input o) {
 			UNITY_INITIALIZE_OUTPUT(Input, o);
 
+			v.vertex.xyz += v.normal * .02 * (sin(_Time.y * 10 + v.vertex.x - v.vertex.z * v.vertex.y));
 			o.vertex = mul(UNITY_MATRIX_MVP, v.vertex);
 			o.yPos = v.vertex.y;
       	}
@@ -42,7 +41,7 @@
 			float4 c = _Color;
 
 			o.Albedo = c.rgb;
-			o.Alpha = abs((fmod(uv.y * 5, width) * 2) - width);
+			o.Alpha = abs((fmod(uv.y * 5, width) * 2) - width) * _Color.a * 2;
 		}
 		ENDCG
 	}

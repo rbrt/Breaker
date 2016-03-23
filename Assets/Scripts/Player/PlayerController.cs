@@ -499,7 +499,7 @@ public class PlayerController : MonoBehaviour {
 
 		yield return new WaitForSeconds(.25f);
 
-		EndOfRoundMenu.Instance.ShowEndOfRoundMenu(Enums.EndOfRoundStates.Victory);
+		TransitionRig.Instance.TransitionFromGameplayToEndOfRound();
 	}
 
 	IEnumerator ScaleDown(){
