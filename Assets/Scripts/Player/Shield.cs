@@ -11,6 +11,8 @@ public class Shield : MonoBehaviour {
 		}
 	}
 
+	[SerializeField] protected Shader shieldShader;
+
 	const float maxShield = 100;
 	const float shieldDecay = 1f;
 	const float shieldRegen = .05f;
@@ -33,6 +35,8 @@ public class Shield : MonoBehaviour {
 		lastShieldTime = Time.time;
 		shieldRenderer = GetComponent<MeshRenderer>();
 		shieldRenderer.material = new Material(shieldRenderer.material);
+		shieldRenderer.material.shader = shieldShader;
+		
 		var color = shieldRenderer.material.GetColor("_Color");
 		maxAlpha = color.a;
 		color.a = 0;

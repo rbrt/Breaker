@@ -41,17 +41,24 @@ public class LevelController : MonoBehaviour {
 
 	public void StartLevel(){
 		roundOver = false;
+		this.StartSafeCoroutine(WaitForGUIControllerThenDisplayGameplayGUI());
 	}
 
 	void Awake(){
 		if (instance == null){
 			instance = this;
-			GUIController.Instance.ShowGameplayCanvas();
 		}
 		else{
 			Destroy(this.gameObject);
 			Debug.Log("Destroyed duplicate instance of LevelController");
 		}
+	}
+
+	IEnumerator WaitForGUIControllerThenDisplayGameplayGUI(){
+		while (GUIController.Instance == null){
+			yield return null;
+		}
+		GUIController.Instance.ShowGameplayCanvas();
 	}
 
 }
