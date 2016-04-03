@@ -5,7 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-public class EndOfRoundMenu : MonoBehaviour {
+public class EndOfRoundMenu : Singleton<EndOfRoundMenu> {
 
 	[SerializeField] protected Animator menuAnimator;
 
@@ -15,21 +15,12 @@ public class EndOfRoundMenu : MonoBehaviour {
 	[SerializeField] protected Text timesHitResultText;
 	[SerializeField] protected Text killsResultText;
 
-
-	static EndOfRoundMenu instance;
-
 	static string menuAnimatorString = "MenuOpen";
 	static string retryString = "Retry";
 	static string continueString = "Continue";
 	static string menuString = "Menu";
 
 	Enums.EndOfRoundStates currentState;
-
-	public static EndOfRoundMenu Instance {
-		get {
-			return instance;
-		}
-	}
 
 	public void MenuButton(){
 		LoadingController.LoadTitleScene();
@@ -65,16 +56,6 @@ public class EndOfRoundMenu : MonoBehaviour {
 
 	public void HideEndOfRoundMenu(){
 		menuAnimator.SetBool(menuAnimatorString, false);
-	}
-
-	void Awake(){
-		if (instance == null){
-			instance = this;
-		}
-		else{
-			Debug.Log("Destroyed duplicate instance of EndOfRoundMenu");
-			Destroy(this.gameObject);
-		}
 	}
 
 }

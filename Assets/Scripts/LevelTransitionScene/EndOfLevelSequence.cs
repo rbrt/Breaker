@@ -4,15 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-public class EndOfLevelSequence : MonoBehaviour {
-
-	static EndOfLevelSequence instance;
-
-	public static EndOfLevelSequence Instance {
-		get {
-			return instance;
-		}
-	}
+public class EndOfLevelSequence : Singleton<EndOfLevelSequence> {
 
 	[SerializeField] protected GameObject transitionPlayer;
 	[SerializeField] protected Animator transitionPlayerAnimator;
@@ -23,8 +15,7 @@ public class EndOfLevelSequence : MonoBehaviour {
 
 	float runSpeed = 1.5f;
 
-	void Awake(){
-		instance = this;
+	protected override void Startup(){
 		var pos = transitionPlayer.transform.position;
 		pos.x = offscreenXLeft;
 

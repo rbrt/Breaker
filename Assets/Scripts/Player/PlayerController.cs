@@ -3,23 +3,15 @@ using UnityEngine.SceneManagement;
 using System.Collections;
 using System.Linq;
 
-public class PlayerController : MonoBehaviour {
+public class PlayerController : Singleton<PlayerController> {
 
 	enum TouchTypes {TouchLeft, TouchUp, TouchRight, TouchDown, None}
-
-	static PlayerController instance;
 
 	[SerializeField] protected Shield shield;
 	[SerializeField] protected ParticleSystem deathParticles;
 	[SerializeField] protected PlayerAnimatorController playerAnimatorController;
 
 	const float yDeathValue = -6;
-
-	public static PlayerController Instance {
-		get {
-			return instance;
-		}
-	}
 
 	public bool Shielding {
 		get {
@@ -73,17 +65,10 @@ public class PlayerController : MonoBehaviour {
 	bool releasedLeft = false;
 	bool releasedDown = false;
 
-	void Awake () {
-		if (instance == null){
-			forceVector = Vector3.zero;
-			jumpVector = Vector3.zero;
-			playerAttributes = GetComponent<PlayerAttributes>();
-			instance = this;
-		}
-		else{
-			Debug.Log("Destroyed duplicate instance of PlayerController");
-			Destroy(this.gameObject);
-		}
+	protected override void Startup(){
+		forceVector = Vector3.zero;
+		jumpVector = Vector3.zero;
+		playerAttributes = GetComponent<PlayerAttributes>();
 	}
 
 	RaycastHit hit;

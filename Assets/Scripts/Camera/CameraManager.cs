@@ -1,15 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class CameraManager : MonoBehaviour {
-
-	static CameraManager instance;
-
-	public static CameraManager Instance {
-		get {
-			return instance;
-		}
-	}
+public class CameraManager : Singleton<CameraManager> {
 
 	Camera gameCamera;
 	Camera menuCamera;
@@ -42,16 +34,6 @@ public class CameraManager : MonoBehaviour {
 		}
 	}
 
-	void Awake(){
-		if (instance == null){
-			instance = this;
-		}
-		else{
-			Destroy(this.gameObject);
-			Debug.Log("Destroyed duplicate instance of CameraManager");
-		}
-	}
-
 	IEnumerator Start(){
 		while (viewportCamera == null){
 			yield return null;
@@ -62,46 +44,46 @@ public class CameraManager : MonoBehaviour {
 
 	public static void RegisterForRole(Camera targetCamera, Enums.CameraRoles role){
 		if (role == Enums.CameraRoles.Viewport){
-			instance.viewportCamera = targetCamera;
-			instance.transitionHandler = targetCamera.GetComponentInChildren<HandleTransition>();
+			Instance.viewportCamera = targetCamera;
+			Instance.transitionHandler = targetCamera.GetComponentInChildren<HandleTransition>();
 		}
 		else if (role == Enums.CameraRoles.Gameplay){
-			instance.gameCamera = targetCamera;
+			Instance.gameCamera = targetCamera;
 		}
 		else if (role == Enums.CameraRoles.Menu){
-			instance.menuCamera = targetCamera;
+			Instance.menuCamera = targetCamera;
 		}
 		else if (role == Enums.CameraRoles.GUI){
-			instance.guiCamera = targetCamera;
+			Instance.guiCamera = targetCamera;
 		}
 	}
 
 	public static void TransitionToMenuView(bool instant = false){
-		if (instance == null || instance.transitionHandler == null){
-			Debug.LogError("Tried to transition but instance or transitionHandler was null.");
+		if (Instance == null || Instance.transitionHandler == null){
+			Debug.LogError("Tried to transition but Instance or transitionHandler was null.");
 			return;
 		}
 
 		if (instant){
-			instance.StartSafeCoroutine(instance.transitionHandler.TransitionToB(time: 0));
+			Instance.StartSafeCoroutine(Instance.transitionHandler.TransitionToB(time: 0));
 		}
 		else{
-			instance.StartSafeCoroutine(instance.transitionHandler.TransitionToB());
+			Instance.StartSafeCoroutine(Instance.transitionHandler.TransitionToB());
 		}
 
 	}
 
 	public static void TransitionToGameView(bool instant = false){
-		if (instance == null || instance.transitionHandler == null){
-			Debug.LogError("Tried to transition but instance or transitionHandler was null.");
+		if (Instance == null || Instance.transitionHandler == null){
+			Debug.LogError("Tried to transition but Instance or transitionHandler was null.");
 			return;
 		}
 
 		if (instant){
-			instance.StartSafeCoroutine(instance.transitionHandler.TransitionToA(time: 0));
+			Instance.StartSafeCoroutine(Instance.transitionHandler.TransitionToA(time: 0));
 		}
 		else{
-			instance.StartSafeCoroutine(instance.transitionHandler.TransitionToA());
+			Instance.StartSafeCoroutine(Instance.transitionHandler.TransitionToA());
 		}
 
 	}

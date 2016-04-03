@@ -9,19 +9,11 @@ using System.Linq;
 using System.IO;
 
 
-public class ScoreDisplay : MonoBehaviour {
+public class ScoreDisplay : Singleton<ScoreDisplay> {
 
 	const int scoreLength = 8;
 
 	const float multiplierLifetime = 15;
-
-	static ScoreDisplay instance;
-
-	public static ScoreDisplay Instance {
-		get {
-			return instance;
-		}
-	}
 
 	[SerializeField] protected Text scoreText;
 	[SerializeField] protected Text multiplierText;
@@ -44,8 +36,7 @@ public class ScoreDisplay : MonoBehaviour {
 						160,
 						250};
 
-	void Awake(){
-		instance = this;
+	protected override void Startup(){
 		scoreText.text = scoreString;
 		multiplierText.text = multiplierString;
 		lastScoreTime = Time.time;

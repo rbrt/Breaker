@@ -97,7 +97,6 @@ public class TransitionRig : MonoBehaviour {
 
 		yield return this.StartSafeCoroutine(SetUpGameTransitionElements());
 
-		var menuCam = MenuTransitionSetup.Instance.MenuCamera;
 		var menuCanvas = MenuTransitionSetup.Instance.MenuCanvas;
 
 		var rt = new RenderTexture(Screen.width, Screen.height, 16, RenderTextureFormat.ARGB32);
@@ -148,7 +147,6 @@ public class TransitionRig : MonoBehaviour {
 
 		yield return this.StartSafeCoroutine(SetUpGameTransitionElements());
 
-		var menuCam = MenuTransitionSetup.Instance.MenuCamera;
 		var menuCanvas = MenuTransitionSetup.Instance.MenuCanvas;
 
 		var rt = new RenderTexture(Screen.width, Screen.height, 16, RenderTextureFormat.ARGB32);

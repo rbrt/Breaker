@@ -1,17 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class EndOfLevel : MonoBehaviour {
+public class EndOfLevel : Singleton<EndOfLevel> {
 
-	static EndOfLevel instance;
 	ParticleSystem portalParticles;
 
-	void Awake(){
-		instance = this;
+	protected override void Startup(){
 		portalParticles = GetComponentInChildren<ParticleSystem>();
 	}
 
 	public static Vector3 GetPortalTarget(){
-		return instance.portalParticles.transform.position;
+		return Instance.portalParticles.transform.position;
 	}
 }

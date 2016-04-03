@@ -54,8 +54,6 @@ public class EditorScratchPad : MonoBehaviour {
         string wallet = "wallet";
         string[] thirdWords = {"passphrase", "passcode", "password"};
 
-        List<string> generatedWords = new List<string>();
-
         for (int i = 0; i < firstWords.Length; i++){
             for (int j = 0; j < thirdWords.Length; j++){
                 var wordList = new List<string>{firstWords[i], bitcoin, wallet, thirdWords[j]};
@@ -87,12 +85,6 @@ public class EditorScratchPad : MonoBehaviour {
     }
 
     static List<string> GenerateList(){
-        string[] firstWords = {"my", "rob", "robert", "robs", "rob's", "robert's", "roberts"};
-        string[] secondWords = {"butler's", "butlers", "butler"};
-        string bitcoin = "bitcoin";
-        string wallet = "wallet";
-        string[] thirdWords = {"passphrase", "passcode", "password"};
-
         List<string> generatedWords = new List<string>();
 
         string filePath = "Assets/wordlistseed.txt";
@@ -124,8 +116,6 @@ public class EditorScratchPad : MonoBehaviour {
     static string sourceWord = "";
     static string tempCount = "";
     static List<string> results;
-    static List<string> attempted;
-    static List<string> combinations;
     static int count = 0;
 
     static string[] joiningCharacters = {"", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0",
@@ -133,8 +123,6 @@ public class EditorScratchPad : MonoBehaviour {
 
     static List<string> Combine(List<string> words){
         results = new List<string>();
-        attempted = new List<string>();
-        combinations = new List<string>();
 
         sourceWord = words[0];
         for (int i = 1; i < words.Count; i++){
@@ -218,14 +206,5 @@ public class EditorScratchPad : MonoBehaviour {
 
 
         return convertedWords;
-    }
-
-    static IEnumerable<IEnumerable<T>>
-    GetPermutations<T>(IEnumerable<T> list, int length){
-        if (length == 1) return list.Select(t => (new T[] { t }) as IEnumerable<T>);
-
-        return GetPermutations(list, length - 1)
-            .SelectMany(t => list.Where(e => !t.Contains(e)),
-                (t1, t2) => t1.Concat(new T[] { t2 }));
     }
 }

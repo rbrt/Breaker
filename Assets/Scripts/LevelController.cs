@@ -1,18 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class LevelController : MonoBehaviour {
-
-	static LevelController instance;
+public class LevelController : Singleton<LevelController> {
 
 	//const float levelDistance = 175f;
 	const float levelDistance = 25f;
-
-	public static LevelController Instance{
-		get {
-			return instance;
-		}
-	}
 
 	float distanceTravelled = 0;
 	bool roundOver = false;
@@ -42,16 +34,6 @@ public class LevelController : MonoBehaviour {
 	public void StartLevel(){
 		roundOver = false;
 		this.StartSafeCoroutine(WaitForGUIControllerThenDisplayGameplayGUI());
-	}
-
-	void Awake(){
-		if (instance == null){
-			instance = this;
-		}
-		else{
-			Destroy(this.gameObject);
-			Debug.Log("Destroyed duplicate instance of LevelController");
-		}
 	}
 
 	IEnumerator WaitForGUIControllerThenDisplayGameplayGUI(){

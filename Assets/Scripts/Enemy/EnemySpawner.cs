@@ -3,15 +3,7 @@ using System.Collections.Generic;
 using System.Collections;
 using System.Linq;
 
-public class EnemySpawner : MonoBehaviour {
-
-	static EnemySpawner instance;
-
-	public static EnemySpawner Instance {
-		get {
-			return instance;
-		}
-	}
+public class EnemySpawner : Singleton<EnemySpawner> {
 
 	[SerializeField] protected GameObject enemyPrefab;
 
@@ -21,10 +13,6 @@ public class EnemySpawner : MonoBehaviour {
 	const float offscreenBuffer = 20;
 	const float spawnRangeMin = 10;
 	const float spawnRangeMax = 20;
-
-	void Awake(){
-		instance = this;
-	}
 
 	void Start () {
 		activeEnemies = new List<Enemy>();

@@ -9,29 +9,14 @@ using System.Linq;
 using System.IO;
 
 
-public class TerrainManager : MonoBehaviour {
-
-	static TerrainManager instance;
-
-	public static TerrainManager Instance {
-		get {
-			return instance;
-		}
-	}
+public class TerrainManager : Singleton<TerrainManager> {
 
 	GroundSpawner groundSpawner;
 	PlatformSpawner platformSpawner;
 
-	void Awake(){
-		if (instance == null){
-			instance = this;
-			groundSpawner = GetComponent<GroundSpawner>();
-			platformSpawner = GetComponent<PlatformSpawner>();
-		}
-		else{
-			Debug.LogWarning("Destroyed duplicate instance of TerrainManager");
-			Destroy(this.gameObject);
-		}
+	protected override void Startup(){
+		groundSpawner = GetComponent<GroundSpawner>();
+		platformSpawner = GetComponent<PlatformSpawner>();
 	}
 
 	public Transform GetTransformNearestToPosition(Vector3 position, int ignoreFirst = 0){

@@ -1,15 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Shield : MonoBehaviour {
-
-	static Shield instance;
-
-	public static Shield Instance {
-		get {
-			return instance;
-		}
-	}
+public class Shield : Singleton<Shield> {
 
 	[SerializeField] protected Shader shieldShader;
 
@@ -28,15 +20,13 @@ public class Shield : MonoBehaviour {
 
 	bool lastShield = false;
 
-	void Awake(){
-		instance = this;
-
+	protected override void Startup(){
 		currentShield = maxShield;
 		lastShieldTime = Time.time;
 		shieldRenderer = GetComponent<MeshRenderer>();
 		shieldRenderer.material = new Material(shieldRenderer.material);
 		shieldRenderer.material.shader = shieldShader;
-		
+
 		var color = shieldRenderer.material.GetColor("_Color");
 		maxAlpha = color.a;
 		color.a = 0;

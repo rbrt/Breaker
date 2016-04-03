@@ -1,19 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PlayerStats : MonoBehaviour {
-
-	static PlayerStats instance;
+public class PlayerStats : Singleton<PlayerStats> {
 
 	int shotsDeflected = 0;
 	int shotsHit = 0;
 	int kills = 0;
-
-	public static PlayerStats Instance {
-		get {
-			return instance;
-		}
-	}
 
 	public void InitializeForRound(){
 		shotsDeflected = 0;
@@ -43,16 +35,5 @@ public class PlayerStats : MonoBehaviour {
 
 	public int GetKills(){
 		return kills;
-	}
-
-
-	void Awake(){
-		if (instance == null){
-			instance = this;
-		}
-		else{
-			Debug.Log("Destroyed duplicate instance of PlayerStats");
-			Destroy(this.gameObject);
-		}
 	}
 }

@@ -1,15 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class CameraController : MonoBehaviour {
-
-	static CameraController instance;
-
-	public static CameraController Instance{
-		get {
-			return instance;
-		}
-	}
+public class CameraController : Singleton<CameraController> {
 
 	static float cameraSpeed = 3f;
 
@@ -20,18 +12,18 @@ public class CameraController : MonoBehaviour {
 	}
 
 	public static Vector3 ScreenPoint(Vector3 target){
-		return instance.targetCamera.WorldToScreenPoint(target);
+		return Instance.targetCamera.WorldToScreenPoint(target);
 	}
 
 	public static Vector3 OffsetPastRightScreenEdge(float offset){
-		return instance.targetCamera.ScreenToWorldPoint(new Vector3(instance.targetCamera.pixelWidth + offset,
+		return Instance.targetCamera.ScreenToWorldPoint(new Vector3(Instance.targetCamera.pixelWidth + offset,
 																	0,
 																	10));
 	}
 
 	public static bool IsOnscreen(Vector3 testPosition){
 		var test = ScreenPoint(testPosition);
-		return test.x > 0 && test.x < instance.targetCamera.pixelWidth;
+		return test.x > 0 && test.x < Instance.targetCamera.pixelWidth;
 	}
 
 	Camera targetCamera;
@@ -39,11 +31,8 @@ public class CameraController : MonoBehaviour {
 	bool cameraActive = false;
 	bool panning = false;
 
-	void Awake(){
-		if (instance == null){
-			instance = this;
-			cameraActive = true;
-		}
+	protected override void Startup(){
+		cameraActive = true;
 	}
 
 	void Start () {

@@ -9,15 +9,7 @@ using System.Linq;
 using System.IO;
 
 
-public class GenerateBackground : MonoBehaviour {
-
-	static GenerateBackground instance;
-
-	public static GenerateBackground Instance {
-		get {
-			return instance;
-		}
-	}
+public class GenerateBackground : Singleton<GenerateBackground> {
 
 	const int segmentHeight = 4;
 	const int segmentWidth = 2;
@@ -46,7 +38,7 @@ public class GenerateBackground : MonoBehaviour {
 		var elements = new List<GameObject>();
 
 		if (Random.Range(0,100) > 75){
-			elements = CreateBasicTaperedBuilding(height, width, depth, ref buildingObject);	
+			elements = CreateBasicTaperedBuilding(height, width, depth, ref buildingObject);
 		}
 		else{
 			elements = CreateBasicBuilding(height, width, depth, ref buildingObject);
@@ -186,19 +178,10 @@ public class GenerateBackground : MonoBehaviour {
 		}
 	}
 
-	void Awake(){
-		if (instance == null){
-			instance = this;
-			allBuildings = new List<Building>();
-
-			lastIndex = 0;
-
-			SeedBuildings();
-		}
-		else {
-			Destroy(this.gameObject);
-			Debug.Log("Destroyed duplicate instance of GenerateBackground.");
-		}
+	protected override void Startup(){
+		allBuildings = new List<Building>();
+		lastIndex = 0;
+		SeedBuildings();
 	}
 
 	public void RecycleBuilding(ref Building targetBuilding){

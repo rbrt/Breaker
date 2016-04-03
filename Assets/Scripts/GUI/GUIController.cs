@@ -2,24 +2,11 @@
 using UnityEngine.UI;
 using System.Collections;
 
-public class GUIController : MonoBehaviour {
-
-	static GUIController instance;
-
-	public static GUIController Instance {
-		get {
-			return instance;
-		}
-	}
+public class GUIController : Singleton<GUIController> {
 
 	[SerializeField] protected Canvas guiCanvas;
 	[SerializeField] protected CanvasGroup gameplayCanvas;
 	[SerializeField] protected CanvasGroup endOfLevelCanvas;
-
-
-	void Awake () {
-		instance = this;
-	}
 
 	public Canvas GUICanvas {
 		get {

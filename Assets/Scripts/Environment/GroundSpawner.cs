@@ -3,17 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-public class GroundSpawner : MonoBehaviour {
-
-	static GroundSpawner instance;
+public class GroundSpawner : Singleton<GroundSpawner> {
 
 	const int groundElementCount = 3;
-
-	public static GroundSpawner Instance{
-		get {
-			return instance;
-		}
-	}
 
 	[SerializeField] protected GameObject groundPrefab;
 
@@ -24,9 +16,7 @@ public class GroundSpawner : MonoBehaviour {
 		  minWidth = 5,
 		  maxWidth = 40;
 
-	void Awake(){
-		instance = this;
-
+	protected override void Startup(){
 		groundElements = new List<Ground>();
 
 		Vector3 startPos = new Vector3(0, (-5 / 2) - 1.5f, 0);

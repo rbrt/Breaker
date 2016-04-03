@@ -2,9 +2,7 @@
 using UnityEngine.SceneManagement;
 using System.Collections;
 
-public class LoadingController : MonoBehaviour {
-
-	static LoadingController instance;
+public class LoadingController : Singleton<LoadingController> {
 
 	const string titleScene = "Title";
 	const string gameplayScene = "Prototyping";
@@ -42,13 +40,4 @@ public class LoadingController : MonoBehaviour {
 		SceneManager.SetActiveScene(scene);
 	}
 
-	void Awake(){
-		if (instance == null){
-			instance = this;
-		}
-		else{
-			Debug.Log("Destroyed duplicate instance of LoadingController.");
-			Destroy(this.gameObject);
-		}
-	}
 }

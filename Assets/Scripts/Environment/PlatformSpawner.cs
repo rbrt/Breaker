@@ -3,15 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-public class PlatformSpawner : MonoBehaviour {
-
-	static PlatformSpawner instance;
-
-	public static PlatformSpawner Instance {
-		get {
-			return instance;
-		}
-	}
+public class PlatformSpawner : Singleton<PlatformSpawner> {
 
 	const float groundHeight = -1.5f;
 	const int platformCount = 4;
@@ -30,8 +22,7 @@ public class PlatformSpawner : MonoBehaviour {
 		  minGapDistance = 2,
 		  maxGapDistance = 5;
 
-	void Awake(){
-		instance = this;
+	protected override void Startup(){
 		platformElements = new List<Platform>();
 
 		Vector3 startPos = new Vector3(0, .5f, 0);

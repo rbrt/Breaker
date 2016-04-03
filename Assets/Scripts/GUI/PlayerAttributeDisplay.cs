@@ -2,15 +2,7 @@
 using UnityEngine.UI;
 using System.Collections;
 
-public class PlayerAttributeDisplay : MonoBehaviour {
-
-	static PlayerAttributeDisplay instance;
-
-	public static PlayerAttributeDisplay Instance{
-		get {
-			return instance;
-		}
-	}
+public class PlayerAttributeDisplay : Singleton<PlayerAttributeDisplay> {
 
 	[SerializeField] protected Image shieldImage;
 	[SerializeField] protected Image healthImage;
@@ -41,15 +33,6 @@ public class PlayerAttributeDisplay : MonoBehaviour {
 
 	public void FillShield(){
 		currentShield = 1;
-	}
-
-	void Awake(){
-		if (instance == null){
-			instance = this;
-		}
-		else{
-			Destroy(this.gameObject);
-		}
 	}
 
 	void Update(){

@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Singleton : MonoBehaviour {
+public class Singleton<T> : MonoBehaviour {
 
-	static Singleton instance;
+	static T instance;
 
-	public static Singleton Instance {
+	public static T Instance {
 		get {
 			return instance;
 		}
@@ -13,21 +13,21 @@ public class Singleton : MonoBehaviour {
 
 	void Awake(){
 		if (instance == null){
-			instance = this;
+			instance = GetComponent<T>();
 			Startup();
 		}
 		else{
-			Debug.Log("Destroyed duplicate instance of " + this.GetType().ToString());
+			Debug.Log("Destroyed duplicate instance of " + typeof(T).ToString());
 			Cleanup();
 			Destroy(this.gameObject);
 		}
 	}
 
-	public virtual void Cleanup(){
+	protected virtual void Cleanup(){
 
 	}
 
-	public virtual void Startup(){
+	protected virtual void Startup(){
 
 	}
 
