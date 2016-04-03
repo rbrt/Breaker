@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Singleton<T> : MonoBehaviour {
+public class Singleton<T> : MonoBehaviour where T: MonoBehaviour {
 
 	static T instance;
 
@@ -12,7 +12,7 @@ public class Singleton<T> : MonoBehaviour {
 	}
 
 	void Awake(){
-		if (instance == null){
+		if (instance == null || instance.gameObject == null){
 			instance = GetComponent<T>();
 			Startup();
 		}

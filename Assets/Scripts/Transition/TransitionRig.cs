@@ -67,6 +67,7 @@ public class TransitionRig : MonoBehaviour {
 	public void TransitionFromGameplayToEndOfRound(){
 		// Handle transition here
 		LoadingController.LoadEndOfRoundScene();
+		LoadingController.UnloadGameplayScene();
 	}
 
 	public void TransitionFromEndOfRoundToGameplay(){

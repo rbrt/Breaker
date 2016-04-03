@@ -24,6 +24,7 @@ public class EndOfLevelSequence : Singleton<EndOfLevelSequence> {
 	}
 
 	void Start () {
+		transitionPlayerAnimator.SetBool("Running", true);
 		this.StartSafeCoroutine(MovePlayerToCenterOfScreen());
 	}
 

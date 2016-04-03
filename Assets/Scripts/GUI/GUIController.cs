@@ -8,6 +8,10 @@ public class GUIController : Singleton<GUIController> {
 	[SerializeField] protected CanvasGroup gameplayCanvas;
 	[SerializeField] protected CanvasGroup endOfLevelCanvas;
 
+	protected override void Startup(){
+		DontDestroyOnLoad(this.gameObject);
+	}
+
 	public Canvas GUICanvas {
 		get {
 			return guiCanvas;
