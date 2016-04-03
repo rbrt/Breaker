@@ -144,7 +144,7 @@ Material:
       data:
         first:
           name: _Step
-        second: 0.4
+        second: 0
       data:
         first:
           name: _Param1

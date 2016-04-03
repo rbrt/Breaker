@@ -58,6 +58,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 449886}
   - 114: {fileID: 11453402}
+  - 114: {fileID: 11492360}
   m_Layer: 0
   m_Name: Transition Rig
   m_TagString: Untagged
@@ -488,6 +489,17 @@ MonoBehaviour:
   gameplayGame: {fileID: 2098420}
   menuUI: {fileID: 2059230}
   viewportCamera: {fileID: 2032936}
+--- !u!114 &11492360
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 137128}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00011208137164a2bb2d48d553d9a788, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &11492752
 MonoBehaviour:
   m_ObjectHideFlags: 1

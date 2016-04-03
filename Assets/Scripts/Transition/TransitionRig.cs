@@ -72,19 +72,74 @@ public class TransitionRig : MonoBehaviour {
 	public void TransitionFromEndOfRoundToGameplay(){
 		// Handle transition here
 		LoadingController.LoadGameplayScene();
+		this.StartSafeCoroutine(SetActiveSceneWhenReady());
+		this.StartSafeCoroutine(EndOfLevelToGameHandoff());
+
+		LevelController.Instance.RoundOver = false;
 	}
 
 	public void TransitionFromMenuToGameplay(){
 		LoadingController.LoadGameplayScene(additive: true);
 		this.StartSafeCoroutine(SetActiveSceneWhenReady());
-		this.StartSafeCoroutine(Handoff());
+		this.StartSafeCoroutine(TitleToGameHandoff());
 	}
 
 	IEnumerator SetActiveSceneWhenReady(){
 		yield return this.StartSafeCoroutine(LoadingController.SetGameplaySceneActiveWhenLoaded());
 	}
 
-	IEnumerator Handoff(){
+	IEnumerator EndOfLevelToGameHandoff(){
+		while (CameraManager.Instance.GameCamera == null){
+			yield return null;
+		}
+
+		renderTransition = true;
+
+		yield return this.StartSafeCoroutine(SetUpGameTransitionElements());
+
+		var menuCam = MenuTransitionSetup.Instance.MenuCamera;
+		var menuCanvas = MenuTransitionSetup.Instance.MenuCanvas;
+
+		var rt = new RenderTexture(Screen.width, Screen.height, 16, RenderTextureFormat.ARGB32);
+        rt.Create();
+
+		menuUI.targetTexture = rt;
+		transitionHandler.SetMenuTexture(rt);
+
+		yield return new WaitForEndOfFrame();
+		if (menuCanvas != null){
+			menuCanvas.worldCamera = menuUI;
+		}
+	    viewportCamera.enabled = true;
+
+		yield return this.StartSafeCoroutine(transitionHandler.TransitionToA(time: 1.5f));
+
+		yield return new WaitForEndOfFrame();
+		gameplayUI.enabled = false;
+		gameplayGame.enabled = false;
+		menuUI.enabled = false;
+		viewportCamera.enabled = false;
+
+		GUIController.Instance.ShowGameplayCanvas();
+
+		if (MenuTransitionSetup.Instance != null){
+			Destroy(MenuTransitionSetup.Instance.gameObject);
+		}
+
+		GUIController.Instance.GetComponent<Canvas>().worldCamera = null;
+
+		var eventSystem = GUIController.Instance.GetComponentInChildren<EventSystem>();
+		eventSystem.enabled = false;
+
+		yield return null;
+
+		renderTransition = false;
+
+		eventSystem.enabled = true;
+		DisableChildren();
+	}
+
+	IEnumerator TitleToGameHandoff(){
 		while (CameraManager.Instance.GameCamera == null){
 			yield return null;
 		}
@@ -152,6 +207,9 @@ public class TransitionRig : MonoBehaviour {
 
 	IEnumerator FollowGameCamera(Camera transitionCamera, Camera gameCamera){
 		while (true){
+			if (transitionCamera == null || gameCamera == null){
+				break;
+			}
 			transitionCamera.transform.position = gameCamera.transform.position;
 			yield return null;
 		}

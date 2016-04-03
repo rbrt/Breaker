@@ -24,8 +24,13 @@ public class LoadingController : MonoBehaviour {
 		}
 	}
 
-	public static void LoadEndOfRoundScene(){
-		SceneManager.LoadScene(transitionScene, LoadSceneMode.Single);
+	public static void LoadEndOfRoundScene(bool additive = false){
+		if (additive){
+			SceneManager.LoadScene(transitionScene, LoadSceneMode.Additive);
+		}
+		else{
+			SceneManager.LoadScene(transitionScene, LoadSceneMode.Single);
+		}
 	}
 
 	public static IEnumerator SetGameplaySceneActiveWhenLoaded(){
