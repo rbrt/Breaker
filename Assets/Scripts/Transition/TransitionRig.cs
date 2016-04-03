@@ -148,7 +148,7 @@ public class TransitionRig : MonoBehaviour {
 
 		yield return this.StartSafeCoroutine(SetUpGameTransitionElements());
 
-		var menuCanvas = MenuTransitionSetup.Instance.MenuCanvas;
+		var menuCanvas = GUIController.Instance.TitleCanvas;
 
 		var rt = new RenderTexture(Screen.width, Screen.height, 16, RenderTextureFormat.ARGB32);
         rt.Create();
@@ -170,7 +170,7 @@ public class TransitionRig : MonoBehaviour {
 
 		Destroy(MenuTransitionSetup.Instance.gameObject);
 
-		GUIController.Instance.GetComponent<Canvas>().worldCamera = null;
+		GUIController.Instance.GameplayCanvas.worldCamera = null;
 
 		var eventSystem = GUIController.Instance.GetComponentInChildren<EventSystem>();
 		eventSystem.enabled = false;
@@ -197,7 +197,7 @@ public class TransitionRig : MonoBehaviour {
 			yield return null;
 		}
 
-		var gameGUICanvas = GUIController.Instance.GUICanvas;
+		var gameGUICanvas = GUIController.Instance.GameplayCanvas;
 
 		yield return new WaitForEndOfFrame();
 		gameGUICanvas.worldCamera = gameplayGame;

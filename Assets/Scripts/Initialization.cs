@@ -10,15 +10,15 @@ public class Initialization : MonoBehaviour {
 
 	void Awake(){
 		Application.targetFrameRate = targetFPS;
-		var gui = GameObject.Instantiate(guiPrefab);
-
-		if (TransitionRig.Instance != null){
-			gui.GetComponent<Canvas>().worldCamera = TransitionRig.Instance.GameplayUICamera;
-		}
-		else{
-			gui.GetComponent<Canvas>().worldCamera = FindObjectsOfType<CameraRole>()
-													 .FirstOrDefault(role => role.role == Enums.CameraRoles.Gameplay)
-													 .GetComponent<Camera>();
-		}
+		// var gui = GameObject.Instantiate(guiPrefab);
+		//
+		// if (TransitionRig.Instance != null){
+		// 	gui.GetComponent<Canvas>().worldCamera = TransitionRig.Instance.GameplayUICamera;
+		// }
+		// else{
+		// 	gui.GetComponent<Canvas>().worldCamera = FindObjectsOfType<CameraRole>()
+		// 											 .FirstOrDefault(role => role.role == Enums.CameraRoles.Gameplay)
+		// 											 .GetComponent<Camera>();
+		// }
 	}
 }

@@ -14,4 +14,10 @@ public class Enums : MonoBehaviour {
 		Menu,
 		GUI
 	}
+
+	public enum GUIRoles {
+		Gameplay,
+		Title,
+		EndOfLevel
+	}
 }

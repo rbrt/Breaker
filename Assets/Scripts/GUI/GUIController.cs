@@ -4,33 +4,77 @@ using System.Collections;
 
 public class GUIController : Singleton<GUIController> {
 
-	[SerializeField] protected Canvas guiCanvas;
-	[SerializeField] protected CanvasGroup gameplayCanvas;
-	[SerializeField] protected CanvasGroup endOfLevelCanvas;
+	[SerializeField] protected CanvasGroup gameplayCanvasGroup;
+	[SerializeField] protected CanvasGroup endOfLevelCanvasGroup;
+	[SerializeField] protected CanvasGroup titleCanvasGroup;
 
 	protected override void Startup(){
 		DontDestroyOnLoad(this.gameObject);
 	}
 
-	public Canvas GUICanvas {
+	public Canvas GameplayCanvas {
 		get {
-			return guiCanvas;
+			if (gameplayCanvasGroup != null){
+				return gameplayCanvasGroup.GetComponent<Canvas>();
+			}
+			else {
+				return null;
+			}
 		}
 	}
 
-	public void ShowGameplayCanvas(){
-		gameplayCanvas.alpha = 1;
-		gameplayCanvas.interactable = true;
+	public Canvas TitleCanvas {
+		get {
+			if (titleCanvasGroup != null){
+				return titleCanvasGroup.GetComponent<Canvas>();
+			}
+			else {
+				return null;
+			}
+		}
+	}
 
-		endOfLevelCanvas.alpha = 0;
-		endOfLevelCanvas.interactable = false;
+	public Canvas EndOfLevelCanvas {
+		get {
+			if (endOfLevelCanvasGroup != null){
+				return endOfLevelCanvasGroup.GetComponent<Canvas>();
+			}
+			else {
+				return null;
+			}
+		}
+	}
+
+	public void ShowTitleCanvas(){
+		EnableCanvasGroup(titleCanvasGroup);
+
+		DisableCanvasGroup(endOfLevelCanvasGroup);
+		DisableCanvasGroup(gameplayCanvasGroup);
+	}
+
+	public void ShowGameplayCanvas(){
+		EnableCanvasGroup(gameplayCanvasGroup);
+
+		DisableCanvasGroup(endOfLevelCanvasGroup);
+		DisableCanvasGroup(titleCanvasGroup);
 	}
 
 	public void ShowEndOfLevelCanvas(){
-		endOfLevelCanvas.alpha = 1;
-		endOfLevelCanvas.interactable = true;
+		EnableCanvasGroup(endOfLevelCanvasGroup);
 
-		gameplayCanvas.alpha = 0;
-		gameplayCanvas.interactable = false;
+		DisableCanvasGroup(gameplayCanvasGroup);
+		DisableCanvasGroup(titleCanvasGroup);
+	}
+
+	void EnableCanvasGroup(CanvasGroup group){
+		group.alpha = 1;
+		group.interactable = true;
+		group.blocksRaycasts = true;
+	}
+
+	void DisableCanvasGroup(CanvasGroup group){
+		group.alpha = 0;
+		group.interactable = false;
+		group.blocksRaycasts = false;
 	}
 }
