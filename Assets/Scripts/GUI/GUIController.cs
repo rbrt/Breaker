@@ -12,6 +12,10 @@ public class GUIController : Singleton<GUIController> {
 		DontDestroyOnLoad(this.gameObject);
 	}
 
+	void Start(){
+		gameplayCanvasGroup.GetComponent<Canvas>().worldCamera = TransitionRig.Instance.GameplayUICamera;
+	}
+
 	public Canvas GameplayCanvas {
 		get {
 			if (gameplayCanvasGroup != null){
@@ -43,6 +47,18 @@ public class GUIController : Singleton<GUIController> {
 				return null;
 			}
 		}
+	}
+
+	public void ShowTitleCanvasNoSideEffects(){
+		EnableCanvasGroup(titleCanvasGroup);
+	}
+
+	public void ShowGameplayCanvasNoSideEffects(){
+		EnableCanvasGroup(gameplayCanvasGroup);
+	}
+
+	public void ShowEndOfLevelCanvasNoSideEffects(){
+		EnableCanvasGroup(endOfLevelCanvasGroup);
 	}
 
 	public void ShowTitleCanvas(){

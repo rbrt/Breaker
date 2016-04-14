@@ -40,7 +40,7 @@ public class LevelController : Singleton<LevelController> {
 		while (GUIController.Instance == null){
 			yield return null;
 		}
-		GUIController.Instance.ShowGameplayCanvas();
+		GUIController.Instance.ShowGameplayCanvasNoSideEffects();
 	}
 
 }
