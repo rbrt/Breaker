@@ -86,12 +86,15 @@ public class TransitionRig : MonoBehaviour {
 	}
 
 	public void TransitionFromMenuToGameplay(){
+		Debug.Log("Woo");
 		LoadingController.LoadGameplayScene(additive: true);
 		this.StartSafeCoroutine(SetActiveSceneWhenReady());
 		this.StartSafeCoroutine(TitleToGameHandoff(GUIController.Instance.TitleCanvas,
 												   GUIController.Instance.GameplayCanvas,
 												   menuUI,
-												   CameraManager.Instance.GameCamera));
+												   () => CameraManager.Instance.GameCamera,
+												   gameplayUI,
+												   gameplayGame));
 	}
 
 	IEnumerator SetActiveSceneWhenReady(){
@@ -107,7 +110,7 @@ public class TransitionRig : MonoBehaviour {
 
 		renderTransition = true;
 
-		yield return this.StartSafeCoroutine(SetUpGameTransitionElements());
+		//yield return this.StartSafeCoroutine(SetUpGameTransitionElements());
 
 		var menuCanvas = MenuTransitionSetup.Instance.MenuCanvas;
 
@@ -151,14 +154,22 @@ public class TransitionRig : MonoBehaviour {
 		DisableChildren();
 	}
 
-	IEnumerator TitleToGameHandoff(Canvas fromCanvas, Canvas toCanvas, Camera fromCamera, Camera toCamera){
-		while (toCamera == null){
+	IEnumerator TitleToGameHandoff(Canvas fromCanvas,
+								   Canvas toCanvas,
+								   Camera fromCamera,
+								   System.Func<Camera> toCameraGetter,
+								   Camera toUICamera,
+								   Camera toViewCamera)
+	{
+		Camera toCamera = toCameraGetter.Invoke();
+		while (toCamera == null || toCameraGetter.Invoke() == null){
+			toCamera = toCameraGetter.Invoke();
 			yield return null;
 		}
 
 		renderTransition = true;
 
-		yield return this.StartSafeCoroutine(SetUpGameTransitionElements());
+		yield return this.StartSafeCoroutine(SetUpGameTransitionElements(toUICamera, toViewCamera, toCamera, toCanvas));
 
 		var rt = new RenderTexture(Screen.width, Screen.height, 16, RenderTextureFormat.ARGB32);
         rt.Create();
@@ -173,6 +184,7 @@ public class TransitionRig : MonoBehaviour {
 		yield return this.StartSafeCoroutine(transitionHandler.TransitionToA(time: 1.5f));
 
 		yield return new WaitForEndOfFrame();
+
 		gameplayUI.enabled = false;
 		gameplayGame.enabled = false;
 		fromCamera.enabled = false;
@@ -194,28 +206,26 @@ public class TransitionRig : MonoBehaviour {
 		DisableChildren();
 	}
 
-	IEnumerator SetUpGameTransitionElements(){
+	IEnumerator SetUpGameTransitionElements(Camera toUICamera, Camera toActionCamera, Camera toCamera, Canvas toCanvas){
 		var rt = new RenderTexture(Screen.width, Screen.height, 16, RenderTextureFormat.ARGB32);
         rt.Create();
 
-		gameplayUI.targetTexture = rt;
-		gameplayGame.targetTexture = rt;
+		toUICamera.targetTexture = rt;
+		toActionCamera.targetTexture = rt;
 		transitionHandler.SetGameplayTexture(rt);
 
-		this.StartSafeCoroutine(FollowGameCamera(gameplayGame, CameraManager.Instance.GameCamera));
+		this.StartSafeCoroutine(FollowCameras(toActionCamera, toCamera));
 
 		while (GUIController.Instance == null){
 			yield return null;
 		}
 
-		var gameGUICanvas = GUIController.Instance.GameplayCanvas;
-
 		yield return new WaitForEndOfFrame();
-		gameGUICanvas.worldCamera = gameplayGame;
-		gameGUICanvas.planeDistance = 1;
+		toCanvas.worldCamera = toActionCamera;
+		toCanvas.planeDistance = 1;
 	}
 
-	IEnumerator FollowGameCamera(Camera transitionCamera, Camera gameCamera){
+	IEnumerator FollowCameras(Camera transitionCamera, Camera gameCamera){
 		while (true){
 			if (transitionCamera == null || gameCamera == null){
 				break;
