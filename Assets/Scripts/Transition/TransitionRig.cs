@@ -86,7 +86,6 @@ public class TransitionRig : MonoBehaviour {
 	}
 
 	public void TransitionFromMenuToGameplay(){
-		Debug.Log("Woo");
 		LoadingController.LoadGameplayScene(additive: true);
 		this.StartSafeCoroutine(SetActiveSceneWhenReady());
 		this.StartSafeCoroutine(TitleToGameHandoff(GUIController.Instance.TitleCanvas,
