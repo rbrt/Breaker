@@ -5,12 +5,15 @@ using UnityEngine.EventSystems;
 using System.Collections;
 using System.Linq;
 
-public class TransitionRig : MonoBehaviour {
+public class TransitionRig : MonoBehaviour
+{
 
 	static TransitionRig instance;
 
-	public static TransitionRig Instance {
-		get {
+	public static TransitionRig Instance
+	{
+		get
+		{
 			return instance;
 		}
 	}
@@ -27,56 +30,73 @@ public class TransitionRig : MonoBehaviour {
 
 	bool renderTransition = false;
 
-	public Camera GameplayUICamera {
-		get {
+	public Camera GameplayUICamera
+	{
+		get
+		{
 			return gameplayUI;
 		}
 	}
 
-	void Awake(){
-		if (instance == null){
+	void Awake()
+	{
+		if (instance == null)
+		{
 			instance = this;
 			transitionHandler = GetComponentInChildren<HandleTransition>();
 		}
-		else {
+		else
+		{
 			Destroy(this.gameObject);
 			Debug.Log("Destroyed duplicate instance of TransitionRig");
 		}
 	}
 
-	void Update(){
-		if (renderTransition){
+	void Update()
+	{
+		if (renderTransition)
+		{
 			menuUI.Render();
 			gameplayUI.Render();
 			gameplayGame.Render();
 		}
 	}
 
-	void DisableChildren(){
+	void DisableChildren()
+	{
 		gameplayTransitionRig.SetActive(false);
 		menuTransitionRig.SetActive(false);
 		viewportCamera.gameObject.SetActive(false);
 	}
 
-	void EnableChildren(){
+	void EnableChildren()
+	{
 		gameplayTransitionRig.SetActive(true);
 		menuTransitionRig.SetActive(true);
 		viewportCamera.gameObject.SetActive(true);
 	}
 
-	Camera GetChildCameraForRole(GameObject parent, Enums.CameraRoles role){
+	Camera GetChildCameraForRole(GameObject parent, Enums.CameraRoles role)
+	{
 		return parent.GetComponentsInChildren<CameraRole>()
 					 .FirstOrDefault(child => child.role == role)
 					 .GetComponent<Camera>();
 	}
 
-	public void TransitionFromGameplayToEndOfRound(){
-		// Handle transition here
+	public void TransitionFromGameplayToEndOfRound()
+	{
 		LoadingController.LoadEndOfRoundScene();
-		LoadingController.UnloadGameplayScene();
+		this.StartSafeCoroutine(TransitionHandoff(GUIController.Instance.TitleCanvas,
+												  GUIController.Instance.GameplayCanvas,
+												  menuUI,
+												  gameplayUI,
+												  gameplayGame,
+												  () => CameraManager.Instance.GameCamera,
+												  () => LoadingController.UnloadGameplayScene()));
 	}
 
-	public void TransitionFromEndOfRoundToGameplay(){
+	public void TransitionFromEndOfRoundToGameplay()
+	{
 		// Handle transition here
 		LoadingController.LoadGameplayScene();
 		this.StartSafeCoroutine(SetActiveSceneWhenReady());
@@ -85,23 +105,28 @@ public class TransitionRig : MonoBehaviour {
 		LevelController.Instance.RoundOver = false;
 	}
 
-	public void TransitionFromMenuToGameplay(){
+	public void TransitionFromMenuToGameplay()
+	{
 		LoadingController.LoadGameplayScene(additive: true);
 		this.StartSafeCoroutine(SetActiveSceneWhenReady());
-		this.StartSafeCoroutine(TitleToGameHandoff(GUIController.Instance.TitleCanvas,
-												   GUIController.Instance.GameplayCanvas,
-												   menuUI,
-												   () => CameraManager.Instance.GameCamera,
-												   gameplayUI,
-												   gameplayGame));
+		this.StartSafeCoroutine(TransitionHandoff(GUIController.Instance.TitleCanvas,
+												  GUIController.Instance.GameplayCanvas,
+												  menuUI,
+												  gameplayUI,
+												  gameplayGame,
+												  () => CameraManager.Instance.GameCamera,
+												  () => {}));
 	}
 
-	IEnumerator SetActiveSceneWhenReady(){
+	IEnumerator SetActiveSceneWhenReady()
+	{
 		yield return this.StartSafeCoroutine(LoadingController.SetGameplaySceneActiveWhenLoaded());
 	}
 
-	IEnumerator EndOfLevelToGameHandoff(){
-		while (CameraManager.Instance.GameCamera == null){
+	IEnumerator EndOfLevelToGameHandoff()
+	{
+		while (CameraManager.Instance.GameCamera == null)
+		{
 			yield return null;
 		}
 
@@ -120,7 +145,8 @@ public class TransitionRig : MonoBehaviour {
 		transitionHandler.SetMenuTexture(rt);
 
 		yield return new WaitForEndOfFrame();
-		if (menuCanvas != null){
+		if (menuCanvas != null)
+		{
 			menuCanvas.worldCamera = menuUI;
 		}
 	    viewportCamera.enabled = true;
@@ -135,7 +161,8 @@ public class TransitionRig : MonoBehaviour {
 
 		GUIController.Instance.ShowGameplayCanvas();
 
-		if (MenuTransitionSetup.Instance != null){
+		if (MenuTransitionSetup.Instance != null)
+		{
 			Destroy(MenuTransitionSetup.Instance.gameObject);
 		}
 
@@ -153,15 +180,17 @@ public class TransitionRig : MonoBehaviour {
 		DisableChildren();
 	}
 
-	IEnumerator TitleToGameHandoff(Canvas fromCanvas,
-								   Canvas toCanvas,
-								   Camera fromCamera,
-								   System.Func<Camera> toCameraGetter,
-								   Camera toUICamera,
-								   Camera toViewCamera)
+	IEnumerator TransitionHandoff(Canvas fromCanvas,
+								  Canvas toCanvas,
+								  Camera fromCamera,
+								  Camera toUICamera,
+								  Camera toViewCamera,
+								  System.Func<Camera> toCameraGetter
+								  System.Action cleanupFunction)
 	{
 		Camera toCamera = toCameraGetter.Invoke();
-		while (toCamera == null || toCameraGetter.Invoke() == null){
+		while (toCamera == null || toCameraGetter.Invoke() == null)
+		{
 			toCamera = toCameraGetter.Invoke();
 			yield return null;
 		}
@@ -203,9 +232,15 @@ public class TransitionRig : MonoBehaviour {
 
 		eventSystem.enabled = true;
 		DisableChildren();
+
+		if (cleanupFunction != null)
+		{
+			cleanupFunction.Invoke();
+		}
 	}
 
-	IEnumerator SetUpGameTransitionElements(Camera toUICamera, Camera toActionCamera, Camera toCamera, Canvas toCanvas){
+	IEnumerator SetUpGameTransitionElements(Camera toUICamera, Camera toActionCamera, Camera toCamera, Canvas toCanvas)
+	{
 		var rt = new RenderTexture(Screen.width, Screen.height, 16, RenderTextureFormat.ARGB32);
         rt.Create();
 
@@ -215,7 +250,8 @@ public class TransitionRig : MonoBehaviour {
 
 		this.StartSafeCoroutine(FollowCameras(toActionCamera, toCamera));
 
-		while (GUIController.Instance == null){
+		while (GUIController.Instance == null)
+		{
 			yield return null;
 		}
 
@@ -224,7 +260,8 @@ public class TransitionRig : MonoBehaviour {
 		toCanvas.planeDistance = 1;
 	}
 
-	IEnumerator FollowCameras(Camera transitionCamera, Camera gameCamera){
+	IEnumerator FollowCameras(Camera transitionCamera, Camera gameCamera)
+	{
 		while (true){
 			if (transitionCamera == null || gameCamera == null){
 				break;
