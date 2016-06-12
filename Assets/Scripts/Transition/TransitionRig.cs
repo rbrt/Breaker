@@ -126,7 +126,8 @@ public class TransitionRig : MonoBehaviour {
 			Destroy(MenuTransitionSetup.Instance.gameObject);
 		}
 
-		GUIController.Instance.GetComponent<Canvas>().worldCamera = null;
+		GUIController.Instance.EndOfLevelCanvas.worldCamera = null;
+		GUIController.Instance.GameplayCanvas.worldCamera = CameraManager.Instance.GameCamera;
 
 		var eventSystem = GUIController.Instance.GetComponentInChildren<EventSystem>();
 		eventSystem.enabled = false;
