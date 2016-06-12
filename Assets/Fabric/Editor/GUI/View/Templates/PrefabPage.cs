@@ -5,7 +5,6 @@
 	using System.Collections.Generic;
 	using System;
 	using Fabric.Internal.Editor.View;
-	using Resources = Fabric.Internal.Editor.Resources;
 	
 	public class PrefabPage : Page
 	{
@@ -40,10 +39,10 @@
 			private static GUIStyle IconStyle;
 			private static readonly GUIStyle BorderStyle;
 			private static readonly GUIStyle MessageStyle;
-			private static readonly Texture2D PrefabIcon = Resources.Manager.Load ("prefab-box.png");
+			private static readonly Texture2D PrefabIcon = Images.Loader.Load ("prefab-box.png");
 
 			private static bool pressed = false;
-			private static Rect PrefabIconPosition = new Rect (0, 150, 192, 192);
+			private static Rect PrefabIconRect = new Rect (0, 150, 192, 192);
 
 			static Components()
 			{
@@ -69,7 +68,7 @@
 
 			public static void Reposition(Rect position)
 			{
-				PrefabIconPosition.x = position.width / 2 - PrefabIconPosition.width / 2;
+				PrefabIconRect.x = position.width / 2 - PrefabIconRect.width / 2;
 				View.Render.Center (position, IconStyle);
 			}
 
@@ -79,14 +78,23 @@
 				GUILayout.Label (message, MessageStyle);
 			}
 
+			private static float CurrentIconAngle()
+			{
+				return 5.0f * (float) Math.Sin (6.0f * Math.PI * Time.realtimeSinceStartup);
+			}
+
 			public static void RenderIcon()
 			{
-				GUI.Label (PrefabIconPosition, PrefabIcon, IconStyle);
+				float angle = CurrentIconAngle ();
+
+				GUIUtility.RotateAroundPivot (angle, PrefabIconRect.center);
+				GUI.Label (PrefabIconRect, PrefabIcon, IconStyle);
+				GUIUtility.RotateAroundPivot (-angle, PrefabIconRect.center);
 			}
 
 			public static void PrepareDragAndDrop(string prefabName, EditorApplication.HierarchyWindowItemCallback acceptDragAndDrop, Action removeListener)
 			{
-				if (PrefabIconPosition.Contains (Event.current.mousePosition)) {
+				if (PrefabIconRect.Contains (Event.current.mousePosition)) {
 					if (Event.current.type == EventType.mouseDown) {
 						pressed = true;
 					}

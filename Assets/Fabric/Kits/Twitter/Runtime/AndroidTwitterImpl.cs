@@ -15,7 +15,7 @@
  *
  */
 
-#if UNITY_ANDROID
+#if UNITY_ANDROID && !UNITY_EDITOR
 namespace Fabric.Internal.Twitter
 {
 	using UnityEngine;

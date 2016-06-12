@@ -20,14 +20,21 @@ MonoBehaviour:
     BuildSecret: a60dcf878e0fc7558245dc1270934ab195b98ebb596adaf08969b26fe60c2d66
   iconUrl: https://s3.amazonaws.com/assets.crashlytics.com/production/project/5065325/build_version/36809007/icon/20884254/icon.png
   dashboardUrl: https://www.fabric.io/greychannel/ios/apps/com.greychannel.shieldbreakers
-  flowSequence: 0
-  kit: 
+  initialization: 0
+  flowSequence: 200
+  conflict: 
+  kit: Twitter
   installedKits:
   - Name: Crashlytics
+    InstallationStatus: 2
     Installed: 1
     Enabled: 1
-    Meta: []
+    Meta:
+    - Key: Dependencies
+      Value: '[{"name":"Crashlytics-Android","version":"2.5.5"},{"name":"Crashlytics-Core-Android","version":"2.3.8"},{"name":"Fabric-Android","version":"1.3.10"},{"name":"Answers-Android","version":"1.3.6"},{"name":"Beta-Android","version":"1.1.4"},{"name":"Crashlytics-iOS","version":"3.7.0"},{"name":"Crashlytics-Wrapper-iOS","version":"0.0.0"},{"name":"Crashlytics-Wrapper-Android","version":"0.0.0"}]'
+      Platform: 
   - Name: Twitter
+    InstallationStatus: 2
     Installed: 1
     Enabled: 1
     Meta:
@@ -43,3 +50,6 @@ MonoBehaviour:
     - Key: TwitterSecret
       Value: ttiAPejGXi4wZVpN3rE7D6SOZp5iLUAqwMM48FgKH1TkiMrYQo
       Platform: ios
+    - Key: Dependencies
+      Value: '[{"name":"Tweet-Composer-Android","version":"1.0.3"},{"name":"Twitter-Core-Android","version":"1.6.4"},{"name":"Fabric-Android","version":"1.3.10"},{"name":"Twitter-Core-iOS","version":"1.15.1"},{"name":"Fabric-iOS","version":"1.6.6"},{"name":"TwitterKit-Wrapper-Android","version":"0.1.0"},{"name":"TwitterKit-Wrapper-iOS","version":"0.0.0"}]'
+      Platform: 

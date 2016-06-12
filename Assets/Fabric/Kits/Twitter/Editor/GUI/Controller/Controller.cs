@@ -118,13 +118,23 @@ namespace Fabric.Internal.Twitter.Editor.Controller
 
 		public KitControllerStatus PageFromState(out Page page)
 		{
-			if (Settings.Instance.InstalledKits.Exists (kit => kit.Name.Equals (Twitter, StringComparison.OrdinalIgnoreCase) && kit.Installed)) {
-				page = Documentation;
-				return KitControllerStatus.NextPage;
-			}
+			List<Settings.InstalledKit> installedKits = Settings.Instance.InstalledKits;
+			Settings.InstalledKit twitterKit = installedKits.Find (kit => kit.Name.Equals (Twitter, StringComparison.OrdinalIgnoreCase));
 
-			page = null;
-			switch (Settings.Instance.FlowSequence) {
+			switch (twitterKit.InstallationStatus) {
+			case Settings.KitInstallationStatus.Installed:
+				return ShowInstalledPage (out page);
+			case Settings.KitInstallationStatus.Imported:
+				return ShowInstallationFlowPage (Settings.Instance.FlowSequence, out page);
+			case Settings.KitInstallationStatus.Configured:
+			default:
+				return ShowConfiguredPage (out page);
+			}
+		}
+
+		private KitControllerStatus ShowInstallationFlowPage(int flowSequence, out Page page)
+		{
+			switch (flowSequence) {
 			case 0:
 				page = Provision;
 				return KitControllerStatus.NextPage;
@@ -137,24 +147,36 @@ namespace Fabric.Internal.Twitter.Editor.Controller
 			case 3:
 				page = Prefab;
 				return KitControllerStatus.NextPage;
+			default:
+				return ShowConfiguredPage (out page);
 			}
+		}
 
+		private KitControllerStatus ShowConfiguredPage(out Page page)
+		{
+			page = null;
 			return KitControllerStatus.LastPage;
+		}
+
+		private KitControllerStatus ShowInstalledPage(out Page page)
+		{
+			page = Documentation;
+			return KitControllerStatus.NextPage;
 		}
 
 		public string DisplayName()
 		{
-			return "Twitter";
+			return Twitter;
 		}
 
-		private Action TwitterAgreementLink()
+		private static Action TwitterAgreementLink()
 		{
 			return delegate() {
 				Application.OpenURL ("https://fabric.io/terms/twitter");
 			};
 		}
 
-		private Action DeveloperAgreementLink()
+		private static Action DeveloperAgreementLink()
 		{
 			return delegate() {
 				Application.OpenURL ("https://dev.twitter.com/overview/terms/agreement");
@@ -218,17 +240,12 @@ namespace Fabric.Internal.Twitter.Editor.Controller
 				List<Settings.InstalledKit> installedKits = Settings.Instance.InstalledKits;
 				List<MetaTuple> meta = new List<MetaTuple> (keys);
 
-				installedKits.RemoveAll (k => k.Name.Equals (Twitter));
-				installedKits.Add (new Settings.InstalledKit {
-					Name = Twitter,
-					Installed = false,
-					Enabled = false,
-					Meta = meta
-				});
+				Settings.InstalledKit twitterKit = installedKits.Find (
+					installed => installed.Name.Equals (Twitter, StringComparison.OrdinalIgnoreCase)
+				);
 
+				twitterKit.Meta = meta;
 				this.keys = keys;
-
-				Settings.Instance.InstalledKits = installedKits;
 				Settings.Instance.FlowSequence = 2;
 			};
 		}

@@ -31,12 +31,12 @@ namespace Fabric.Twitter
 			twitterGameObject = new GameObject ("TwitterGameObject");
 			twitterGameObject.AddComponent<TwitterComponent> ();
 
-#if UNITY_IOS
+#if UNITY_IOS && !UNITY_EDITOR
 			twitter = new IOSTwitterImpl();
-#elif UNITY_ANDROID
+#elif UNITY_ANDROID && !UNITY_EDITOR
 			twitter = new AndroidTwitterImpl();
 #else
-			twitter = null;
+			twitter = new EditorTwitterImpl();
 #endif
 		}
 		/// <summary>

@@ -1,5 +1,6 @@
 ﻿namespace Fabric.Internal.Editor.Update
 {
+	using System;
 	using System.Collections.Generic;
 	using System.Collections;
 	using System.IO;
@@ -116,7 +117,7 @@
 		#endregion
 
 		#region Descriptor
-		private class Descriptor
+		private class Descriptor : IComparable<Descriptor>
 		{
 			public enum FileType
 			{
@@ -126,6 +127,11 @@
 
 			public string Path { get; set; }
 			public FileType Type { get; set; }
+
+			public int CompareTo(Descriptor other)
+			{
+				return -this.Path.CompareTo (other.Path);
+			}
 		}
 		#endregion
 
@@ -241,7 +247,9 @@
 
 		private static List<Descriptor> Filter(List<Descriptor> list, Descriptor.FileType type)
 		{
-			return list.FindAll (file => file.Type == type);
+			List<Descriptor> paths = list.FindAll (file => file.Type == type);
+			paths.Sort ();
+			return paths;
 		}
 
 		private static void Invoke(string path, System.Action deleter)

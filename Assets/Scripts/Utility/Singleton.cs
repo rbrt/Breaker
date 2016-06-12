@@ -5,7 +5,7 @@ public class Singleton<T> : MonoBehaviour where T: MonoBehaviour {
 
 	static T instance;
 
-	const bool logVerbose = false;
+	bool logVerbose = false;
 
 	public static T Instance {
 		get {
@@ -22,7 +22,7 @@ public class Singleton<T> : MonoBehaviour where T: MonoBehaviour {
 			if (logVerbose){
 				Debug.Log("Destroyed duplicate instance of " + typeof(T).ToString());
 			}
-			
+
 			Cleanup();
 			Destroy(this.gameObject);
 		}

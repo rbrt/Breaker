@@ -123,6 +123,23 @@ namespace Fabric.Internal.Editor.Model
 		}
 		#endregion
 
+		#region Initialization
+		public enum InitializationType { Automatic, Manual }
+
+		[SerializeField]
+		private InitializationType initialization;
+
+		[HideInInspector]
+		public InitializationType Initialization
+		{
+			get { return Instance.initialization; }
+			set {
+				Instance.initialization = value;
+				EditorUtility.SetDirty (Instance);
+			}
+		}
+		#endregion
+
 		#region Sequence
 		[SerializeField]
 		private int flowSequence = 0;
@@ -136,6 +153,22 @@ namespace Fabric.Internal.Editor.Model
 				EditorUtility.SetDirty(Instance);
 			}
 		}
+		#endregion
+
+		#region Conflict
+		[SerializeField]
+		private string conflict;
+
+		[HideInInspector]
+		public string Conflict
+		{
+			get { return Instance.conflict; }
+			set {
+				Instance.conflict = value;
+				EditorUtility.SetDirty (Instance);
+			}
+		}
+
 		#endregion
 
 		#region Kit
@@ -155,10 +188,19 @@ namespace Fabric.Internal.Editor.Model
 		
 		#region Installed
 		[Serializable]
+		public enum KitInstallationStatus {
+			Imported,    // Downloaded into the project, but not yet configured.
+			Configured,  // Configured locally, but not activated via device launch.
+			Installed    // Fully configured and activated.
+		}
+
+		[Serializable]
 		public class InstalledKit
 		{
 			[SerializeField]
 			public string Name;
+			[SerializeField]
+			public KitInstallationStatus InstallationStatus;
 			[SerializeField]
 			public bool Installed;
 			[SerializeField]

@@ -9,8 +9,16 @@
 
 	public class PostBuildiOS
 	{
-
 		protected static readonly string fabricPluginsPath = "Plugins/iOS/Fabric";
+
+		protected static void PreparePlist (string buildPath, string kit)
+		{
+			Dictionary<string, PlistElementDict> kitsDict = new Dictionary<string, PlistElementDict> () {
+				{ kit, new PlistElementDict () }
+			};
+
+			AddFabricKitsToPlist(buildPath, kitsDict);
+		}
 
 		// Takes the build path where Info.plist is located
 		// and a Dictionary<string, PlistElementDict> (kitsInfo) where
@@ -124,11 +132,21 @@
 #endif
 		}
 
+		protected static void AddBuildProperty(PBXProject project, string target, string property, string value)
+		{
+			project.AddBuildProperty (target, property, value);
+		}
+
 		protected static bool IsKitOnboarded (string kitName)
 		{
 			var installedKits = Settings.Instance.InstalledKits;
 			return installedKits.Exists (installedKit => installedKit.Name == kitName);
 		}
-	}
 
+		// Shim proxy for MoPub's post-build script
+		protected static void DirectoryCopy(string fro, string to, bool recurse)
+		{
+			Fabric.Internal.Editor.Utils.DirectoryCopy (fro, to, recurse);
+		}
+	}
 }

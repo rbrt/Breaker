@@ -30,6 +30,8 @@
 ./Fabric/Kits/Twitter/Runtime
 ./Fabric/Kits/Twitter/Runtime/AndroidTwitterImpl.cs
 ./Fabric/Kits/Twitter/Runtime/AndroidTwitterImpl.cs.meta
+./Fabric/Kits/Twitter/Runtime/EditorTwitterImpl.cs
+./Fabric/Kits/Twitter/Runtime/EditorTwitterImpl.cs.meta
 ./Fabric/Kits/Twitter/Runtime/IOSTwitterImpl.cs
 ./Fabric/Kits/Twitter/Runtime/IOSTwitterImpl.cs.meta
 ./Fabric/Kits/Twitter/Runtime/ITwitter.cs
@@ -54,6 +56,8 @@
 ./Fabric/Kits/Twitter.meta
 toplevel ./Fabric/Kits/Twitter
 ./Plugins/Android/fabric
+./Plugins/Android/fabric/AndroidManifest.xml
+./Plugins/Android/fabric/AndroidManifest.xml.meta
 ./Plugins/Android/fabric/Template-AndroidManifest.xml
 ./Plugins/Android/fabric/Template-AndroidManifest.xml.meta
 ./Plugins/Android/fabric/libs

@@ -15,7 +15,7 @@
  *
  */
 
-#if UNITY_IOS
+#if UNITY_IOS && !UNITY_EDITOR
 namespace Fabric.Internal.Twitter
 {
 	using System;
