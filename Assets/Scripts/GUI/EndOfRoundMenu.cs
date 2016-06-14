@@ -5,7 +5,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-public class EndOfRoundMenu : Singleton<EndOfRoundMenu> {
+public class EndOfRoundMenu : Singleton<EndOfRoundMenu>
+{
 
 	[SerializeField] protected Animator menuAnimator;
 
@@ -22,29 +23,38 @@ public class EndOfRoundMenu : Singleton<EndOfRoundMenu> {
 
 	Enums.EndOfRoundStates currentState;
 
-	public void MenuButton(){
+	public void MenuButton()
+    {
 		LoadingController.LoadTitleScene();
 	}
 
-	public void NextButton(){
-		if (currentState == Enums.EndOfRoundStates.Death){
+	public void NextButton()
+    {
+		if (currentState == Enums.EndOfRoundStates.Death)
+        {
 			LoadingController.LoadGameplayScene();
 		}
-		else if (currentState == Enums.EndOfRoundStates.Victory){
+		else if (currentState == Enums.EndOfRoundStates.Victory)
+        {
 			LoadingController.LoadTitleScene();
 		}
-	}
 
-	public void ShowEndOfRoundMenu(Enums.EndOfRoundStates roundState){
+        HideEndOfRoundMenu();
+    }
+
+	public void ShowEndOfRoundMenu(Enums.EndOfRoundStates roundState)
+    {
 		menuAnimator.SetBool(menuAnimatorString, true);
 		currentState = roundState;
 
-		if (roundState == Enums.EndOfRoundStates.Death){
+		if (roundState == Enums.EndOfRoundStates.Death)
+        {
 			nextButtonText.text = retryString;
 			menuButtonText.text = menuString;
 			ScoreDisplay.Instance.SaveScore();
 		}
-		else if (roundState == Enums.EndOfRoundStates.Victory){
+		else if (roundState == Enums.EndOfRoundStates.Victory)
+        {
 			nextButtonText.text = continueString;
 			menuButtonText.text = menuString;
 		}
@@ -54,7 +64,8 @@ public class EndOfRoundMenu : Singleton<EndOfRoundMenu> {
 		killsResultText.text = "" + PlayerStats.Instance.GetKills();
 	}
 
-	public void HideEndOfRoundMenu(){
+	public void HideEndOfRoundMenu()
+    {
 		menuAnimator.SetBool(menuAnimatorString, false);
 	}
 
