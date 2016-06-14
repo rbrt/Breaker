@@ -185,7 +185,7 @@ public class TransitionRig : MonoBehaviour
 								  Camera fromCamera,
 								  Camera toUICamera,
 								  Camera toViewCamera,
-								  System.Func<Camera> toCameraGetter
+								  System.Func<Camera> toCameraGetter,
 								  System.Action cleanupFunction)
 	{
 		Camera toCamera = toCameraGetter.Invoke();
@@ -218,7 +218,10 @@ public class TransitionRig : MonoBehaviour
 		fromCamera.enabled = false;
 		viewportCamera.enabled = false;
 
-		Destroy(MenuTransitionSetup.Instance.gameObject);
+        if (MenuTransitionSetup.Instance != null)
+        {
+            Destroy(MenuTransitionSetup.Instance.gameObject);
+        }
 
 		toCanvas.worldCamera = null;
 		fromCanvas.gameObject.SetActive(false);
