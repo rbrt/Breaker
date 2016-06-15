@@ -29,6 +29,7 @@ public class TransitionRig : MonoBehaviour
 	HandleTransition transitionHandler;
 
 	bool renderTransition = false;
+	bool flipTransitionFlag = false;
 
 	public Camera GameplayUICamera
 	{
@@ -128,63 +129,6 @@ public class TransitionRig : MonoBehaviour
 		yield return this.StartSafeCoroutine(LoadingController.SetGameplaySceneActiveWhenLoaded());
 	}
 
-	IEnumerator EndOfLevelToGameHandoff()
-	{
-		while (CameraManager.Instance.GameCamera == null)
-		{
-			yield return null;
-		}
-
-		EnableChildren();
-
-		renderTransition = true;
-
-		//yield return this.StartSafeCoroutine(SetUpGameTransitionElements());
-
-		var menuCanvas = MenuTransitionSetup.Instance.MenuCanvas;
-
-		var rt = new RenderTexture(Screen.width, Screen.height, 16, RenderTextureFormat.ARGB32);
-        rt.Create();
-
-		menuUI.targetTexture = rt;
-		transitionHandler.SetMenuTexture(rt);
-
-		yield return new WaitForEndOfFrame();
-		if (menuCanvas != null)
-		{
-			menuCanvas.worldCamera = menuUI;
-		}
-	    viewportCamera.enabled = true;
-
-		yield return this.StartSafeCoroutine(transitionHandler.TransitionToA(time: 1.5f));
-
-		yield return new WaitForEndOfFrame();
-		gameplayUI.enabled = false;
-		gameplayGame.enabled = false;
-		menuUI.enabled = false;
-		viewportCamera.enabled = false;
-
-		GUIController.Instance.ShowGameplayCanvas();
-
-		if (MenuTransitionSetup.Instance != null)
-		{
-			Destroy(MenuTransitionSetup.Instance.gameObject);
-		}
-
-		GUIController.Instance.EndOfLevelCanvas.worldCamera = null;
-		GUIController.Instance.GameplayCanvas.worldCamera = CameraManager.Instance.GameCamera;
-
-		var eventSystem = GUIController.Instance.GetComponentInChildren<EventSystem>();
-		eventSystem.enabled = false;
-
-		yield return null;
-
-		renderTransition = false;
-
-		eventSystem.enabled = true;
-		DisableChildren();
-	}
-
 	IEnumerator TransitionHandoff(Canvas fromCanvas,
 								  Canvas toCanvas,
 								  Camera fromCamera,
@@ -193,6 +137,8 @@ public class TransitionRig : MonoBehaviour
 								  System.Func<Camera> toCameraGetter,
 								  System.Action cleanupFunction)
 	{
+		EnableChildren();
+
 		Camera toCamera = toCameraGetter.Invoke();
 		while (toCamera == null || toCameraGetter.Invoke() == null)
 		{
@@ -211,11 +157,11 @@ public class TransitionRig : MonoBehaviour
 		transitionHandler.SetMenuTexture(rt);
 
 		yield return new WaitForEndOfFrame();
+
 		fromCanvas.worldCamera = fromCamera;
 	    viewportCamera.enabled = true;
 
 		yield return this.StartSafeCoroutine(transitionHandler.TransitionToA(time: 1.5f));
-
 		yield return new WaitForEndOfFrame();
 
 		gameplayUI.enabled = false;
@@ -255,6 +201,8 @@ public class TransitionRig : MonoBehaviour
 		toUICamera.targetTexture = rt;
 		toActionCamera.targetTexture = rt;
 		transitionHandler.SetGameplayTexture(rt);
+
+		Debug.Log("Set transition handler's B texture to render from camera " + toActionCamera.name, toActionCamera.gameObject);
 
 		this.StartSafeCoroutine(FollowCameras(toActionCamera, toCamera));
 
