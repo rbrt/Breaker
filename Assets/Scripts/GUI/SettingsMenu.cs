@@ -10,7 +10,7 @@ using System.IO;
 using UnityEngine.SceneManagement;
 
 
-public class SettingsMenu : MonoBehaviour {
+public class SettingsMenu : Singleton<SettingsMenu> {
 
 	static bool menuActive = false;
 	const string menuAnimatorString = "MenuOpen";

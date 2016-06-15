@@ -86,21 +86,26 @@ public class TransitionRig : MonoBehaviour
 	public void TransitionFromGameplayToEndOfRound()
 	{
 		LoadingController.LoadEndOfRoundScene();
-		this.StartSafeCoroutine(TransitionHandoff(GUIController.Instance.TitleCanvas,
-												  GUIController.Instance.GameplayCanvas,
+		this.StartSafeCoroutine(TransitionHandoff(GUIController.Instance.GameplayCanvas,
+												  GUIController.Instance.EndOfLevelCanvas,
 												  menuUI,
 												  gameplayUI,
 												  gameplayGame,
-												  () => CameraManager.Instance.GameCamera,
+												  () => CameraManager.Instance.ViewportCamera,
 												  () => LoadingController.UnloadGameplayScene()));
 	}
 
 	public void TransitionFromEndOfRoundToGameplay()
 	{
-		// Handle transition here
 		LoadingController.LoadGameplayScene();
 		this.StartSafeCoroutine(SetActiveSceneWhenReady());
-		this.StartSafeCoroutine(EndOfLevelToGameHandoff());
+		this.StartSafeCoroutine(TransitionHandoff(GUIController.Instance.EndOfLevelCanvas,
+												  GUIController.Instance.GameplayCanvas,
+												  menuUI,
+												  gameplayUI,
+												  gameplayGame,
+												  () => CameraManager.Instance.GameCamera,
+												  () => {}));
 
 		LevelController.Instance.RoundOver = false;
 	}

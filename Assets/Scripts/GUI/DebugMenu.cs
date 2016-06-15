@@ -122,6 +122,13 @@ public class DebugMenu : MonoBehaviour {
 		}
 	}
 
+	public void CompleteLevel()
+	{
+		LevelController.Instance.RoundOver = true;
+		SettingsMenu.Instance.ToggleMenu();
+		TransitionRig.Instance.TransitionFromGameplayToEndOfRound();
+	}
+
 	void Awake(){
 		invincibleButton.color = invincible ? activeColor : inactiveColor;
 		infiniteShieldButton.color = infiniteShield ? activeColor : inactiveColor;
