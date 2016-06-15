@@ -29,7 +29,6 @@ public class TransitionRig : MonoBehaviour
 	HandleTransition transitionHandler;
 
 	bool renderTransition = false;
-	bool flipTransitionFlag = false;
 
 	public Camera GameplayUICamera
 	{
@@ -201,8 +200,6 @@ public class TransitionRig : MonoBehaviour
 		toUICamera.targetTexture = rt;
 		toActionCamera.targetTexture = rt;
 		transitionHandler.SetGameplayTexture(rt);
-
-		Debug.Log("Set transition handler's B texture to render from camera " + toActionCamera.name, toActionCamera.gameObject);
 
 		this.StartSafeCoroutine(FollowCameras(toActionCamera, toCamera));
 
