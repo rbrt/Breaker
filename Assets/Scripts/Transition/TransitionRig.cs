@@ -97,7 +97,12 @@ public class TransitionRig : MonoBehaviour
 
 	public void TransitionFromEndOfRoundToGameplay()
 	{
-		LoadingController.LoadGameplayScene();
+		if (GameplayObjectParent.Instance != null)
+		{
+			Destroy(GameplayObjectParent.Instance.gameObject);
+		}
+
+		LoadingController.LoadGameplayScene(additive: true);
 		this.StartSafeCoroutine(SetActiveSceneWhenReady());
 		this.StartSafeCoroutine(TransitionHandoff(GUIController.Instance.EndOfLevelCanvas,
 												  GUIController.Instance.GameplayCanvas,
@@ -138,6 +143,8 @@ public class TransitionRig : MonoBehaviour
 	{
 		EnableChildren();
 
+		transitionHandler.QueueTransitionMaterialForA();
+
 		Camera toCamera = toCameraGetter.Invoke();
 		while (toCamera == null || toCameraGetter.Invoke() == null)
 		{
@@ -148,6 +155,8 @@ public class TransitionRig : MonoBehaviour
 		renderTransition = true;
 
 		yield return this.StartSafeCoroutine(SetUpGameTransitionElements(toUICamera, toViewCamera, toCamera, toCanvas));
+
+		toCamera.enabled = true;
 
 		var rt = new RenderTexture(Screen.width, Screen.height, 16, RenderTextureFormat.ARGB32);
         rt.Create();

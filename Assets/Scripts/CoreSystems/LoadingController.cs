@@ -26,6 +26,10 @@ public class LoadingController : Singleton<LoadingController> {
 		SceneManager.UnloadScene(gameplayScene);
 	}
 
+	public static void UnloadTransitionScene(){
+		SceneManager.UnloadScene(transitionScene);
+	}
+
 	public static void LoadEndOfRoundScene(bool additive = false){
 		if (additive){
 			SceneManager.LoadScene(transitionScene, LoadSceneMode.Additive);

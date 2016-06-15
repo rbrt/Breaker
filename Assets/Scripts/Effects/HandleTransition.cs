@@ -20,6 +20,13 @@ public class HandleTransition : MonoBehaviour {
 		targetMat.SetTexture("_TestTex1", tex);
 	}
 
+	// Primes the material before the transition is started to get rid of any
+	// issues persisting for a frame or two
+	public void QueueTransitionMaterialForA()
+	{
+		targetMat.SetFloat("_Step", 1f);
+	}
+
 	public IEnumerator TransitionToA(float time = .5f){
 		if (transitioning){
 			yield break;

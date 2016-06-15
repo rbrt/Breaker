@@ -43,7 +43,7 @@ public class EndOfLevelSequence : Singleton<EndOfLevelSequence> {
 
 	public IEnumerator LeaveScreenAndAdvanceLevel(){
 		this.StartSafeCoroutine(MovePlayerOffScreen());
-		yield return new WaitForSeconds(runSpeed * .5f);
+		yield return new WaitForSeconds(runSpeed * 0);
 
 		// Transition to gameplay
 		TransitionRig.Instance.TransitionFromEndOfRoundToGameplay();
