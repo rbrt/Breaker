@@ -18,23 +18,27 @@ public class HighScoresHandler : MonoBehaviour {
 
 	[SerializeField] protected Animator highScorePanelAnimator;
 
-	public static string[] GetHighScores(){
+	public static string[] GetHighScores()
+    {
 		return Enumerable.Range(0,5)
 						 .Select(x => PlayerPrefs.GetString(highScoreString + x))
 						 .Where(x => !string.IsNullOrEmpty(x)).ToArray();
 	}
 
-	public static void AddHighScore(int score){
+	public static void AddHighScore(int score)
+    {
 		var scores = GetHighScores().ToList();
 		scores.Add(score + "\t" + System.DateTime.Now.Date.ToString("d"));
 		scores = scores.OrderByDescending(x => int.Parse(x.Split('\t')[0])).ToList();
 
-		for (int i = 0; i < scoresCount && i < scores.Count; i++){
+		for (int i = 0; i < scoresCount && i < scores.Count; i++)
+        {
 			PlayerPrefs.SetString(highScoreString + i, scores[i]);
 		}
 	}
 
-	public void DisplayScores(){
+	public void DisplayScores()
+    {
 		string scoreText = "";
 		string dateText = "";
 		GetHighScores().ToList().ForEach(x => scoreText += x.Split('\t')[0] + "\n");
@@ -44,7 +48,8 @@ public class HighScoresHandler : MonoBehaviour {
 		datesText.text = dateText;
 	}
 
-	public void ShowMenu(){
+	public void ShowMenu()
+    {
 		highScorePanelAnimator.SetBool(menuAnimatorString, true);
 		DisplayScores();
 	}
